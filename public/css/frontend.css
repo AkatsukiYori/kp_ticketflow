@@ -7,10 +7,41 @@ body {
 
 header {
     flex: 1;
-    background-color: red;
+    background-color: lightgrey;
+    height: 8%;
+    padding: 15px
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header img {
+    width: 60px;
+    height: 60px;
+} 
+
+.header button {
+    height: 50px;
+    width: 150px;
+    background-color: transparent;
+    border-radius: 10px;
+    border: 1px solid blue;
 }
 
 main {
     flex: 4;
     background-color: beige;
+    display: flex;
+    flex-direction: row;
 }
+
