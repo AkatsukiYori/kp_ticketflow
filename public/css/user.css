@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    overflow: hidden;
+}
+
+header {
+    padding: 20px 40px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.header h1 {
+    font-size: 2rem;
+}
+
+.btn-new {
+    width: 150px;
+    height: 50px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color : #214ea8;
+    color: white;
+
+    cursor: pointer;
+    transition: background-color 0.3s ,opacity 0.3s;
+}
+
+.btn-new:hover {
+    background-color: #214ea8;
+    opacity: 0.9;
+}
+
+.btn-cek {
+    width: 150px;
+    height: 50px;
+
+    border: 1px solid #214ea8;
+    border-radius: 10px;
+
+    background-color : transparent;
+    color: #214ea8;
+
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-cek:hover {
+    background-color: #214ea8;
+    color: white;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 50px;
+}
+
+.main-kiri {
+    flex: 1.5;
+}
+
+.gap {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.button {
+    display: flex;
+    gap: 20px;
+}
+
+.main-kiri h2 {
+    font-size: 4rem;
+}
+
+.main-kanan {
+    flex: 1;
+}
+
+.judul {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.judul h1 {
+    font-size: 2rem;
+}
+
+

@@ -1,0 +1,89 @@
+
+body {
+    margin: 0;
+    width: 100dvw;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+header {
+    flex: 1;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 4px 0 4px 8px;
+}
+
+header div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .nama {
+    display: flex;
+    flex-direction: column;
+    background-color: #214ea8;
+    color: white;
+    width: 250px;
+    padding: 8px 0 8px 32px;
+    justify-content: center;
+    align-items: start;
+    border-top-left-radius: 32px;
+    border-bottom-left-radius: 32px;    
+}
+
+header .nama h2, header .nama p{
+    margin: 0;
+}
+
+header img {
+    height: 50px;
+    width: auto;
+}
+
+main {
+    flex: 10;
+    display: flex;
+
+
+}
+
+aside {
+    flex: 2;
+    padding: 20px;
+    border-right: 1px solid #e5e5e5;
+}
+
+aside section.active {
+    color: black;
+    background-color: rgba(33, 78, 168, 0.2);
+}
+
+aside section {
+    color: darkgrey;
+
+    padding: 8px 12px;
+    margin-bottom: 6px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+}
+
+aside section p {
+    margin: 0;
+}
+
+main section{
+    flex: 10;
+}
+
+.mainpage {
+    padding: 0 16px;
+}
+
+footer {
+    flex: 1;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+}
