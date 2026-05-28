@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | TicketFlow</title>
+    <title>Documentation | TicketFlow</title>
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
@@ -20,7 +20,7 @@
     <main>
         <aside>
            <a href="{{ 'dashboard' }}">
-            <section class = "active">
+            <section>
                 <p>
                     Dashboard
                 </p>
@@ -55,7 +55,7 @@
            </section>
            </a>
            <a href="{{ 'documentation' }}">
-            <section>
+            <section class="active">
                 <p>
                     Documentation
                 </p>
@@ -84,7 +84,7 @@
             </a>
         </aside>
         <section class="mainpage">
-            <p>Halaman Utama</p>
+            <p>Halaman Dokumentasi</p>
         </section>
     </main>
     <footer>

@@ -44,8 +44,6 @@ header img {
 main {
     flex: 10;
     display: flex;
-
-
 }
 
 aside {
@@ -71,7 +69,11 @@ aside section {
 }
 
 aside section p {
-    margin: 0;
+    margin: 0;git 
+}
+
+a{
+    text-decoration: none;
 }
 
 main section{
