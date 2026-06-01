@@ -41,3 +41,7 @@ Route::get("/documentation", function() {
 Route::get("/category", function() {
     return view("/frontend/admin/category");
 });
+
+Route::get("/login", function() {
+    return view("/frontend/admin/login");
+});

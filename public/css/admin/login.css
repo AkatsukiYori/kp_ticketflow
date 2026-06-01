@@ -1,0 +1,108 @@
+body {
+    margin: 0;
+    height: 100dvh;
+    width: 100dvw;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+header {
+    flex: 1;
+    padding: 8px 0 0 32px;
+}
+
+.logo {
+    height: auto;
+    width: 60px;
+}
+
+main {
+    flex: 10;
+    display: flex;
+}
+
+.main-kiri {
+    flex: 1;
+}
+
+.main-kiri div {
+    display: flex;
+    justify-content: center;
+}
+
+.back-image {
+    height: auto;
+    width: 80%;
+}
+
+.main-kanan {
+    flex: 1;
+    height: 80%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.form h3 {
+    margin-bottom: 5px;
+
+    font-size: 36px;
+    font-weight: bold;
+    
+}
+
+.form p {
+    margin-top: 5px;
+}
+
+.teks {
+    color: rgba(255, 0, 0, 0.7);
+    text-decoration: none;
+    margin-top: 8px;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 8px;
+}
+
+input {
+    height: 32px;
+    width: 400px;
+    border-radius: 8px;
+    
+    border: 1px solid #d1d5db;
+
+    padding-left: 8px;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 32px;
+    width: 320px;
+    color: white;
+    margin-top: 20px;
+    border-radius: 8px;
+    background-color: #214ea8;
+    text-decoration: none;
+    border-style: none;
+
+    cursor: pointer;
+}
