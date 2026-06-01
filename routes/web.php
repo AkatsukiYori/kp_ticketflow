@@ -2,46 +2,52 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get("/", function() {
-    return view("/frontend/user/index");
-});
+Route::prefix('admin')->name('admin.')->group(function () {
 
-Route::get("/dashboard", function() {
-    return view("/frontend/admin/dashboard");
-});
+    // AUTH
+    Route::get('/login', function () {
+        return view('admin.auth.login');
+    })->name('login');
 
-Route::get("/ticket", function() {
-    return view("/frontend/admin/ticket");
-});
+    // PAGES
+    Route::prefix('pages')->name('pages.')->group(function () {
 
-Route::get("/user", function() {
-    return view("/frontend/admin/user");
-});
+        Route::get('/dashboard', function () {
+            return view('admin.pages.dashboard');
+        })->name('dashboard');
 
-Route::get("/report", function() {
-    return view("/frontend/admin/report");
-});
+        Route::get('/category', function () {
+            return view('admin.pages.category');
+        })->name('category');
 
-Route::get("/logout", function() {
-    return view("/frontend/admin/logout");
-});
+        Route::get('/ticket', function () {
+            return view('admin.pages.ticket');
+        })->name('ticket');
 
-Route::get("/logs", function() {
-    return view("/frontend/admin/logs");
-});
+        Route::get('/documentation', function () {
+            return view('admin.pages.documentation');
+        })->name('documentation');
 
-Route::get("/ikb", function() {
-    return view("/frontend/admin/ikb");
-});
+        Route::get('/ikb', function () {
+            return view('admin.pages.ikb');
+        })->name('ikb');
 
-Route::get("/documentation", function() {
-    return view("/frontend/admin/documentation");
-});
+        Route::get('/logs', function () {
+            return view('admin.pages.logs');
+        })->name('logs');
 
-Route::get("/category", function() {
-    return view("/frontend/admin/category");
-});
+        Route::get('/report', function () {
+            return view('admin.pages.report');
+        })->name('report');
 
-Route::get("/login", function() {
-    return view("/frontend/admin/login");
+        Route::get('/user', function () {
+            return view('admin.pages.user');
+        })->name('user');
+
+        Route::get('/logout', function () {
+            return view('admin.pages.logout');
+        })->name('logout');
+
+    });
+
 });

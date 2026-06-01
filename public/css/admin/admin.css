@@ -23,17 +23,21 @@ header div {
 header .nama {
     display: flex;
     flex-direction: column;
-    background-color: #214ea8;
-    color: white;
-    width: 250px;
-    padding: 8px 0 8px 32px;
     justify-content: center;
     align-items: start;
+
+    background-color: #214ea8;
+    color: white;
+
+    width: 250px;
+    padding: 8px 0 8px 32px;
+    
     border-top-left-radius: 32px;
     border-bottom-left-radius: 32px;    
+
 }
 
-header .nama h2, header .nama p{
+header .nama h3, header .nama p{
     margin: 0;
 }
 
@@ -87,6 +91,8 @@ main section{
 
 footer {
     flex: 1;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-top: 1px solid #e5e5e5;
 }
