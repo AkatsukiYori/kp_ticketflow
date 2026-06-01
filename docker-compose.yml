@@ -8,6 +8,7 @@ services:
     container_name: ticketflow_app
     ports:
       - "8000:8000"
+      - "5173:5173"
     depends_on:
       - laravel_db
     volumes:

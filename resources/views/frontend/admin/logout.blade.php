@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log Out | TicketFlow</title>
     <link rel="stylesheet" href="{{ asset('css/admin/admin.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
     <header>
