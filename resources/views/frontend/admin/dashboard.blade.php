@@ -14,7 +14,6 @@
                 <h2>Asexander</h2>
                 <p>Pontianak</p>
             </div>
-
         </div>
     </header>
     <main>
