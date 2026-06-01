@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | TicketFlow</title>
     <link rel="stylesheet" href="{{ asset('css/admin/login.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
     <Header>
@@ -22,6 +23,7 @@
                 <h3>Selamat Datang</h3>
                 <p>Silahkan Login untuk Proses ke Dashboard</p>
 
+                <button class="btn btn-primary">Tes</button>
                 <div class="input">
                     <label for="">Username</label>
                     <input type="text" placeholder="Masukkan Username">
