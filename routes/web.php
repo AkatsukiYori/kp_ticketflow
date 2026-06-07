@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function() {
+    return view('user.pages.index');
+});
+
 Route::prefix('admin')->name('admin.')->group(function () {
 
     // AUTH
@@ -44,9 +48,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.pages.user');
         })->name('user');
 
-        Route::get('/logout', function () {
-            return view('admin.pages.logout');
-        })->name('logout');
+        Route::get('/', function () {
+            return view('user.pages.index');
+        })->name('index');
 
     });
 

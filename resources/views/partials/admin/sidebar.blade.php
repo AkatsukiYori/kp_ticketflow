@@ -38,7 +38,7 @@
             ],
             [
                 'name' => 'Logout',
-                'route' => 'admin.pages.logout',
+                'route' => 'admin.pages.index',
             ],
         ];
     @endphp
