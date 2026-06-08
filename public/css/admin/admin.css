@@ -86,8 +86,103 @@ main section{
 }
 
 .mainpage {
-    padding: 0 16px;
+    padding: 16px;
 }
+
+.input-search {
+    height: 100%;
+    width: 25%;
+    border: 1px solid #c1c1c1;
+    border-radius: 8px;
+}
+
+/* START: Button */
+.btn-refresh {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #c1c1c1;
+    color: #c1c1c1;
+}
+
+.btn-add {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: #214ea8;
+    color: white;
+}
+
+.btn-cancel {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+    color: rgb(102, 102, 102);
+}
+
+.btn-save {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: #214ea8;
+    color: white;
+}
+
+.btn-edit {
+    padding: 4px 8px;
+    color:rgb(252, 172, 0);
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.btn-edit:hover {
+    background-color: rgb(255, 237, 199);
+}
+
+.btn-delete {
+    padding: 4px 8px;
+    color: red;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.btn-delete:hover {
+    background-color: rgb(253, 210, 210);
+}
+
+.btn-delete-modal {
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: white;
+    background-color: red;
+}
+/* END: Button */
+
+/* START: Datatable */
+#datatable thead tr th {
+    color: #777777;
+}
+/* END: Datatable */
+
+.content-body {
+    margin-top: 8px;
+}
+
+/* StART: Required input */
+.text-danger {
+    color: #ff0000;
+}
+/* END: Required input */
+
+/* .content-body #datatable {
+    width: 100%;
+}
+
+.content-body #datatable thead {
+    color: #818181;
+    background-color: #c1c1c1;
+}
+
+.content-body #datatable thead tr th, .content-body #datatable tbody tr td {
+    padding: 14px;
+} */
 
 footer {
     flex: 1;

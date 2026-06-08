@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -40,9 +41,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.pages.report');
         })->name('report');
 
-        Route::get('/user', function () {
-            return view('admin.pages.user');
-        })->name('user');
+        Route::prefix('user')->name('user.')->group(function() {
+            Route::get('/', [UserController::class, 'show'])->name('index');
+            Route::get('/datatable', [UserController::class, 'datatable'])->name('datatable');
+            Route::post('/createOrUpdate', [UserController::class, 'createOrUpdate'])->name('createOrUpdate');
+            Route::get('/detail/{id}', [UserController::class, 'detail'])->name('detail');
+            Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('delete');
+        });
 
         Route::get('/logout', function () {
             return view('admin.pages.logout');

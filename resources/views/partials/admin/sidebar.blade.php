@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/admin/admin.css') }}">
 
-<aside>
+<aside id="sidebar">
 
     @php
         $menus = [
@@ -34,7 +34,7 @@
             ],
             [
                 'name' => 'User',
-                'route' => 'admin.pages.user',
+                'route' => 'admin.pages.user.index',
             ],
             [
                 'name' => 'Logout',
