@@ -35,20 +35,27 @@
             [
                 'name' => 'User',
                 'route' => 'admin.pages.user.index',
-            ],
-            [
-                'name' => 'Logout',
-                'route' => 'admin.pages.logout',
-            ],
+            ]
         ];
     @endphp
 
     @foreach ($menus as $menu)
-        <a href="{{ route($menu['route']) }}">
-            <section class="{{ request()->routeIs($menu['route']) ? 'active' : '' }}">
-                <p>{{ $menu['name'] }}</p>
-            </section>
-        </a>
+        @if($menu['name'] !== 'logout')
+            <a href="{{ route($menu['route']) }}">
+                <section class="{{ request()->routeIs($menu['route']) ? 'active' : '' }}">
+                    <p>{{ $menu['name'] }}</p>
+                </section>
+            </a>
+        @endif
     @endforeach
 
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+
+        <button type="submit" class="logout-btn">
+            <section>
+                <p>Logout</p>
+            </section>
+        </button>
+    </form>
 </aside>

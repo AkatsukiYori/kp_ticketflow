@@ -80,7 +80,6 @@ class UserController extends Controller
                 "message" => "User successfully ".$message."."
             ]);
         } catch (Throwable $e) {
-            dd($e);
             return response()->json([
                 "status" => false,
                 "message" => "Something went wrong."

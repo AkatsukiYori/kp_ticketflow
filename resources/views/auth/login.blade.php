@@ -9,7 +9,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
-
 <header>
     <img src="{{ asset('assets/logo.webp') }}" alt="Logo" class="logo">
 </header>
@@ -21,7 +20,7 @@
 
     <section class="main-kanan">
 
-        <form class="form" method="POST" action="#">
+        <form class="form" method="POST" action="{{ route('login.store') }}">
             @csrf
 
             <h3>Selamat Datang</h3>
