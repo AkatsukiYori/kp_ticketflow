@@ -4,7 +4,7 @@
         <div>
             <img src="{{ asset('assets/logo2.webp') }}" alt="Logo">
             <div class="nama">
-                <h3>Asexander</h3>
+                <h3>Admin</h3>
                 <p>Pontianak</p>
             </div>
         </div>

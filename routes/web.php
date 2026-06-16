@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoriesController;
 
 Route::get('/', function() {
     return view('user.pages.index');
@@ -20,9 +22,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.pages.dashboard');
         })->name('dashboard');
 
-        Route::get('/category', function () {
-            return view('admin.pages.category');
-        })->name('category');
+        Route::prefix('category')->name('category.')->group(function() {
+            Route::get('/', [CategoriesController::class, 'show'])->name('index');
+            Route::get('/datatable', [CategoriesController::class, 'datatable'])->name('datatable');
+            Route::post('/createOrUpdate', [CategoriesController::class, 'createOrUpdate'])->name('createOrUpdate');
+            Route::get('/detail/{id}', [CategoriesController::class, 'detail'])->name('detail');
+            Route::delete('/delete/{id}', [CategoriesController::class, 'delete'])->name('delete');
+        });
 
         Route::get('/ticket', function () {
             return view('admin.pages.ticket');
@@ -44,9 +50,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.pages.report');
         })->name('report');
 
-        Route::get('/user', function () {
-            return view('admin.pages.user');
-        })->name('user');
+        Route::prefix('user')->name('user.')->group(function() {
+            Route::get('/', [UserController::class, 'show'])->name('index');
+            Route::get('/datatable', [UserController::class, 'datatable'])->name('datatable');
+            Route::post('/createOrUpdate', [UserController::class, 'createOrUpdate'])->name('createOrUpdate');
+            Route::get('/detail/{id}', [UserController::class, 'detail'])->name('detail');
+            Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('delete');
+        });
 
         Route::get('/', function () {
             return view('user.pages.index');
