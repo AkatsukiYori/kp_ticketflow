@@ -161,6 +161,19 @@ main section{
     color: white;
     background-color: red;
 }
+
+.logout-btn {
+    width: 100%;
+    border: none;
+    background: none;
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+}
+
+.logout-btn section {
+    width: 100%;
+}
 /* END: Button */
 
 /* START: Datatable */

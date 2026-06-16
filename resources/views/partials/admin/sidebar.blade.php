@@ -43,23 +43,27 @@
             [
                 'name' => 'User',
                 'route' => 'admin.pages.user.index',
-                'icon' => 'bi-people',
-            ],
-            [
-                'name' => 'Logout',
-                'route' => 'admin.pages.index',
-                'icon' => 'bi-box-arrow-right',
-            ],
+            ]
         ];
     @endphp
 
     @foreach ($menus as $menu)
-        <a href="{{ route($menu['route']) }}">
-            <section class="{{ request()->routeIs($menu['route']) ? 'active' : '' }}">
-                <i class="bi {{ $menu['icon'] }}"></i>
-                <p>{{ $menu['name'] }}</p>
-            </section>
-        </a>
+        @if($menu['name'] !== 'logout')
+            <a href="{{ route($menu['route']) }}">
+                <section class="{{ request()->routeIs($menu['route']) ? 'active' : '' }}">
+                    <p>{{ $menu['name'] }}</p>
+                </section>
+            </a>
+        @endif
     @endforeach
 
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+
+        <button type="submit" class="logout-btn">
+            <section>
+                <p>Logout</p>
+            </section>
+        </button>
+    </form>
 </aside>

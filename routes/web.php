@@ -8,13 +8,16 @@ Route::get('/', function() {
     return view('user.pages.index');
 });
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::get('/', function () {
+    return view('user.pages.index');
+});
 
-    // AUTH
-    Route::get('/login', function () {
-        return view('admin.auth.login');
-    })->name('login');
+// AUTH
+Route::get('/login', function () {
+    return view('admin.auth.login');
+})->name('index_view');
 
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     // PAGES
     Route::prefix('pages')->name('pages.')->group(function () {
 
@@ -65,3 +68,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
 });
+
+require __DIR__.'/auth.php';
