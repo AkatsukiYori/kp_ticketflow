@@ -18,7 +18,7 @@ class CategoriesController extends Controller
 
     public function datatable()
     {
-        $categories = Categories::query();
+        $categories = Categories::query()->orderBy("created_at", "DESC")->get();
 
         return DataTables::of($categories)
             ->addIndexColumn()
@@ -85,8 +85,6 @@ class CategoriesController extends Controller
                 "message" => "Category successfully " . $message . "."
             ]);
         } catch (Throwable $e) {
-            dd($e);
-
             return response()->json([
                 "status" => false,
                 "message" => "Something went wrong."

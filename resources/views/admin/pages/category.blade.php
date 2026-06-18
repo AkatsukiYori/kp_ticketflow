@@ -88,19 +88,16 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             </div>
         </div>
     </div>
-
 @endsection
 
 
 
 @section('script')
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
 
     <script>
         $(document).ready(function() {
-
             const toast = new bootstrap.Toast(
                 document.getElementById('liveToast')
             );
@@ -158,12 +155,19 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
                             toast.show();
-
-                            modal.hide();
                             table.ajax.reload();
                             
                             $('#id').val(null);
                             $('#name').val(null);
+
+                            // Close modal
+                            modal.hide();
+                            $('.modal-backdrop').remove();
+                            $('body').removeClass('modal-open');
+                            $('body').css({
+                                overflow: '',
+                                paddingRight: ''
+                            });
                         } else {
                             $('#toastTitle').text("Error");
                             $('#toastBody').text(res.message);

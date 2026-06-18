@@ -73,7 +73,7 @@
 
     {{-- START: Toast --}}
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
-        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
             <div class="toast-header">
                 <span id="toastIcon"></span>
                 <strong class="me-auto" id="toastTitle"></strong>
@@ -92,9 +92,11 @@
     <script>
         $(document).ready(function() {
             // START: Initialize Bootstrap
-            const toast = new bootstrap.Toast(
-                document.getElementById('liveToast')
-            );
+            const toastEl = document.getElementById('liveToast');
+            const toast = new bootstrap.Toast(toastEl, {
+                autohide: true,
+                delay: 3000
+            });
 
             const modal = bootstrap.Modal.getOrCreateInstance(
                 document.getElementById('modalUser')
@@ -117,7 +119,7 @@
                     bottomStart: 'info',
                     bottomEnd: 'pageLength'
                 },
-                ajax: "{{ route('admin.pages.user.datatable') }}",
+                ajax: "{{ route('admin.pages.member.datatable') }}",
                 columns: [
                     { data: "DT_RowIndex", name: "DT_RowIndex", orderable: false, searchable: false },
                     { data: "username", name: "username", searchable: true },
@@ -140,7 +142,7 @@
                 e.preventDefault();
 
                 $.ajax({
-                    url: "{{ route('admin.pages.user.createOrUpdate') }}",
+                    url: "{{ route('admin.pages.member.createOrUpdate') }}",
                     type: "POST",
                     data: new FormData(this),
                     processData: false,
@@ -151,12 +153,19 @@
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
                             toast.show();
-
-                            modal.hide();
                             table.ajax.reload();
                             
                             $('#id').val(null);
                             $('#name').val(null);
+                            
+                            // Close modal
+                            modal.hide();
+                            $('.modal-backdrop').remove();
+                            $('body').removeClass('modal-open');
+                            $('body').css({
+                                overflow: '',
+                                paddingRight: ''
+                            });
                         } else {
                             $('#toastTitle').text("Error");
                             $('#toastBody').text(res.message);

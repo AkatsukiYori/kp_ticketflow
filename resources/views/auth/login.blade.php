@@ -36,7 +36,7 @@
                 <input type="password" name="password" placeholder="Masukkan Password">
             </div>
 
-            <button type="button" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary">
                 Masuk
             </button>
 

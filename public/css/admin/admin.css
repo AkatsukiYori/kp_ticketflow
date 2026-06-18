@@ -93,6 +93,12 @@ main section{
     flex: 10;
 }
 
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 .mainpage {
     padding: 16px;
 }
