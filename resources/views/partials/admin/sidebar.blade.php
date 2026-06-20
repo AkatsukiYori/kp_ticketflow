@@ -22,7 +22,7 @@
             ],
             [
                 'name' => 'Documentation',
-                'route' => 'admin.pages.documentation',
+                'route' => 'admin.pages.documentation.index',
                 'icon' => 'bi-file-earmark-text',
             ],
             [
@@ -42,7 +42,7 @@
             ],
             [
                 'name' => 'User',
-                'route' => 'admin.pages.user.index',
+                'route' => 'admin.pages.member.index',
             ]
         ];
     @endphp

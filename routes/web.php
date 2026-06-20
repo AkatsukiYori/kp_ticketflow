@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\MemberController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\DocumentationController;
 
 Route::get('/', function () {
     return view('user.pages.index');
@@ -22,7 +23,7 @@ Route::get('/login', function () {
     return view('admin.auth.login');
 })->name('index_view');
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
     // PAGES
     Route::prefix('pages')->name('pages.')->group(function () {
 
@@ -42,9 +43,13 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             return view('admin.pages.ticket');
         })->name('ticket');
 
-        Route::get('/documentation', function () {
-            return view('admin.pages.documentation');
-        })->name('documentation');
+        Route::prefix("documeentation")->name("documentation.")->group(function() {
+            Route::get("/", [DocumentationController::class, 'show'])->name('index');
+            Route::get("/datatable", [DocumentationController::class, 'datatable'])->name('datatable');
+            Route::post('/createOrUpdate', [DocumentationController::class, 'createOrUpdate'])->name('createOrUpdate');
+            Route::get('/detail/{id}', [DocumentationController::class, 'detail'])->name('detail');
+            Route::delete('/delete/{id}', [DocumentationController::class, 'delete'])->name("delete");
+        });
 
         Route::get('/ikb', function () {
             return view('admin.pages.ikb');
@@ -58,18 +63,18 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             return view('admin.pages.report');
         })->name('report');
 
-        Route::prefix('user')->name('user.')->group(function () {
-            Route::get('/', [UserController::class, 'show'])->name('index');
-            Route::get('/datatable', [UserController::class, 'datatable'])->name('datatable');
-            Route::post('/createOrUpdate', [UserController::class, 'createOrUpdate'])->name('createOrUpdate');
-            Route::get('/detail/{id}', [UserController::class, 'detail'])->name('detail');
-            Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('delete');
+        Route::prefix('member')->name('member.')->group(function() {
+            Route::get('/', [MemberController::class, 'show'])->name('index');
+            Route::get('/datatable', [MemberController::class, 'datatable'])->name('datatable');
+            Route::post('/createOrUpdate', [MemberController::class, 'createOrUpdate'])->name('createOrUpdate');
+            Route::get('/detail/{id}', [MemberController::class, 'detail'])->name('detail');
+            Route::delete('/delete/{id}', [MemberController::class, 'delete'])->name('delete');
         });
 
         Route::get('/', function () {
             return view('user.pages.index');
         })->name('index');
     });
-});
+})->middleware('auth');
 
 require __DIR__ . '/auth.php';
