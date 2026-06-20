@@ -7,19 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/user/user.css') }}">
 </head>
 <body>
-    <header>
-        <div class="header">
-            <div class="logo">
-                <img src="{{ asset('assets/logo.webp') }}" alt="Logo">
-                <div class="judul">
-                    <h1>TicketFlow</h1>
-                </div>
-            </div>
-            <button class="btn-cek">
-                Beranda 
-            </button>
-        </div>
-    </header>
+    @include('partials.user.header')
     <main>
         <section class="main-kiri">
             <div class="gap">
@@ -35,9 +23,12 @@
                     tim IT terkait
                 </p>
                 <div class="button">
-                    <button class="btn-new">
+                    {{-- <button class="btn-new">
                         Buat Tiket Baru
-                    </button>
+                    </button> --}}
+                    <a href="{{ route('ticket') }}" class="btn btn-new">
+                        Buat Tiket Baru
+                    </a>
                     <button class="btn-cek">
                         Cek Status Tiket
                     </button>

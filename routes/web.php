@@ -4,13 +4,18 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriesController;
 
-Route::get('/', function() {
+Route::get('/', function () {
     return view('user.pages.index');
 });
 
 Route::get('/', function () {
     return view('user.pages.index');
-});
+})->name('home');
+
+// ini yang baru, halaman create tiket user
+Route::get('/userticket', function () {
+    return view('user.pages.ticket');
+})->name('ticket');
 
 // AUTH
 Route::get('/login', function () {
@@ -25,7 +30,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             return view('admin.pages.dashboard');
         })->name('dashboard');
 
-        Route::prefix('category')->name('category.')->group(function() {
+        Route::prefix('category')->name('category.')->group(function () {
             Route::get('/', [CategoriesController::class, 'show'])->name('index');
             Route::get('/datatable', [CategoriesController::class, 'datatable'])->name('datatable');
             Route::post('/createOrUpdate', [CategoriesController::class, 'createOrUpdate'])->name('createOrUpdate');
@@ -53,7 +58,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             return view('admin.pages.report');
         })->name('report');
 
-        Route::prefix('user')->name('user.')->group(function() {
+        Route::prefix('user')->name('user.')->group(function () {
             Route::get('/', [UserController::class, 'show'])->name('index');
             Route::get('/datatable', [UserController::class, 'datatable'])->name('datatable');
             Route::post('/createOrUpdate', [UserController::class, 'createOrUpdate'])->name('createOrUpdate');
@@ -64,9 +69,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', function () {
             return view('user.pages.index');
         })->name('index');
-
     });
-
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

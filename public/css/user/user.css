@@ -5,11 +5,18 @@
 }
 
 html,
-body {
+/* body {
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
     overflow: hidden;
+} */
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    overflow-y: auto;
 }
 
 header {
@@ -51,6 +58,14 @@ header {
 
     cursor: pointer;
     transition: background-color 0.3s ,opacity 0.3s;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a {
+    text-decoration: none;
 }
 
 .btn-new:hover {
@@ -70,6 +85,10 @@ header {
 
     cursor: pointer;
     transition: background-color 0.3s;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-cek:hover {
@@ -79,9 +98,13 @@ header {
 
 main {
     flex: 1;
-    display: flex;
-    align-items: center;
-    padding: 50px;
+    /* display: flex;
+    align-items: center; */
+    padding: 20px;
+}
+
+.mainpage {
+    width: 100%;
 }
 
 .main-kiri {
@@ -115,4 +138,22 @@ main {
 
 .judul h1 {
     font-size: 2rem;
+}
+
+.form-control,
+.form-select {
+    height: 40px;
+}
+
+.form-label {
+    color: #4b5563;
+    margin-bottom: 6px;
+}
+
+textarea.form-control {
+    height: 120px;
+}
+
+.btn {
+    border-radius: 8px;
 }
