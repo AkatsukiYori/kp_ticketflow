@@ -17,8 +17,18 @@
             ],
             [
                 'name' => 'Ticket',
-                'route' => 'admin.pages.ticket',
+                'route' => 'admin.pages.ticket.index',
                 'icon' => 'bi-ticket-perforated',
+            ],
+            // [
+            //     'name' => 'IKB',
+            //     'route' => 'admin.pages.ticket',
+            //     'icon' => 'bi-ticket-perforated',
+            // ],
+            [
+                'name' => 'IKB',
+                'route' => 'admin.pages.ikb',
+                'icon' => 'bi-briefcase',
             ],
             [
                 'name' => 'Documentation',
@@ -26,19 +36,14 @@
                 'icon' => 'bi-file-earmark-text',
             ],
             [
-                'name' => 'IKB',
-                'route' => 'admin.pages.ikb',
-                'icon' => 'bi-briefcase',
-            ],
-            [
-                'name' => 'Logs',
-                'route' => 'admin.pages.logs',
-                'icon' => 'bi-list-ul',
-            ],
-            [
                 'name' => 'Report',
                 'route' => 'admin.pages.report',
                 'icon' => 'bi-bar-chart',
+            ],
+            [
+                'name' => 'Logs',
+                'route' => 'admin.pages.logs.index',
+                'icon' => 'bi-list-ul',
             ],
             [
                 'name' => 'User',

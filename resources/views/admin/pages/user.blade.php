@@ -12,7 +12,7 @@
             <button type="button" name="add" id="add" class="btn-add" data-bs-toggle="modal" data-bs-target="#modalUser"><i class="fa-solid fa-plus"></i> New Category</button>
         </section>
         <section class="content-body">
-            <table id="datatable" class="hover">
+            <table id="datatable" class="table table-hover">
                 <thead>
                     <tr>
                         <th>#</th>

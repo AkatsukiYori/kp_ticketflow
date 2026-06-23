@@ -26,7 +26,7 @@
                     {{-- <button class="btn-new">
                         Buat Tiket Baru
                     </button> --}}
-                    <a href="{{ route('ticket') }}" class="btn btn-new">
+                    <a href="{{ route('ticket.index') }}" class="btn btn-new">
                         Buat Tiket Baru
                     </a>
                     <button class="btn-cek">

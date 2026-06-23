@@ -18,17 +18,19 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             <button type="button" name="add" id="add" class="btn-add" data-bs-toggle="modal" data-bs-target="#modalDocumentation"><i class="fa-solid fa-plus"></i> New Category</button>
         </section>
         <section class="content-body">
-            <table id="datatable" class="hover">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Category</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-            </table>
+            <div class="table-responsive">
+                <table id="datatable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Category</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </section>
     </section>
 

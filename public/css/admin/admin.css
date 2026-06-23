@@ -93,6 +93,10 @@ main section{
     flex: 10;
 }
 
+.no-caret::after {
+    display: none !important;
+}
+
 .modal-body {
     display: flex;
     flex-direction: column;
