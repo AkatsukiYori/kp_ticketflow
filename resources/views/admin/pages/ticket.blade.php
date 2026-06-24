@@ -385,6 +385,10 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 <script>
     $(document).ready(function() {
         // START: Init
+        $('#search_ticket_no').val(null);
+        $('#search_ticket_title').val(null);
+        $('#search_status').val(null);
+
         const toast = new bootstrap.Toast(
             document.getElementById('liveToast')
         );
@@ -422,7 +426,14 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 bottomStart: 'info',
                 bottomEnd: 'pageLength'
             },
-            ajax: "{{ route('admin.pages.ticket.datatable') }}",
+            ajax: {
+                url: "{{ route('admin.pages.ticket.datatable') }}",
+                data: function(d) {
+                    d.ticket_no = $('#search_ticket_no').val();
+                    d.ticket_title = $('#search_ticket_title').val();
+                    d.status = $('#search_status').val();
+                }
+            },
             columns: [
                 { data: "DT_RowIndex", name: "DT_RowIndex", orderable: false, searchable: false },
                 { data: "tanggal", name: "tanggal", searchable: false },
@@ -497,7 +508,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                             <tr>
                                 <td>Prioritas</td>
                                 <td>:</td>
-                                <td>`+(res.priority.toUpperCase() ?? '-')+`</td>
+                                <td>`+(res.priority ? res.priority.toUpperCase() : '-')+`</td>
                             </tr>
                             <tr>
                                 <td>Estimasi</td>
@@ -776,7 +787,13 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
             modalFeedback.show();
         });
-        // END" Event Button Feedback
+        // END: Event Button Feedback
+
+        // START: Filter & Refresh
+        $(document).on('keyup click change', '#search_ticket_no, #search_ticket_title, #search_status', function() {
+            table.ajax.reload();
+        });
+        // END: Filter & Refresh
     });
 </script>
 

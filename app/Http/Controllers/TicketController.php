@@ -23,9 +23,21 @@ class TicketController extends Controller
         return view('admin.pages.ticket', compact('users'));
     }
 
-    public function datatable()
+    public function datatable(Request $request)
     {
-        $tickets = Ticket::query()->orderBy('created_at', 'DESC')->get();
+        $tickets = Ticket::query()->orderBy('created_at', 'DESC');
+
+        if($request->filled('ticket_no')) {
+            $tickets->whereLike('ticket_no', '%' . $request->ticket_no . '%');
+        }
+
+        if($request->filled('ticket_title')) {
+            $tickets->whereLike('ticket_title', '%' . $request->ticket_title . '%');
+        }
+
+        if($request->filled('status')) {
+            $tickets->where('status_ticket', $request->status);
+        }
 
         return DataTables::of($tickets)
             ->addIndexColumn()
