@@ -208,6 +208,44 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     </div>
     {{-- END: Modal Reject --}}
 
+    {{-- START: Modal Feedback --}}
+    <div class="modal fade" id="modalFeedback" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-column gap-3">
+                            <h5 class="modal-title p-0" id="modalTitleLabel">Feedback</h5>
+                            <p class="p-0" id="modal-title-sub"></p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formFeedback" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="add_documentation" value="0">
+                        <div class="d flex flex-column gap-3">
+                            <div class="form-group">
+                                <label for="">Umpan Balik <span style="color: red;">*</span></label>
+                                <input type="text" name="feedback" id="feedback" placeholder="Masukkan umpan balik" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="add_documentation" id="add_documentation" value="1">
+                                <label for="">Tambahkan ke documentasi ?</label>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Umpan Balik</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- END: Modal Feedback --}}
+
     {{-- START: Toast --}}
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
         <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
@@ -250,6 +288,10 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
         const modalReject = bootstrap.Modal.getOrCreateInstance(
             document.getElementById('modalReject')
+        );
+
+        const modalFeedback = bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalFeedback')
         );
         // END: Init
 
@@ -555,7 +597,6 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     processData: false,
                     contentType: false,
                     success: function(res) {
-                        console.log(res);
                         if(res.status == true) {
                             $('#toastTitle').text("Success");
                             $('#toastBody').text(res.message);
@@ -578,6 +619,48 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             modalReject.show();
         });
         // END: Event Button Reject
+
+        // START: Event Button Feedback
+        $(document).on('click', '.btn-feedback', function() {
+            let url = $(this).data('url');
+            let ticketNo = $(this).data('ticket');
+
+            $('#modalFeedback #modal-title-sub').text('#' + ticketNo);
+            $('#feedback').val(null);
+            $('#add_documentation').prop('checked', false);
+
+            $(document).on('submit', '#formFeedback', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        if(res.status == true) {
+                            $('#toastTitle').text("Success");
+                            $('#toastBody').text(res.message);
+                            $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+                            toast.show();
+
+                            table.ajax.reload();
+                            modalFeedback.hide();
+                            $(this)[0].reset();
+                        } else {
+                            $('#toastTitle').text("Error");
+                            $('#toastBody').text(res.message);
+                            $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
+                            toast.show();
+                        }
+                    }
+                });
+            });
+
+            modalFeedback.show();
+        });
+        // END" Event Button Feedback
     });
 </script>
 

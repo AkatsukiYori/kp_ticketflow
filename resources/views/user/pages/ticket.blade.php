@@ -138,7 +138,7 @@
                 Buat Tiket
             </button>
 
-            <button type="button" class="btn btn-danger">
+            <button type="button" class="btn btn-danger" id="btn-back">
                 Kembali
             </button>
 
@@ -248,6 +248,12 @@
             $('#current-desc-length').text(currentLength);
         });
         // END: Input length counter
+
+        // START: Event Button Back
+        $(document).on('click', '#btn-back', function() {
+            window.location.href = "{{ route('home') }}";
+        });
+        // END: Event Button Back
     });
 </script>
 @endsection

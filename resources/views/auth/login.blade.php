@@ -40,8 +40,8 @@
                 Masuk
             </button>
 
-            <a href="{{ route('admin.pages.dashboard') }}" class="teks">
-                Kembali ke Dashboard
+            <a href="{{ route('home') }}" class="teks">
+                Kembali ke halaman utama
             </a>
 
         </form>

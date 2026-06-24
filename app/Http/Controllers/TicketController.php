@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use App\Models\Documentation;
 use App\Models\Log;
 use App\Models\Ticket;
+use App\Models\TicketFeedback;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,14 +29,14 @@ class TicketController extends Controller
 
         return DataTables::of($tickets)
             ->addIndexColumn()
-            ->editColumn('tanggal', function($e) {
+            ->addColumn('tanggal', function($e) {
                 return Carbon::parse($e->report_date)->locale('id')->translatedFormat('l, d F Y');
             })
-            ->editColumn('status', function($e) {
-                $pending = '<span class="badge bg-warning">Pending</span>';
-                $on_progress = '<span class="badge bg-secondary">On Progress</span>';
-                $feedback = '<span class="badge bg-primary">Feedback</span>';
-                $reject = '<span class="badge bg-danger">Reject</span>';
+            ->addColumn('status', function($e) {
+                $pending = '<span class="badge bg-warning">Menunggu Proses</span>';
+                $on_progress = '<span class="badge bg-secondary">Sedang Dikerjakan</span>';
+                $feedback = '<span class="badge bg-primary">Umpan balik</span>';
+                $reject = '<span class="badge bg-danger">Tolak</span>';
 
                 if($e->status_ticket == 'reject') {
                     return $reject;
@@ -46,11 +48,11 @@ class TicketController extends Controller
                     return $pending;
                 }
             })
-            ->editColumn('pengguna', function($e) {
+            ->addColumn('pengguna', function($e) {
                 return $e->member->username;
             })
-            ->editColumn('pic', function($e) {
-                return $e->users->username ?? '-';
+            ->addColumn('pic', function($e) {
+                return $e->users->username ?? '<span class="badge bg-secondary">Belum ditugaskan</span>';
             })
             ->addColumn('actions', function($e) {
                 $ticket_no = $e->ticket_no;
@@ -59,12 +61,13 @@ class TicketController extends Controller
                 $url_assign = route('admin.pages.ticket.assign', $ticket_no);
                 $url_delete = route('admin.pages.ticket.delete', $ticket_no);
                 $url_reject = route('admin.pages.ticket.reject', $ticket_no);
+                $url_feedback = route('admin.pages.ticket.feedback', $ticket_no);
 
-                $assign = '<button class="dropdown-item py-2 px-3 btn-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'"><i class="fa-solid fa-user-check fs-6"></i> Assign</button><hr>';
-                $re_assign = '<button class="dropdown-item py-2 px-3 btn-re-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'"><i class="fa-solid fa-user-check fs-6"></i> Re Assign</button><hr>';
-                $feedback = '<button class="dropdown-item py-2 px-3"><i class="fa-regular fa-circle-check fs-6"></i> Feedback</button><hr>';
-                $reject = '<button class="dropdown-item py-2 px-3 btn-reject" data-url="'. $url_reject .'" data-ticket="'. $ticket_no .'"><i class="fa-regular fa-circle-xmark fs-6"></i> Reject</button><hr>';
-                $remove = '<button class="dropdown-item py-2 px-3 btn-remove text-danger" data-url="'. $url_delete .'"><i class="fa-solid fa-trash fs-6"></i> Remove</button>';
+                $assign = '<button class="dropdown-item py-2 px-3 btn-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'"><i class="fa-solid fa-user-check fs-6"></i> Ambil Tiket</button><hr>';
+                $re_assign = '<button class="dropdown-item py-2 px-3 btn-re-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'"><i class="fa-solid fa-user-check fs-6"></i> Pindah Penugasan</button><hr>';
+                $feedback = '<button class="dropdown-item py-2 px-3 btn-feedback" data-url="'. $url_feedback .'" data-ticket="'. $ticket_no .'"><i class="fa-regular fa-circle-check fs-6"></i> Feedback</button><hr>';
+                $reject = '<button class="dropdown-item py-2 px-3 btn-reject" data-url="'. $url_reject .'" data-ticket="'. $ticket_no .'"><i class="fa-regular fa-circle-xmark fs-6"></i> Tolak</button><hr>';
+                $remove = '<button class="dropdown-item py-2 px-3 btn-remove text-danger" data-url="'. $url_delete .'"><i class="fa-solid fa-trash fs-6"></i> Hapus</button>';
 
                 if($status === 'reject') {
                     $listButton = $remove;
@@ -91,7 +94,7 @@ class TicketController extends Controller
 
                 return $detail . " " . $btn_group;
             })
-            ->rawColumns(['tanggal', 'status', 'actions'])
+            ->rawColumns(['tanggal', 'status', 'actions', 'pic'])
             ->make(true);
     }
 
@@ -263,6 +266,83 @@ class TicketController extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => true,
+                'message' => 'Something went wrong.'
+            ]);
+        }
+    }
+
+    public function feedback(Request $request, $ticket_no)
+    {
+        DB::beginTransaction();
+        try {
+            // START: Get Request
+            $datas = $request->all();
+            // END: Get Request
+
+            // START: Validation
+            $rules = [
+                'feedback' => 'required'
+            ];
+
+            $message = [
+                'feedback.required' => 'Feedback tidak boleh kosong.'
+            ];
+
+            $validator = Validator::make($datas, $rules, $message);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validator->errors()
+                ], 422);
+            }
+            // END: Validation
+
+            // START: Handle Feedback
+            $status = 'completed';
+            $now = Carbon::now();
+
+            $ticket = Ticket::where('ticket_no', $ticket_no)->first();
+            $ticket->update([
+                'status_ticket' => $status,
+                'updated_at' => $now
+            ]);
+
+            if($datas['add_documentation'] === "1") {
+                Documentation::create([
+                    'category_id' => $ticket->category_id,
+                    'title' => $ticket->ticket_title,
+                    'description' => $datas['feedback']
+                ]);
+            }
+
+            TicketFeedback::create([
+                'ticket_id' => $ticket->id,
+                'message' => $datas['feedback'],
+                'role' => 'admin',
+                'user_id' => $ticket->assign_to
+            ]);
+
+            Log::create([
+                'ticket_id' => $ticket->id,
+                'user_id' => $ticket->assign_to,
+                'status' => $status,
+                'action_type' => 'feedback',
+                'log_date' => $now,
+                'description' => null
+            ]);
+            // END: Handle Feedback
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Umpan balik berhasil diberikan.'
+            ]);
+        } catch (Throwable $e) {
+            dd($e);
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
                 'message' => 'Something went wrong.'
             ]);
         }

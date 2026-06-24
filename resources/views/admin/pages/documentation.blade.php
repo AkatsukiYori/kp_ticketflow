@@ -34,6 +34,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         </section>
     </section>
 
+    {{-- START: Modal Add Or Update --}}
     <div class="modal fade" id="modalDocumentation" tabindex="-1" aria-labelledby="modalDocumentationLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -45,33 +46,37 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     @csrf
                     <input type="hidden" id="id" name="id">
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="">Category <span class="text-danger">*</span></label>
-                            <select name="category" id="category" class="form-control" aria-placeholder="Choose category">
-                                <option value="">Choose Category</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
+                        <div class="d-flex flex-column gap-3">
+                            <div class="form-group">
+                                <label for="">Category <span class="text-danger">*</span></label>
+                                <select name="category" id="category" class="form-control" aria-placeholder="Pilih Kategori">
+                                    <option value="">Pilih Kategori</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Judul <span class="text-danger">*</span></label>
+                                <input type="text" name="title" id="title" class="form-control" placeholder="Masukkan judul">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Deskripsi (Optional)</label>
+                                <textarea name="description" id="description" class="form-control" cols="30" rows="5" placeholder="Masukkan deskripsi"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn-cancel" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn-save">Simpan</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="">title <span class="text-danger">*</span></label>
-                            <input type="text" name="title" id="title" class="form-control" placeholder="Insert title">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Description (Optional)</label>
-                            <input type="text" name="description" id="description" class="form-control" placeholder="Insert description">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn-save">Save</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    {{-- END: Modal Add Or Update --}}
 
+    {{-- START: Modal Delete --}}
     <div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -81,7 +86,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 </div>
                 <div class="modal-body">
                     <center>
-                        <p>Category cannot be retrieve after deleted.</p>
+                        <p>Documentation cannot be retrieve after deleted.</p>
                     </center>
                 </div>
                 <div class="modal-footer">
@@ -91,7 +96,9 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             </div>
         </div>
     </div>
+    {{-- END: Modal Delete --}}
 
+    {{-- START: Toast --}}
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
         <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
@@ -105,6 +112,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             </div>
         </div>
     </div>
+    {{-- END: Toast --}}
 @endsection
 
 @section('script')
@@ -113,18 +121,21 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
 <script>
     $(document).ready(function() {
+        // START: Init
         const toast = new bootstrap.Toast(
             document.getElementById('liveToast')
         );
 
-        const modal = bootstrap.Modal.getOrCreateInstance(
+        const modalDocumentation = bootstrap.Modal.getOrCreateInstance(
             document.getElementById('modalDocumentation')
         );
 
         const modalDelete = bootstrap.Modal.getOrCreateInstance(
             document.getElementById('modalDelete')
         );
+        // END: Init
 
+        // START: DataTable
         let table = new DataTable('#datatable', {
             responsive: true,
             serverSide: true,
@@ -136,10 +147,12 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 bottomStart: 'info',
                 bottomEnd: 'pageLength'
             },
-            ajax: "{{ route('admin.pages.category.datatable') }}",
+            ajax: "{{ route('admin.pages.documentation.datatable') }}",
             columns: [
                 { data: "DT_RowIndex", name: "DT_RowIndex", orderable: false, searchable: false },
-                { data: "name", name: "name", searchable: true },
+                { data: "kategori", name: "kategori", searchable: true },
+                { data: "title", name: "title", searchable: true },
+                { data: "description", name: "description", searchable: true },
                 { data: "actions", name: "actions", orderable: false, searchable: false }
             ],
             columnDefs: [
@@ -149,17 +162,22 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 { width: "20%", className: "dt-right", targets: 2 }
             ]
         });
+        // END: DataTable
 
+        // START: Event Button Add
         $(document).on('click', '#add', function() {
-            $('#modalTitle').text('Add Category');
-            $('#name').val(null);
+            $('#modalTitle').text('Add Documentation');
+            $('#category').val(null);
+            $('#title').val(null);
+            $('#description').val(null);
         });
+        // END: Event Button Add
 
         $(document).on('submit', '#formCategory', function(e) {
             e.preventDefault();
 
             $.ajax({
-                url: "{{ route('admin.pages.category.createOrUpdate') }}",
+                url: "{{ route('admin.pages.documentation.createOrUpdate') }}",
                 type: "POST",
                 data: new FormData(this),
                 processData: false,
@@ -172,11 +190,10 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                         toast.show();
                         table.ajax.reload();
                         
-                        $('#id').val(null);
-                        $('#name').val(null);
+                        $(this)[0].reset();
 
                         // Close modal
-                        modal.hide();
+                        modalDocumentation.hide();
                         $('.modal-backdrop').remove();
                         $('body').removeClass('modal-open');
                         $('body').css({
@@ -197,16 +214,21 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             let url = $(this).data('url');
 
             $('#id').val(null);
-            $('#name').val(null);
+            $('#category').val(null);
+            $('#title').val(null);
+            $('#description').val(null);
 
-            $('#modalTitle').text('Edit Category');
+            $('#modalTitle').text('Edit Documentation');
             $.ajax({
                 url: url,
                 type: "GET",
                 success: function(res) {
-                    $('#name').val(res.data.name);
                     $('#id').val(res.hashed);
-                    modal.show();
+                    $('#category').val(res.data.category_id);
+                    $('#title').val(res.data.title);
+                    $('#description').val(res.data.description);
+
+                    modalDocumentation.show();
                 }
             });
         });

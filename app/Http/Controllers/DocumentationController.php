@@ -21,11 +21,24 @@ class DocumentationController extends Controller
 
     public function datatable()
     {
-        $documentation = Documentation::query()->orderBy("created_at", "DESC")->get();
+        $documentation = Documentation::with('category')->orderBy("created_at", "DESC")->get();
 
         return DataTables::of($documentation)
             ->addIndexColumn()
-            ->rawColumns([])
+            ->addColumn('kategori', function($e) {
+                return $e->category->name;
+            })
+            ->addColumn('actions', function($e) {
+                $hash = Hashids::encode($e->id);
+                $url_edit = route('admin.pages.documentation.detail', $hash);
+                $url_delete = route('admin.pages.documentation.delete', $hash);
+
+                $edit = '<button type="button" id="btn-edit" class="btn-edit" data-url="' . $url_edit . '"><i class="fa-regular fa-pen-to-square" style="font-size: 1.3rem;"></i></button>';
+                $delete = '<button type="button" id="btn-delete" class="btn-delete" data-url="' . $url_delete . '"><i class="fa-regular fa-trash-can" style="font-size: 1.3rem;"></i></button>';
+
+                return $edit . ' ' . $delete;
+            })
+            ->rawColumns(['actions'])
             ->make(true);
     }
 

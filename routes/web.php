@@ -27,7 +27,7 @@ Route::get('/login', function () {
     return view('admin.auth.login');
 })->name('index_view');
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     // PAGES
     Route::prefix('pages')->name('pages.')->group(function () {
 
@@ -50,6 +50,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/delete/{ticket_no}', [TicketController::class, 'delete'])->name('delete');
             Route::post('/assign/{ticket_no}', [TicketController::class, 'assign'])->name('assign');
             Route::post('/reject/{ticket_no}', [TicketController::class, 'reject'])->name('reject');
+            Route::post('/feedback/{ticket_no}', [TicketController::class, 'feedback'])->name('feedback');
         });
 
         Route::prefix("documentation")->name("documentation.")->group(function() {
@@ -86,6 +87,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('user.pages.index');
         })->name('index');
     });
-})->middleware('auth');
+});
 
 require __DIR__ . '/auth.php';
