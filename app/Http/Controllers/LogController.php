@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Log;
 use App\Models\Ticket;
 use Carbon\Carbon;
-use Vinkla\Hashids\Facades\Hashids;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class LogController extends Controller
@@ -15,9 +15,14 @@ class LogController extends Controller
         return view("admin.pages.logs");
     }
 
-    public function datatable()
+    public function datatable(Request $request)
     {
-        $logs = Ticket::with('log', 'users', 'member')->orderBy('report_date', 'DESC')->get();
+        $logs = Ticket::with('log', 'users', 'member')->orderBy('report_date', 'DESC');
+
+        if($request->filled('ticket_no')) {
+            $logs->whereLike('ticket_no', '%' . $request->ticket_no . '%');
+        }
+
         return DataTables::of($logs)
             ->addIndexColumn()
             ->addColumn('pengguna', function($e) {
@@ -28,7 +33,14 @@ class LogController extends Controller
             })
             ->addColumn('actions', function($e) {
                 $url = route('admin.pages.logs.detail', $e->ticket_no);
-                return '<button type="button" id="btn-detail" data-url="'. $url .'"><i class="fa-solid fa-ellipsis-vertical"></i></button>';
+                return '<button
+                        type="button"
+                        id="btn-detail"
+                        data-url="'. $url .'"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Log"
+                    ><i class="fa-solid fa-ellipsis-vertical"></i></button>';
             })
             ->addColumn('no_ticket', function($e) {
                 return $e->ticket_no;
@@ -59,7 +71,7 @@ class LogController extends Controller
     public function detail($ticket_no)
     {
         $ticket = Ticket::with('member')->where('ticket_no', $ticket_no)->select('id')->first();
-        $logs = Log::with('ticket.member', 'ticket.users')->where('ticket_id', $ticket->id)->get();
+        $logs = Log::with('ticket.member', 'ticket.users')->where('ticket_id', $ticket->id)->orderBy('log_date', 'DESC')->get();
 
         $logs->makeHidden([
             'id',

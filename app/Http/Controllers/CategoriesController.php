@@ -16,9 +16,13 @@ class CategoriesController extends Controller
         return view('admin.pages.category');
     }
 
-    public function datatable()
+    public function datatable(Request $request)
     {
-        $categories = Categories::query()->orderBy("created_at", "DESC")->get();
+        $categories = Categories::query()->orderBy("created_at", "DESC");
+
+        if($request->filled('name')) {
+            $categories->where('name', 'like', '%' . $request->name . '%');
+        }
 
         return DataTables::of($categories)
             ->addIndexColumn()
@@ -27,8 +31,24 @@ class CategoriesController extends Controller
                 $url_edit = route('admin.pages.category.detail', $hash);
                 $url_delete = route('admin.pages.category.delete', $hash);
 
-                $edit = '<button type="button" id="btn-edit" class="btn-edit" data-url="' . $url_edit . '"><i class="fa-regular fa-pen-to-square" style="font-size: 1.3rem;"></i></button>';
-                $delete = '<button type="button" id="btn-delete" class="btn-delete" data-url="' . $url_delete . '"><i class="fa-regular fa-trash-can" style="font-size: 1.3rem;"></i></button>';
+                $edit = '<button
+                        type="button"
+                        id="btn-edit"
+                        class="btn-edit"
+                        data-url="' . $url_edit . '"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Perbarui Kategori"
+                    ><i class="fa-regular fa-pen-to-square" style="font-size: 1.3rem;"></i></button>';
+                $delete = '<button
+                        type="button"
+                        id="btn-delete"
+                        class="btn-delete"
+                        data-url="' . $url_delete . '"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Hapus Kategori"
+                    ><i class="fa-regular fa-trash-can" style="font-size: 1.3rem;"></i></button>';
 
                 return $edit . ' ' . $delete;
             })
@@ -56,7 +76,7 @@ class CategoriesController extends Controller
             ];
 
             $message = [
-                "name.required" => "Category name cannot be empty."
+                "name.required" => "Nama Kategori tidak boleh kosong."
             ];
 
             $validator = Validator::make($request->all(), $rules, $message);
@@ -78,16 +98,15 @@ class CategoriesController extends Controller
             );
             // END: Category handle
 
-            $message = $id != "" ? "updated" : "created";
-
+            $message = $id != "" ? "diperbarui" : "dibuat";
             return response()->json([
                 "status" => true,
-                "message" => "Category successfully " . $message . "."
+                "message" => "Kategori berhasil " . $message . "."
             ]);
         } catch (Throwable $e) {
             return response()->json([
                 "status" => false,
-                "message" => "Something went wrong."
+                "message" => "Terjadi kesalahan."
             ]);
         }
     }
@@ -123,12 +142,12 @@ class CategoriesController extends Controller
 
             return response()->json([
                 "status" => true,
-                "message" => "Category successfully deleted."
+                "message" => "Kategori berhasil dihapus."
             ]);
         } catch (Throwable $e) {
             return response()->json([
                 "status" => false,
-                "message" => "Something went wrong."
+                "message" => "Terjadi kesalahan."
             ]);
         }
     }

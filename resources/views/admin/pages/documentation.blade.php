@@ -12,10 +12,25 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     <section>
         <section class="top-content d-flex justify-content-between">
             <section>
-                <input type="text" placeholder="Search..." id="search" name="search" class="input-search" style="text-indent: 10px">
-                <button type="button" id="refresh" name="refresh" class="btn-refresh"><i class="fa-solid fa-arrows-rotate"></i></button>
+                <input type="text" placeholder="Cari..." id="search" name="search" class="input-search" style="text-indent: 10px">
+                <button
+                    type="button"
+                    id="refresh"
+                    class="btn-refresh h-100"
+                    data-toggle="tooltip"
+                    data-placement="bottom"
+                    title="Muat Ulang"
+                ><i class="fa-solid fa-arrows-rotate"></i></button>
             </section>
-            <button type="button" name="add" id="add" class="btn-add" data-bs-toggle="modal" data-bs-target="#modalDocumentation"><i class="fa-solid fa-plus"></i> New Category</button>
+            <button
+                type="button"
+                name="add"
+                id="add"
+                class="btn-add"
+                data-toggle="tooltip"
+                data-placement="bottom"
+                title="Tambah Dokumentasi"
+            ><i class="fa-solid fa-plus"></i> Dokumentasi Baru</button>
         </section>
         <section class="content-body">
             <div class="table-responsive">
@@ -23,10 +38,9 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Category</th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Actions</th>
+                            <th>Judul</th>
+                            <th>Deskripsi</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                 </table>
@@ -39,16 +53,24 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title fs-5 fw-bold" id="modalTitle"></h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Tutup"
+                    ></button>
                 </div>
-                <form id="formCategory" enctype="multipart/form-data">
+                <form id="formDocumentation" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" id="id" name="id">
                     <div class="modal-body">
                         <div class="d-flex flex-column gap-3">
-                            <div class="form-group">
-                                <label for="">Category <span class="text-danger">*</span></label>
+                            <div class="form-group d-flex flex-column gap-1">
+                                <label for="">Kategori <span class="text-danger">*</span></label>
                                 <select name="category" id="category" class="form-control" aria-placeholder="Pilih Kategori">
                                     <option value="">Pilih Kategori</option>
                                     @foreach($categories as $category)
@@ -56,18 +78,31 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group d-flex flex-column gap-1">
                                 <label for="">Judul <span class="text-danger">*</span></label>
                                 <input type="text" name="title" id="title" class="form-control" placeholder="Masukkan judul">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group d-flex flex-column gap-1">
                                 <label for="">Deskripsi (Optional)</label>
                                 <textarea name="description" id="description" class="form-control" cols="30" rows="5" placeholder="Masukkan deskripsi"></textarea>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn-cancel" data-bs-dismiss="modal">Batal</button>
-                                <button type="submit" class="btn-save">Simpan</button>
-                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn-cancel"
+                                data-bs-dismiss="modal"
+                                data-toggle="tooltip"
+                                data-placement="bottom"
+                                title="Batal"
+                            >Batal</button>
+                            <button
+                                type="submit"
+                                class="btn-save"
+                                data-toggle="tooltip"
+                                data-placement="bottom"
+                                title="Simpan"
+                            >Simpan</button>
                         </div>
                     </div>
                 </form>
@@ -81,17 +116,38 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalDeleteLabel"><i class="fa-solid fa-triangle-exclamation" style="font-size: 1.5rem; color: orange;"></i> Are You Sure?</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title fs-5 fw-bold" id="modalDeleteLabel">Konfirmasi Hapus</h1>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Tutup"
+                    ></button>
                 </div>
                 <div class="modal-body">
                     <center>
-                        <p>Documentation cannot be retrieve after deleted.</p>
+                        <p>Dokumentasi akan dihapus secara permanen dan tidak dapat dipulihkan.</p>
                     </center>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-cancel" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn-delete-modal">Delete</button>
+                    <button
+                        type="button"
+                        class="btn-cancel"
+                        data-bs-dismiss="modal"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Batal"
+                    >Batal</button>
+                    <button
+                        type="button"
+                        class="btn-delete-modal"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Hapus"
+                    >Hapus</button>
                 </div>
             </div>
         </div>
@@ -122,9 +178,13 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 <script>
     $(document).ready(function() {
         // START: Init
-        const toast = new bootstrap.Toast(
-            document.getElementById('liveToast')
-        );
+        $('#search').val(null);
+        
+        const toastEl = document.getElementById('liveToast');
+        const toast = new bootstrap.Toast(toastEl, {
+            autohide: true,
+            delay: 3000
+        });
 
         const modalDocumentation = bootstrap.Modal.getOrCreateInstance(
             document.getElementById('modalDocumentation')
@@ -147,33 +207,43 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 bottomStart: 'info',
                 bottomEnd: 'pageLength'
             },
-            ajax: "{{ route('admin.pages.documentation.datatable') }}",
+            ajax: {
+                url: "{{ route('admin.pages.documentation.datatable') }}",
+                data: function(d) {
+                    d.title = $('#search').val();
+                }
+            },
             columns: [
                 { data: "DT_RowIndex", name: "DT_RowIndex", orderable: false, searchable: false },
-                { data: "kategori", name: "kategori", searchable: true },
                 { data: "title", name: "title", searchable: true },
-                { data: "description", name: "description", searchable: true },
+                { data: "deskripsi", name: "deskripsi", searchable: true },
                 { data: "actions", name: "actions", orderable: false, searchable: false }
             ],
             columnDefs: [
                 { orderable: false, targets: "_all" },
                 { width: "5%", className: "dt-center", targets: 0 },
-                { className: "dt-left", targets: 1 }, 
-                { width: "20%", className: "dt-right", targets: 2 }
+                { width: "20%", targets: 1 },
+                { width: "30%", targets: 2 },
+                { className: "dt-left", targets: [1, 2] },
+                { width: "20%", className: "dt-right", targets: 3 }
             ]
         });
         // END: DataTable
 
         // START: Event Button Add
         $(document).on('click', '#add', function() {
-            $('#modalTitle').text('Add Documentation');
+            $('#modalTitle').text('Tambah Dokumentasi');
             $('#category').val(null);
             $('#title').val(null);
             $('#description').val(null);
+            $('#id').val(null);
+
+            modalDocumentation.show();
         });
         // END: Event Button Add
 
-        $(document).on('submit', '#formCategory', function(e) {
+        // START: Submit Handle
+        $(document).on('submit', '#formDocumentation', function(e) {
             e.preventDefault();
 
             $.ajax({
@@ -184,24 +254,17 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 contentType: false,
                 success: function(res) {
                     if(res.status === true) {
-                        $('#toastTitle').text("Success");
+                        $('#toastTitle').text("Berhasil");
                         $('#toastBody').text(res.message);
                         $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
                         toast.show();
                         table.ajax.reload();
-                        
-                        $(this)[0].reset();
+                        $('#formDocumentation')[0].reset();
 
-                        // Close modal
                         modalDocumentation.hide();
-                        $('.modal-backdrop').remove();
-                        $('body').removeClass('modal-open');
-                        $('body').css({
-                            overflow: '',
-                            paddingRight: ''
-                        });
                     } else {
-                        $('#toastTitle').text("Error");
+                        $('#toastTitle').text("Gagal");
                         $('#toastBody').text(res.message);
                         $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
                         toast.show();
@@ -209,7 +272,9 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 }
             });
         });
+        // END: Submit Handle
 
+        // STARTL Event Button Edit
         $(document).on('click', '#btn-edit', function() {
             let url = $(this).data('url');
 
@@ -217,8 +282,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             $('#category').val(null);
             $('#title').val(null);
             $('#description').val(null);
+            $('#modalTitle').text('Pembaruan Dokumentasi');
 
-            $('#modalTitle').text('Edit Documentation');
             $.ajax({
                 url: url,
                 type: "GET",
@@ -232,11 +297,11 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 }
             });
         });
+        // END: Event Button Edit
 
+        // START: Event Button Delete
         $(document).on('click', '#btn-delete', function() {
             let url = $(this).data('url');
-
-            modalDelete.show();
 
             $(document).on('click', ".btn-delete-modal", function() {
                 $.ajax({
@@ -244,15 +309,15 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     type: "DELETE",
                     success: function(res) {
                         if(res.status == true) {
-                            $('#toastTitle').text("Success");
+                            $('#toastTitle').text("Berhasil");
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-                            toast.show();
 
+                            toast.show();
                             table.ajax.reload();
                             modalDelete.hide();
                         } else {
-                            $('#toastTitle').text("Error");
+                            $('#toastTitle').text("Gagal");
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
                             toast.show();
@@ -260,7 +325,16 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     }
                 });
             });
+
+            modalDelete.show();
         });
+        // END: Event Button Delete
+
+        // START: Filter & Refresh
+        $(document).on('keyup click', '#search, #refresh', function() {
+            table.ajax.reload();
+        })
+        // END: Filter & Refresh
     });
 </script>
 @endsection

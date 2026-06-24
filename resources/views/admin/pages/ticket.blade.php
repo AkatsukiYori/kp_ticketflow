@@ -64,8 +64,24 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     <section>
         <section class="top-content d-flex justify-content-between">
             <section>
-                <input type="text" placeholder="Search..." id="search" name="search" class="input-search" style="text-indent: 10px">
-                <button type="button" id="refresh" name="refresh" class="btn-refresh"><i class="fa-solid fa-arrows-rotate"></i></button>
+                <input type="text" placeholder="Cari No Tiket..." id="search_ticket_no" name="search_ticket_no" class="input-search" style="text-indent: 10px">
+                <input type="text" placeholder="Cari Judul Tiket..." id="search_ticket_title" name="search_ticket_title" class="input-search" style="text-indent: 10px">
+                <select name="search_status" id="search_status" aria-placeholder="Filter Status">
+                    <option value="">Filter Status</option>
+                    <option value="pending">Menunggu Proses</option>
+                    <option value="on_progress">Sedang Dikerjakan</option>
+                    <option value="completed">Umpan Balik</option>
+                    <option value="reject">Tolak</option>
+                </select>
+                <button
+                    type="button"
+                    id="refresh"
+                    name="refresh"
+                    class="btn-refresh h-100"
+                    data-toggle="tooltip"
+                    data-placement="bottom"
+                    title="Muat Ulang"
+                ><i class="fa-solid fa-arrows-rotate"></i></button>
             </section>
         </section>
         <section class="content-body">
@@ -79,7 +95,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                         <th>Status</th>
                         <th>Pengguna</th>
                         <th>PIC</th>
-                        <th>Actions</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
             </table>
@@ -91,14 +107,29 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail Ticket</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title fs-5 fw-bold" id="exampleModalLabel">Detail Tiket</h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Tutup"
+                    ></button>
                 </div>
                 <div class="modal-body p-5">
                     
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Tutup"
+                    >Tutup</button>
                 </div>
             </div>
         </div>
@@ -110,17 +141,38 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalDeleteLabel"><i class="fa-solid fa-triangle-exclamation" style="font-size: 1.5rem; color: orange;"></i> Are You Sure?</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title fs-5 fw-bold" id="modalDeleteLabel">Konfirmasi Hapus</h1>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Tutup"
+                    ></button>
                 </div>
                 <div class="modal-body">
                     <center>
-                        <p>Ticket cannot be retrieve after deleted.</p>
+                        <p>Tiket akan dihapus secara permanen dan tidak dapat dipulihkan.</p>
                     </center>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-cancel" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn-delete-modal">Delete</button>
+                    <button
+                        type="button"
+                        class="btn-cancel"
+                        data-bs-dismiss="modal"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Batal"
+                    >Batal</button>
+                    <button
+                        type="button"
+                        class="btn-delete-modal"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Hapus"
+                    >Hapus</button>
                 </div>
             </div>
         </div>
@@ -133,17 +185,25 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-flex flex-column">
-                        <h5 class="modal-title p-0" id="modalTitleLabel"></h5>
+                        <h5 class="modal-title p-0 fs-5 fw-bold" id="modalTitleLabel"></h5>
                         <p class="p-0" id="modal-title-sub"></p>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Tutup"
+                    ></button>
                 </div>
                 <div class="modal-body">
                     <form id="formAssign" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="flag" id="flag">
                         <div class="d-flex flex-column gap-3">
-                            <div class="form-group">
+                            <div class="form-group d-flex flex-column gap-1">
                                 <label for="">PIC <span style="color: red;">*</span></label>
                                 <select name="pic" id="pic" aria-placeholder="Pilih PIC" class="form-control" required>
                                     <option value="">Pilih PIC</option>
@@ -152,7 +212,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group d-flex flex-column gap-1">
                                 <label for="">Prioritas <span style="color: red;">*</span></label>
                                 <select name="priority" id="priority" aria-placeholder="Pilih Prioritas" class="form-control" required>
                                     <option value="">Pilih Prioritas</option>
@@ -161,13 +221,26 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                                     <option value="high">High</option>
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group d-flex flex-column gap-1">
                                 <label for="">Estimasi <span style="color: red;">*</span></label>
                                 <input type="date" name="estimate" id="estimate" placeholder="Masukkan estimasi" class="form-control" required>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Assign</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                    data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="Batal"
+                                >Batal</button>
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary"
+                                    data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="Ambil Tiket"
+                                >Ambil Tiket</button>
                             </div>
                         </div>
                     </form>
@@ -184,22 +257,43 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 <div class="modal-header">
                     <div class="d-flex flex-column">
                         <div class="d-flex flex-column gap-3">
-                            <h5 class="modal-title p-0" id="modalTitleLabel">Tolak Tiket</h5>
+                            <h5 class="modal-title p-0 fs-5 fw-bold" id="modalTitleLabel">Tolak Tiket</h5>
                             <p class="p-0" id="modal-title-sub"></p>
                         </div>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Tutup"
+                    ></button>
                 </div>
                 <div class="modal-body">
                     <form id="formReject" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
+                        <div class="form-group d-flex flex-column gap-1">
                             <label for="">Alasan Tolak <span style="color: red;">*</span></label>
                             <input type="text" name="reason" id="reason" placeholder="Masukkan alasan tolak" class="form-control" required>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Tolak</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                                data-toggle="tooltip"
+                                data-placement="bottom"
+                                title="Batal"
+                            >Batal</button>
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                data-toggle="tooltip"
+                                data-placement="bottom"
+                                title="Tolak"
+                            >Tolak</button>
                         </div>
                     </form>
                 </div>
@@ -219,24 +313,45 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                             <p class="p-0" id="modal-title-sub"></p>
                         </div>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Tutup"
+                    ></button>
                 </div>
                 <div class="modal-body">
                     <form id="formFeedback" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="add_documentation" value="0">
                         <div class="d flex flex-column gap-3">
-                            <div class="form-group">
+                            <div class="form-group d-flex flex-column gap-1">
                                 <label for="">Umpan Balik <span style="color: red;">*</span></label>
                                 <input type="text" name="feedback" id="feedback" placeholder="Masukkan umpan balik" class="form-control" required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group d-flex flex-column gap-1">
                                 <input type="checkbox" name="add_documentation" id="add_documentation" value="1">
                                 <label for="">Tambahkan ke documentasi ?</label>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Umpan Balik</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary"
+                                    data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="Umpan Balik"
+                                >Umpan Balik</button>
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                    data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="Batal"
+                                >Batal</button>
                             </div>
                         </div>
                     </form>
@@ -462,7 +577,6 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         // START: Event Button Delete
         $(document).on('click', '.btn-remove', function() {
             let url = $(this).data('url');
-            modalDelete.show();
 
             $(document).on('click', '.btn-delete-modal', function() {
                 $.ajax({
@@ -470,15 +584,15 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     type: "DELETE",
                     success: function(res) {
                         if(res.status == true) {
-                            $('#toastTitle').text("Success");
+                            $('#toastTitle').text("Berhasil");
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
                             toast.show();
-    
                             table.ajax.reload();
                             modalDelete.hide();
                         } else {
-                            $('#toastTitle').text("Error");
+                            $('#toastTitle').text("Gagal");
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
                             toast.show();
@@ -486,6 +600,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     }
                 });
             });
+
+            modalDelete.show();
         });
         // END: Event Button Delete
 
@@ -494,7 +610,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             let url = $(this).data('url');
             let ticketNo = $(this).data('ticket');
             
-            $('#modalAssign #modalTitleLabel').text('Assign Ticket');
+            $('#modalAssign #modalTitleLabel').text('Ambil Tiket');
             $('#modalAssign #modal-title-sub').text('#' + ticketNo);
             $('#pic').val(null);
             $('#priority').val(null);
@@ -512,16 +628,16 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     contentType: false,
                     success: function(res) {
                         if(res.status == true) {
-                            $('#toastTitle').text("Success");
+                            $('#toastTitle').text("Berhasil");
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-                            toast.show();
 
+                            toast.show();
                             table.ajax.reload();
                             modalAssign.hide();
-                            $(this)[0].reset();
+                            $('#formAssign')[0].reset();
                         } else {
-                            $('#toastTitle').text("Error");
+                            $('#toastTitle').text("Gagal");
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
                             toast.show();
@@ -539,7 +655,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             let url = $(this).data('url');
             let ticketNo = $(this).data('ticket');
             
-            $('#modalAssign #modalTitleLabel').text('Re-assign Ticket');
+            $('#modalAssign #modalTitleLabel').text('Tugaskan Ulang Tiket');
             $('#modalAssign #modal-title-sub').text('#' + ticketNo);
             $('#pic').val(null);
             $('#priority').val(null);
@@ -557,16 +673,16 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     contentType: false,
                     success: function(res) {
                         if(res.status == true) {
-                            $('#toastTitle').text("Success");
+                            $('#toastTitle').text("Berhasil");
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-                            toast.show();
 
+                            toast.show();
                             table.ajax.reload();
                             modalAssign.hide();
-                            $(this)[0].reset();
+                            $('#formAssign')[0].reset();
                         } else {
-                            $('#toastTitle').text("Error");
+                            $('#toastTitle').text("Gagal");
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
                             toast.show();
@@ -598,16 +714,16 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     contentType: false,
                     success: function(res) {
                         if(res.status == true) {
-                            $('#toastTitle').text("Success");
+                            $('#toastTitle').text("Berhasil");
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-                            toast.show();
 
+                            toast.show();
                             table.ajax.reload();
                             modalReject.hide();
-                            $(this)[0].reset();
+                            $('#formReject')[0].reset();
                         } else {
-                            $('#toastTitle').text("Error");
+                            $('#toastTitle').text("Gagal");
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
                             toast.show();
@@ -640,16 +756,16 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     contentType: false,
                     success: function(res) {
                         if(res.status == true) {
-                            $('#toastTitle').text("Success");
+                            $('#toastTitle').text("Berhasil");
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-                            toast.show();
 
+                            toast.show();
                             table.ajax.reload();
                             modalFeedback.hide();
-                            $(this)[0].reset();
+                            $('#formFeedback')[0].reset();
                         } else {
-                            $('#toastTitle').text("Error");
+                            $('#toastTitle').text("Gagal");
                             $('#toastBody').text(res.message);
                             $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
                             toast.show();

@@ -12,24 +12,34 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     <section>
         <section class="top-content d-flex justify-content-between">
             <section>
-                <input type="text" placeholder="Search..." id="search" name="search" class="input-search" style="text-indent: 10px">
-                <button type="button" id="refresh" name="refresh" class="btn-refresh"><i class="fa-solid fa-arrows-rotate"></i></button>
+                <input type="text" placeholder="Cari No Tiket..." id="search" name="search" class="input-search" style="text-indent: 10px">
+                <button
+                    type="button"
+                    id="refresh"
+                    name="refresh"
+                    class="btn-refresh h-100"
+                    data-toggle="tooltip"
+                    data-placement="bottom"
+                    title="Muat Ulang"
+                ><i class="fa-solid fa-arrows-rotate"></i></button>
             </section>
         </section>
         <section class="content-body">
-            <table id="datatable" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Pengguna</th>
-                        <th>No Tiket</th>
-                        <th>Judul Tiket</th>
-                        <th>Tanggal</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-            </table>
+            <div class="table-responsive">
+                <table id="datatable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Pengguna</th>
+                            <th>No Tiket</th>
+                            <th>Judul Tiket</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </section>
     </section>
 
@@ -42,15 +52,30 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                         <h5 class="modal-title" id="modalLogsLabel">Logs</h5>
                         <h6 class="modal-subtitle"></h6>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Tutup"
+                    ></button>
                 </div>
                 <div class="modal-body">
-                    <div id="timeline" class="d-flex flex-row gap-3 align-items-start justify-content-start">
+                    <div id="timeline" class="d-flex flex-column gap-5 align-items-start justify-content-start">
                         
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Tutup"
+                    >Tutup</button>
                 </div>
             </div>
         </div>
@@ -64,10 +89,15 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
 <script>
     $(document).ready(function() {
+        // START: Init
+        $('#search').val(null);
+
         const modal = bootstrap.Modal.getOrCreateInstance(
             document.getElementById('modalLogs')
         );
+        // END: Init
 
+        // START: DataTable
         let table = new DataTable('#datatable', {
             responsive: true,
             serverSide: true,
@@ -78,18 +108,25 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 bottomStart: 'info',
                 bottomEnd: 'pageLength'
             },
-            ajax: "{{ route('admin.pages.logs.datatable') }}",
+            ajax: {
+                url: "{{ route('admin.pages.logs.datatable') }}",
+                data: function(d) {
+                    d.ticket_no = $('#search').val();
+                }
+            },
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'pengguna', name: 'pengguna', orderable: false, searchable: false },
-                { data: 'no_ticket', name: 'no_ticket', orderable: false, searchable: false },
+                { data: 'no_ticket', name: 'no_ticket', orderable: false, searchable: true },
                 { data: 'judul_ticket', name: 'judul_ticket', orderable: false, searchable: false },
                 { data: 'tanggal', name: 'tanggal', orderable: false, searchable: false },
                 { data: 'status', name: 'status', orderable: false, searchable: false },
                 { data: 'actions', name: 'actions', orderable: false, searchable: false }
             ]
         });
+        // END: DataTable
 
+        // START: Event Button Detail
         $(document).on('click', '#btn-detail', function() {
             let url = $(this).data('url');
 
@@ -111,29 +148,38 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                         var rawDate = new Date(item.log_date);
                         var formattedDate = formatter.format(rawDate).replace('.', ':').replace(' pukul', ',').toLowerCase();
                         html += `
-                            <div id="timeline-left" class="">
-                                <div class="mt-2" style="background-color: grey; width: 10px; height: 10px; border-radius: 100%;"></div>
-                            </div>
-                            <div id="timeline-right" class="d-flex flex-column">
-                                <div class="title">
-                                    <p>
-                                        <strong>`+ (item.action_type.charAt(0).toUpperCase() + item.action_type.slice(1)) +`</strong>
-                                        By
-                                        `+ item.created_by +`
-                                        `+ formattedDate +`
-                                    </p>
-                                    <p>`+ (item.description ?? '') +`</p>
+                            <div class="d-flex gap-3">
+                                <div id="timeline-left" class="">
+                                    <div class="mt-2" style="background-color: grey; width: 10px; height: 10px; border-radius: 100%;"></div>
                                 </div>
-                                <div class="description"></div>
+                                <div id="timeline-right" class="d-flex flex-column">
+                                    <div class="title">
+                                        <p>
+                                            <strong>`+ (item.action_type.charAt(0).toUpperCase() + item.action_type.slice(1)) +`</strong>
+                                            By
+                                            `+ item.created_by +`
+                                            `+ formattedDate +`
+                                        </p>
+                                        <p>`+ (item.description ?? '') +`</p>
+                                    </div>
+                                    <div class="description"></div>
+                                </div>
                             </div>
                         `;
                     });
-
                     $('#timeline').html(html);
+
                     modal.show();
                 }
             });
         });
+        // END: Event Button Detail
+
+        // START: Filter & Refresh
+        $(document).on('keyup click', '#search, #refresh', function() {
+            table.ajax.reload();
+        });
+        // END: Filter & Refresh
     });
 </script>
 @endsection
