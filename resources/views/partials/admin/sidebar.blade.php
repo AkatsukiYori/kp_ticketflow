@@ -17,7 +17,7 @@
             ],
             [
                 'name' => 'IKB',
-                'route' => 'admin.pages.ikb',
+                'route' => 'admin.pages.ikb.index',
                 'icon' => 'bi-briefcase',
             ],
             [

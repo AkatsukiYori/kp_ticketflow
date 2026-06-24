@@ -4,6 +4,7 @@ use App\Http\Controllers\MemberController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\IkbController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\User\TicketController as UserTicket;
@@ -61,9 +62,16 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
             Route::delete('/delete/{id}', [DocumentationController::class, 'delete'])->name("delete");
         });
 
-        Route::get('/ikb', function () {
-            return view('admin.pages.ikb');
-        })->name('ikb');
+        Route::prefix('ikb')->name('ikb.')->group(function() {
+            Route::get('/', [IkbController::class, 'show'])->name('index');
+            Route::get('/datatable', [IkbController::class, 'datatable'])->name('datatable');
+            Route::get('/detail/{ticket_no}', [IkbController::class, 'detail'])->name('detail');
+            Route::delete('/delete/{ticket_no}', [IkbController::class, 'delete'])->name('delete');
+            Route::post('/assign/{ticket_no}', [IkbController::class, 'assign'])->name('assign');
+            Route::post('/reject/{ticket_no}', [IkbController::class, 'reject'])->name('reject');
+            Route::post('/feedback/{ticket_no}', [IkbController::class, 'feedback'])->name('feedback');
+            Route::post('/update/{ticket_no}', [IkbController::class, 'update'])->name('update');
+        });
 
         Route::prefix('logs')->name('logs.')->group(function() {
             Route::get('/', [LogController::class, 'show'])->name('index');

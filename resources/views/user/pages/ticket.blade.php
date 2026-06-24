@@ -182,6 +182,10 @@
         $('#kategori').val(null);
         $('#departemen').val(null);
         $('#pengguna').val(null);
+        $('#field-judul').removeClass('col-md-3').addClass('col-md-6');
+        $('#field-kategori').removeClass('col-md-3').addClass('col-md-6');
+        $('#field-modul').addClass('d-none');
+        $('#field-submodul').addClass('d-none');
         // END: Set value to null when first render
 
         // START: Category change value
