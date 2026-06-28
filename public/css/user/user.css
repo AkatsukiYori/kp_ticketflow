@@ -5,18 +5,11 @@
 }
 
 html,
-/* body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
-    overflow: hidden;
-} */
-
 body {
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
-    overflow-y: auto;
+    /* overflow: show; */
 }
 
 header {
@@ -98,8 +91,8 @@ a {
 
 main {
     flex: 1;
-    /* display: flex;
-    align-items: center; */
+    display: flex;
+    align-items: center;
     padding: 20px;
 }
 
@@ -156,4 +149,51 @@ textarea.form-control {
 
 .btn {
     border-radius: 8px;
+}
+
+/* Cek Status Tiket */
+.cekticket-header h2{
+    font-size:32px;
+    font-weight:700;
+    color:#374151;
+}
+
+.cekticket-header p{
+    font-size:15px;
+    color:#6b7280;
+}
+
+.ticket-input{
+    height:40px;
+    border-radius:6px;
+    font-size:14px;
+    border:1px solid #dee2e6;
+}
+
+.ticket-input:focus{
+    border-color:#86b7fe;
+    box-shadow:none;
+}
+
+.position-relative{
+    position:relative;
+}
+
+.calendar-icon{
+    position:absolute;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#6c757d;
+    pointer-events:none;
+}
+
+.ticket-input[type="date"]::-webkit-calendar-picker-indicator{
+    opacity:0;
+    cursor:pointer;
+}
+
+hr{
+    color:#d9d9d9;
+    opacity:1;
 }

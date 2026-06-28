@@ -18,6 +18,11 @@ Route::get('/userticket', function () {
     return view('user.pages.ticket');
 })->name('ticket');
 
+//halaman cek ticket user
+Route::get('/cektiket', function () {
+    return view('user.pages.cekticket');
+})->name('cekticket');
+
 // AUTH
 Route::get('/login', function () {
     return view('admin.auth.login');
@@ -43,7 +48,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.pages.ticket');
         })->name('ticket');
 
-        Route::prefix("documeentation")->name("documentation.")->group(function() {
+        Route::prefix("documentation")->name("documentation.")->group(function() {
             Route::get("/", [DocumentationController::class, 'show'])->name('index');
             Route::get("/datatable", [DocumentationController::class, 'datatable'])->name('datatable');
             Route::post('/createOrUpdate', [DocumentationController::class, 'createOrUpdate'])->name('createOrUpdate');

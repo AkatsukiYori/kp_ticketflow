@@ -113,9 +113,9 @@
                 Buat Tiket
             </button>
 
-            <button type="button" class="btn btn-danger">
+            <a href="{{ route('home') }}" class="btn btn-danger">
                 Kembali
-            </button>
+            </a>
 
         </div>
 
