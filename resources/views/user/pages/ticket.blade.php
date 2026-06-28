@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div class="container-fluid py-4">
+<div class="container-fluid px-4">
 
     <h2 class="fw-bold mb-1">Buat Tiket Baru</h2>
 

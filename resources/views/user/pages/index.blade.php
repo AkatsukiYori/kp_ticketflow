@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TicketFlow</title>
-    <link rel="stylesheet" href="{{ asset('css/user/user.css') }}">
-</head>
-<body>
-    @include('partials.user.header')
+<link rel="stylesheet" href="{{ asset('css/user/user.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+@extends('layouts.user')
+
+@section('title', 'Buat Tiket')
+
+@section('content')
     <main>
         <section class="main-kiri">
             <div class="gap">
@@ -42,6 +40,4 @@
             height = "100%"
             >
         </section>
-    </main>
-</body>
-</html>
+@endsection
