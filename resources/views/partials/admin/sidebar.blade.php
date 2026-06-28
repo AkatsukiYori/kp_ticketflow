@@ -11,14 +11,23 @@
                 'icon' => 'bi-grid',
             ],
             [
+                'name' => 'Ticket',
+                'route' => 'admin.pages.ticket.index',
+                'icon' => 'bi-ticket-perforated',
+            ],
+            [
+                'name' => 'IKB',
+                'route' => 'admin.pages.ikb.index',
+                'icon' => 'bi-briefcase',
+            ],
+            [
                 'name' => 'Category',
                 'route' => 'admin.pages.category.index',
                 'icon' => 'bi-grid-3x3-gap',
             ],
             [
-                'name' => 'Ticket',
-                'route' => 'admin.pages.ticket',
-                'icon' => 'bi-ticket-perforated',
+                'name' => 'User',
+                'route' => 'admin.pages.member.index',
             ],
             [
                 'name' => 'Documentation',
@@ -26,23 +35,14 @@
                 'icon' => 'bi-file-earmark-text',
             ],
             [
-                'name' => 'IKB',
-                'route' => 'admin.pages.ikb',
-                'icon' => 'bi-briefcase',
-            ],
-            [
-                'name' => 'Logs',
-                'route' => 'admin.pages.logs',
-                'icon' => 'bi-list-ul',
-            ],
-            [
                 'name' => 'Report',
                 'route' => 'admin.pages.report',
                 'icon' => 'bi-bar-chart',
             ],
             [
-                'name' => 'User',
-                'route' => 'admin.pages.member.index',
+                'name' => 'Logs',
+                'route' => 'admin.pages.logs.index',
+                'icon' => 'bi-list-ul',
             ]
         ];
     @endphp

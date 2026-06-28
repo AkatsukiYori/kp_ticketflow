@@ -4,19 +4,24 @@ use App\Http\Controllers\MemberController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\IkbController;
+use App\Http\Controllers\LogController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\User\TicketController as UserTicket;
 
-Route::get('/', function () {
-    return view('user.pages.index');
-});
+// Route::get('/', function () {
+//     return view('user.pages.index');
+// });
 
 Route::get('/', function () {
     return view('user.pages.index');
 })->name('home');
 
 // ini yang baru, halaman create tiket user
-Route::get('/userticket', function () {
-    return view('user.pages.ticket');
-})->name('ticket');
+Route::prefix('ticket')->name('ticket.')->group(function() {
+    Route::get('/', [UserTicket::class, 'show'])->name('index');
+    Route::post('/create', [UserTicket::class, 'create'])->name('create');
+});
 
 //halaman cek ticket user
 Route::get('/cektiket', function () {
@@ -28,7 +33,7 @@ Route::get('/login', function () {
     return view('admin.auth.login');
 })->name('index_view');
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     // PAGES
     Route::prefix('pages')->name('pages.')->group(function () {
 
@@ -44,9 +49,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/delete/{id}', [CategoriesController::class, 'delete'])->name('delete');
         });
 
-        Route::get('/ticket', function () {
-            return view('admin.pages.ticket');
-        })->name('ticket');
+        Route::prefix('ticket')->name('ticket.')->group(function() {
+            Route::get('/', [TicketController::class, 'show'])->name('index');
+            Route::get('/datatable', [TicketController::class, 'datatable'])->name('datatable');
+            Route::get('/detail/{ticket_no}', [TicketController::class, 'detail'])->name('detail');
+            Route::delete('/delete/{ticket_no}', [TicketController::class, 'delete'])->name('delete');
+            Route::post('/assign/{ticket_no}', [TicketController::class, 'assign'])->name('assign');
+            Route::post('/reject/{ticket_no}', [TicketController::class, 'reject'])->name('reject');
+            Route::post('/feedback/{ticket_no}', [TicketController::class, 'feedback'])->name('feedback');
+        });
 
         Route::prefix("documentation")->name("documentation.")->group(function() {
             Route::get("/", [DocumentationController::class, 'show'])->name('index');
@@ -56,13 +67,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/delete/{id}', [DocumentationController::class, 'delete'])->name("delete");
         });
 
-        Route::get('/ikb', function () {
-            return view('admin.pages.ikb');
-        })->name('ikb');
+        Route::prefix('ikb')->name('ikb.')->group(function() {
+            Route::get('/', [IkbController::class, 'show'])->name('index');
+            Route::get('/datatable', [IkbController::class, 'datatable'])->name('datatable');
+            Route::get('/detail/{ticket_no}', [IkbController::class, 'detail'])->name('detail');
+            Route::delete('/delete/{ticket_no}', [IkbController::class, 'delete'])->name('delete');
+            Route::post('/assign/{ticket_no}', [IkbController::class, 'assign'])->name('assign');
+            Route::post('/reject/{ticket_no}', [IkbController::class, 'reject'])->name('reject');
+            Route::post('/feedback/{ticket_no}', [IkbController::class, 'feedback'])->name('feedback');
+            Route::post('/update/{ticket_no}', [IkbController::class, 'update'])->name('update');
+        });
 
-        Route::get('/logs', function () {
-            return view('admin.pages.logs');
-        })->name('logs');
+        Route::prefix('logs')->name('logs.')->group(function() {
+            Route::get('/', [LogController::class, 'show'])->name('index');
+            Route::get('/datatable', [LogController::class, 'datatable'])->name('datatable');
+            Route::get('/detail/{ticket_no}', [LogController::class, 'detail'])->name('detail');
+        });
 
         Route::get('/report', function () {
             return view('admin.pages.report');
@@ -80,6 +100,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('user.pages.index');
         })->name('index');
     });
-})->middleware('auth');
+});
 
 require __DIR__ . '/auth.php';

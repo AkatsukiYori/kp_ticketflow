@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categories;
 use App\Models\Documentation;
 use App\Models\Log;
 use App\Models\Ticket;
@@ -15,23 +14,20 @@ use Illuminate\Support\Facades\Validator;
 use Throwable;
 use Yajra\DataTables\Facades\DataTables;
 
-class TicketController extends Controller
+class IkbController extends Controller
 {
     public function show()
     {
         $users = User::select('id', 'username')->get();
-        return view('admin.pages.ticket', compact('users'));
+        return view('admin.pages.ikb', compact('users'));
     }
 
     public function datatable(Request $request)
     {
-        $tickets = Ticket::query()->whereHas('category', function($query) {
-            $query->whereNot('name', 'IKB')->orWhereNot('name', 'ikb');
-        })->orderBy('created_at', 'DESC');
-
-        if($request->filled('ticket_no')) {
-            $tickets->whereLike('ticket_no', '%' . $request->ticket_no . '%');
-        }
+        $tickets = Ticket::query()
+            ->whereHas('category', function($query) {
+                $query->whereLike('name', '%IKB%');
+            })->orderBy('created_at', 'DESC');
 
         if($request->filled('ticket_title')) {
             $tickets->whereLike('ticket_title', '%' . $request->ticket_title . '%');
@@ -39,6 +35,10 @@ class TicketController extends Controller
 
         if($request->filled('status')) {
             $tickets->where('status_ticket', $request->status);
+        }
+
+        if($request->filled('status_point')) {
+            $tickets->where('ikb_status_point', $request->status_point);
         }
 
         return DataTables::of($tickets)
@@ -62,33 +62,42 @@ class TicketController extends Controller
                     return $pending;
                 }
             })
-            ->addColumn('pengguna', function($e) {
-                return $e->member->username;
-            })
-            ->addColumn('pic', function($e) {
-                return $e->users->username ?? '<span class="badge bg-secondary">Belum ditugaskan</span>';
+            ->addColumn('status_point', function($e) {
+                $bugs = '<span class="badge bg-primary">Bugs</span>';
+                $additional = '<span class="badge bg-success">Additional</span>';
+                $not_set = '<span class="badge bg-secondary">Belum ditentukan</span>';
+
+                if($e->ikb_status_point == 'bugs') {
+                    return $bugs;
+                } else if ($e->ikb_status_point == 'additional') {
+                    return $additional;
+                } else {
+                    return $not_set;
+                }
             })
             ->addColumn('actions', function($e) {
                 $ticket_no = $e->ticket_no;
                 $status = $e->status_ticket;
 
-                $url_assign = route('admin.pages.ticket.assign', $ticket_no);
-                $url_delete = route('admin.pages.ticket.delete', $ticket_no);
-                $url_reject = route('admin.pages.ticket.reject', $ticket_no);
-                $url_feedback = route('admin.pages.ticket.feedback', $ticket_no);
+                $url_assign = route('admin.pages.ikb.assign', $ticket_no);
+                $url_delete = route('admin.pages.ikb.delete', $ticket_no);
+                $url_reject = route('admin.pages.ikb.reject', $ticket_no);
+                $url_feedback = route('admin.pages.ikb.feedback', $ticket_no);
+                $url_update = route('admin.pages.ikb.update', $ticket_no);
 
                 $assign = '<button class="dropdown-item py-2 px-3 btn-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'"><i class="fa-solid fa-user-check fs-6"></i> Ambil Tiket</button><hr>';
                 $re_assign = '<button class="dropdown-item py-2 px-3 btn-re-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'"><i class="fa-solid fa-user-check fs-6"></i> Pindah Penugasan</button><hr>';
                 $feedback = '<button class="dropdown-item py-2 px-3 btn-feedback" data-url="'. $url_feedback .'" data-ticket="'. $ticket_no .'"><i class="fa-regular fa-circle-check fs-6"></i> Feedback</button><hr>';
                 $reject = '<button class="dropdown-item py-2 px-3 btn-reject" data-url="'. $url_reject .'" data-ticket="'. $ticket_no .'"><i class="fa-regular fa-circle-xmark fs-6"></i> Tolak</button><hr>';
+                $update = '<button class="dropdown-item py-2 px-3 btn-update" data-url="'. $url_update .'" data-ticket="'. $ticket_no .'"><i class="fa-solid fa-pencil fs-6"></i> Edit</button><hr>';
                 $remove = '<button class="dropdown-item py-2 px-3 btn-remove text-danger" data-url="'. $url_delete .'"><i class="fa-solid fa-trash fs-6"></i> Hapus</button>';
 
                 if($status === 'reject') {
                     $listButton = $remove;
                 } else if($status === 'completed') {
-                    $listButton = $re_assign . ' ' . $feedback . ' ' . $reject . ' ' . $remove;
+                    $listButton = $re_assign . ' ' . $feedback . ' ' . $reject . ' ' . $update . ' ' . $remove;
                 } else if($status === 'on_progress') {
-                    $listButton = $re_assign . ' ' . $feedback . ' ' . $reject . ' ' . $remove;
+                    $listButton = $re_assign . ' ' . $feedback . ' ' . $reject . ' ' . $update . ' ' . $remove;
                 } else {
                     $listButton = $assign . ' ' . $reject . ' ' . $remove;
                 }
@@ -108,13 +117,15 @@ class TicketController extends Controller
 
                 return $detail . " " . $btn_group;
             })
-            ->rawColumns(['tanggal', 'status', 'actions', 'pic'])
+            ->rawColumns(['tanggal', 'status', 'actions', 'status_point'])
             ->make(true);
     }
 
     public function detail($ticketNo)
     {
-        $ticket = Ticket::with('member', 'users', 'category', 'department')->where('ticket_no', $ticketNo)->firstOrFail();
+        $ticket = Ticket::with('member', 'users', 'category', 'department')->whereHas('category', function($query) {
+            $query->whereLike('name', '%IKB');
+        })->where('ticket_no', $ticketNo)->firstOrFail();
         $ticket->category_name = $ticket->category->name;
         $ticket->department_name = $ticket->department->name;
         $ticket->member_name = $ticket->member->username;
@@ -180,14 +191,17 @@ class TicketController extends Controller
             // START: Validation
             $rules = [
                 'pic' => 'required',
-                'priority' => 'required',
-                'estimate' => 'required'
+                'priority' => 'required', 
+                'estimate' => 'required',
+                'status_point' => 'required',
+
             ];
 
             $message = [
                 'pic.required' => 'PIC tidak boleh kosong.',
                 'priority.required' => 'Prioritas tidak boleh kosong.',
                 'estimate.required' => 'Estimasi tidak boleh kosong.',
+                'status_point.required' => 'Status poin tidak boleh kosong.',
             ];
 
             $validator = Validator::make($datas, $rules, $message);
@@ -210,6 +224,7 @@ class TicketController extends Controller
                 'status_ticket' => $status,
                 'estimate' => $datas['estimate'],
                 'priority' => $datas['priority'],
+                'ikb_status_point' => $datas['status_point'],
                 'updated_at' => $now
             ]);
 
@@ -371,6 +386,51 @@ class TicketController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Something went wrong.'
+            ]);
+        }
+    }
+
+    public function update(Request $request, $ticket_no)
+    {
+        try {
+            // START: Get Request
+            $datas = $request->all();
+            // END: Get Request
+
+            // START: Validation
+            $rules = [
+                'status_point' => 'required'
+            ];
+
+            $message = [
+                'status_point' => 'required'
+            ];
+
+            $validator = Validator::make($datas, $rules, $message);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validator->errors()
+                ], 422);
+            }
+            // END: Validation
+
+            // START: Handle Update
+            $ticket = Ticket::where('ticket_no', $ticket_no)->first();
+            $ticket->update([
+                'ikb_status_point' => $datas['status_point']
+            ]);
+            // END: Handle Update
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Tiket berhasil diperbarui.'
+            ]);
+        } catch (Throwable $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan.'
             ]);
         }
     }

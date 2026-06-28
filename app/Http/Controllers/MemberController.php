@@ -15,8 +15,12 @@ class MemberController extends Controller
         return view('admin.pages.user');
     }
 
-    public function datatable() {
-        $users = Member::query()->orderBy("created_at", "DESC")->get();
+    public function datatable(Request $request) {
+        $users = Member::query()->orderBy("created_at", "DESC");
+
+        if($request->filled('username')) {
+            $users->where('username', 'like', '%' . $request->username . '%');
+        }
         
         return DataTables::of($users)
         ->addIndexColumn()
@@ -25,8 +29,24 @@ class MemberController extends Controller
                 $url_edit = route('admin.pages.member.detail', $hash);
                 $url_delete = route('admin.pages.member.delete', $hash);
 
-                $edit = '<button type="button" id="btn-edit" class="btn-edit" data-url="'.$url_edit.'"><i class="fa-regular fa-pen-to-square" style="font-size: 1.3rem;"></i></button>';
-                $delete = '<button type="button" id="btn-delete" class="btn-delete" data-url="'.$url_delete.'"><i class="fa-regular fa-trash-can" style="font-size: 1.3rem;"></i></button>';
+                $edit = '<button
+                        type="button"
+                        id="btn-edit"
+                        class="btn-edit"
+                        data-url="'.$url_edit.'"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Perbarui Pengguna"
+                    ><i class="fa-regular fa-pen-to-square" style="font-size: 1.3rem;"></i></button>';
+                $delete = '<button
+                        type="button"
+                        id="btn-delete"
+                        class="btn-delete"
+                        data-url="'.$url_delete.'"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Hapus Pengguna"
+                    ><i class="fa-regular fa-trash-can" style="font-size: 1.3rem;"></i></button>';
 
                 return $edit . ' ' . $delete;
             })
@@ -53,7 +73,7 @@ class MemberController extends Controller
             ];
 
             $message = [
-                "name.required" => "User name cannot be empty."
+                "name.required" => "Nama pengguna tidak boleh kosong."
             ];
             
             $validator = Validator::make($request->all(), $rules, $message);
@@ -61,7 +81,7 @@ class MemberController extends Controller
             if($validator->fails()) {
                 return response()->json([
                     'status' => false,
-                    'errors' => $validator->errors()
+                    'message' => $validator->errors()
                 ], 422);
             }
             // END: Validator
@@ -73,16 +93,16 @@ class MemberController extends Controller
             );
             // END: User handle
 
-            $message = $id != "" ? "updated" : "created";
+            $message = $id != "" ? "diperbarui" : "dibuat";
 
             return response()->json([
                 "status" => true,
-                "message" => "User successfully ".$message."."
+                "message" => "Pengguna berhasil ".$message."."
             ]);
         } catch (Throwable $e) {
             return response()->json([
                 "status" => false,
-                "message" => "Something went wrong."
+                "message" => "Terjadi kesalahan."
             ]);
         }
     }
@@ -117,12 +137,12 @@ class MemberController extends Controller
 
             return response()->json([
                 "status" => true,
-                "message" => "User successfully deleted."
+                "message" => "Pengguna berhasil dihapus."
             ]);
         } catch (Throwable $e) {
             return response()->json([
                 "status" => false,
-                "message" => "Something went wrong."
+                "message" => "Terjadi kesalahan."
             ]);
         }
     }

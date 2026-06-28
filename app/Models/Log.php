@@ -20,6 +20,10 @@ class Log extends Model
         'closed_by'
     ];
 
+    protected $appends = [
+        'created_by'
+    ];
+
     public function ticket() {
         return $this->belongsTo(Ticket::class, 'ticket_id');
     }
@@ -27,4 +31,14 @@ class Log extends Model
     public function users() {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    // START: Accessor
+    public function getCreatedByAttribute() {
+        if($this->user_id === null) {
+            return $this->ticket?->member?->username;
+        }
+
+        return $this->ticket?->users?->username;
+    }
+    // END: Accessor
 }
