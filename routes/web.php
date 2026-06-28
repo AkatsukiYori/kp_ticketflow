@@ -7,6 +7,7 @@ use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\IkbController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\User\CekTicketController;
 use App\Http\Controllers\User\TicketController as UserTicket;
 
 // Route::get('/', function () {
@@ -24,9 +25,11 @@ Route::prefix('ticket')->name('ticket.')->group(function() {
 });
 
 //halaman cek ticket user
-Route::get('/cektiket', function () {
-    return view('user.pages.cekticket');
-})->name('cekticket');
+Route::prefix('cek-status')->name('cek_status.')->group(function() {
+    Route::get('/', [CekTicketController::class, 'show'])->name('index');
+    Route::get('/detail/{ticket_no}', [CekTicketController::class, 'detail'])->name('detail');
+    Route::get('/search', [CekTicketController::class, 'filter'])->name('filter');
+});
 
 // AUTH
 Route::get('/login', function () {

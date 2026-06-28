@@ -21,13 +21,10 @@
                     tim IT terkait
                 </p>
                 <div class="button">
-                    {{-- <button class="btn-new">
-                        Buat Tiket Baru
-                    </button> --}}
                     <a href="{{ route('ticket.index') }}" class="btn btn-new">
                         Buat Tiket Baru
                     </a>
-                    <a href="{{ route('cekticket') }}" class="btn btn-cek">
+                    <a href="{{ route('cek_status.index') }}" class="btn btn-cek">
                         Cek Status Tiket
                     </a>
                 </div>
