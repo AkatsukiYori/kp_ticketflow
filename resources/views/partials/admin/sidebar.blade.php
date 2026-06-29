@@ -7,40 +7,40 @@
         $menus = [
             [
                 'name' => 'Dashboard',
-                'route' => 'admin.pages.dashboard',
+                'route' => 'admin.pages.dashboard.index',
                 'icon' => 'bi-grid',
             ],
             [
-                'name' => 'Ticket',
+                'name' => 'Tiket',
                 'route' => 'admin.pages.ticket.index',
                 'icon' => 'bi-ticket-perforated',
             ],
             [
-                'name' => 'IKB',
+                'name' => 'Ticket IKB',
                 'route' => 'admin.pages.ikb.index',
                 'icon' => 'bi-briefcase',
             ],
             [
-                'name' => 'Category',
+                'name' => 'Kategori',
                 'route' => 'admin.pages.category.index',
                 'icon' => 'bi-grid-3x3-gap',
             ],
             [
-                'name' => 'User',
+                'name' => 'Pengguna',
                 'route' => 'admin.pages.member.index',
             ],
             [
-                'name' => 'Documentation',
+                'name' => 'Dokumentasi',
                 'route' => 'admin.pages.documentation.index',
                 'icon' => 'bi-file-earmark-text',
             ],
             [
-                'name' => 'Report',
+                'name' => 'Laporan & Statistik',
                 'route' => 'admin.pages.report',
                 'icon' => 'bi-bar-chart',
             ],
             [
-                'name' => 'Logs',
+                'name' => 'Log',
                 'route' => 'admin.pages.logs.index',
                 'icon' => 'bi-list-ul',
             ]

@@ -1,9 +1,3 @@
-<link rel="stylesheet" href="{{ asset('css/admin/admin.css') }}">
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
-
 <style>
 .dropdown {
     position: relative;
@@ -65,14 +59,14 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         <section class="top-content d-flex justify-content-between">
             <section>
                 <input type="text" placeholder="Cari Judul Tiket..." id="search_ticket_title" name="search_ticket_title" class="input-search" style="text-indent: 10px">
-                <select name="search_status" id="search_status" aria-placeholder="Filter Status">
+                <select name="search_status" id="search_status" aria-placeholder="Filter Status" class="h-100 bg-transparent rounded" style="border: 1.5px solid #c1c1c1; color: #7c7c7c;">
                     <option value="">Filter Status</option>
                     <option value="pending">Menunggu Proses</option>
                     <option value="on_progress">Sedang Dikerjakan</option>
                     <option value="completed">Umpan Balik</option>
                     <option value="reject">Tolak</option>
                 </select>
-                <select name="search_status_point" id="search_status_point" aria-placeholder="Filter Status Poin">
+                <select name="search_status_point" id="search_status_point" aria-placeholder="Filter Status Poin" class="h-100 bg-transparent rounded" style="border: 1.5px solid #c1c1c1; color: #7c7c7c;">
                     <option value="">Filter Status Poin</option>
                     <option value="bugs">Bugs</option>
                     <option value="additional">Additional</option>
@@ -81,7 +75,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     type="button"
                     id="refresh"
                     name="refresh"
-                    class="btn-refresh h-100"
+                    class="rounded btn-refresh"
                     data-toggle="tooltip"
                     data-placement="bottom"
                     title="Muat Ulang"
@@ -112,7 +106,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title fs-5 fw-bold" id="exampleModalLabel">Detail Tiket</h5>
+                    <h4 class="modal-title fw-bold" id="exampleModalLabel">Detail Tiket</h4>
                     <button
                         type="button"
                         class="btn-close"
@@ -123,13 +117,13 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                         title="Tutup"
                     ></button>
                 </div>
-                <div class="modal-body p-5">
+                <div class="modal-body">
                     
                 </div>
                 <div class="modal-footer">
                     <button
                         type="button"
-                        class="btn btn-secondary"
+                        class="btn btn-secondary border-0"
                         data-bs-dismiss="modal"
                         data-toggle="tooltip"
                         data-placement="bottom"
@@ -146,7 +140,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 fw-bold" id="modalDeleteLabel">Konfirmasi Hapus</h1>
+                    <h4 class="modal-title fw-bold" id="modalDeleteLabel">Konfirmasi Hapus</h4>
                     <button
                         type="button"
                         class="btn-close"
@@ -165,7 +159,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 <div class="modal-footer">
                     <button
                         type="button"
-                        class="btn-cancel"
+                        class="btn-cancel border-0"
                         data-bs-dismiss="modal"
                         data-toggle="tooltip"
                         data-placement="bottom"
@@ -173,7 +167,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     >Batal</button>
                     <button
                         type="button"
-                        class="btn-delete-modal"
+                        class="btn-delete-modal border-0"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         title="Hapus"
@@ -190,7 +184,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-flex flex-column">
-                        <h5 class="modal-title p-0 fs-5 fw-bold" id="modalTitleLabel"></h5>
+                        <h4 class="modal-title p-0 fw-bold" id="modalTitleLabel"></h4>
                         <p class="p-0" id="modal-title-sub"></p>
                     </div>
                     <button
@@ -241,7 +235,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                             <div class="modal-footer">
                                 <button
                                     type="button"
-                                    class="btn btn-secondary"
+                                    class="btn btn-secondary border-0"
                                     data-bs-dismiss="modal"
                                     data-toggle="tooltip"
                                     data-placement="bottom"
@@ -249,7 +243,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                                 >Batal</button>
                                 <button
                                     type="submit"
-                                    class="btn btn-primary"
+                                    class="btn btn-primary border-0"
                                     data-toggle="tooltip"
                                     data-placement="bottom"
                                     title="Ambil Tiket"
@@ -269,8 +263,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-flex flex-column">
-                        <div class="d-flex flex-column gap-3">
-                            <h5 class="modal-title p-0 fs-5 fw-bold" id="modalTitleLabel">Tolak Tiket</h5>
+                        <div class="d-flex flex-column">
+                            <h4 class="modal-title p-0 fw-bold" id="modalTitleLabel">Tolak Tiket</h4>
                             <p class="p-0" id="modal-title-sub"></p>
                         </div>
                     </div>
@@ -294,7 +288,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                         <div class="modal-footer">
                             <button
                                 type="button"
-                                class="btn btn-secondary"
+                                class="btn btn-secondary border-0"
                                 data-bs-dismiss="modal"
                                 data-toggle="tooltip"
                                 data-placement="bottom"
@@ -302,7 +296,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                             >Batal</button>
                             <button
                                 type="submit"
-                                class="btn btn-primary"
+                                class="btn btn-primary border-0"
                                 data-toggle="tooltip"
                                 data-placement="bottom"
                                 title="Tolak"
@@ -321,8 +315,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-flex flex-column">
-                        <div class="d-flex flex-column gap-3">
-                            <h5 class="modal-title p-0" id="modalTitleLabel">Feedback</h5>
+                        <div class="d-flex flex-column">
+                            <h4 class="modal-title p-0 fw-bold" id="modalTitleLabel">Feedback</h4>
                             <p class="p-0" id="modal-title-sub"></p>
                         </div>
                     </div>
@@ -340,31 +334,31 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     <form id="formFeedback" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="add_documentation" value="0">
-                        <div class="d flex flex-column gap-3">
+                        <div class="d-flex flex-column gap-3">
                             <div class="form-group d-flex flex-column gap-1">
                                 <label for="">Umpan Balik <span style="color: red;">*</span></label>
                                 <input type="text" name="feedback" id="feedback" placeholder="Masukkan umpan balik" class="form-control" required>
                             </div>
-                            <div class="form-group d-flex flex-column gap-1">
+                            <div class="form-group d-flex flex-row gap-1">
                                 <input type="checkbox" name="add_documentation" id="add_documentation" value="1">
                                 <label for="">Tambahkan ke documentasi ?</label>
                             </div>
                             <div class="modal-footer">
                                 <button
-                                    type="submit"
-                                    class="btn btn-primary"
-                                    data-toggle="tooltip"
-                                    data-placement="bottom"
-                                    title="Umpan Balik"
-                                >Umpan Balik</button>
-                                <button
                                     type="button"
-                                    class="btn btn-secondary"
+                                    class="btn btn-secondary border-0"
                                     data-bs-dismiss="modal"
                                     data-toggle="tooltip"
                                     data-placement="bottom"
                                     title="Batal"
                                 >Batal</button>
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary border-0"
+                                    data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="Umpan Balik"
+                                >Umpan Balik</button>
                             </div>
                         </div>
                     </form>
@@ -380,8 +374,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-flex flex-column">
-                        <div class="d-flex flex-column gap-3">
-                            <h5 class="modal-title p-0" id="modalTitleLabel">Perbarui Tiket</h5>
+                        <div class="d-flex flex-column">
+                            <h4 class="modal-title p-0 fw-bold" id="modalTitleLabel">Perbarui Tiket</h4>
                             <p class="p-0" id="modal-title-sub"></p>
                         </div>
                     </div>
@@ -410,20 +404,20 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                             </div>
                             <div class="modal-footer">
                                 <button
-                                    type="submit"
-                                    class="btn btn-primary"
-                                    data-toggle="tooltip"
-                                    data-placement="bottom"
-                                    title="Perbarui"
-                                >Perbarui</button>
-                                <button
                                     type="button"
-                                    class="btn btn-secondary"
+                                    class="btn btn-secondary border-0"
                                     data-bs-dismiss="modal"
                                     data-toggle="tooltip"
                                     data-placement="bottom"
                                     title="Batal"
                                 >Batal</button>
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary border-0"
+                                    data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="Perbarui"
+                                >Perbarui</button>
                             </div>
                         </div>
                     </form>
@@ -451,477 +445,473 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 @endsection
 
 @section('script')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // START: Init
+        $('#search_ticket_title').val(null);
+        $('#search_status').val(null);
 
-    <script>
-        $(document).ready(function() {
-            // START: Init
-            $('#search_ticket_title').val(null);
-            $('#search_status').val(null);
+        const toast = new bootstrap.Toast(
+            document.getElementById('liveToast')
+        );
 
-            const toast = new bootstrap.Toast(
-                document.getElementById('liveToast')
-            );
+        const modalDetail = bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalDetail')
+        );
 
-            const modalDetail = bootstrap.Modal.getOrCreateInstance(
-                document.getElementById('modalDetail')
-            );
+        const modalDelete = bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalDelete')
+        );
 
-            const modalDelete = bootstrap.Modal.getOrCreateInstance(
-                document.getElementById('modalDelete')
-            );
+        const modalAssign = bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalAssign')
+        );
 
-            const modalAssign = bootstrap.Modal.getOrCreateInstance(
-                document.getElementById('modalAssign')
-            );
+        const modalReject = bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalReject')
+        );
 
-            const modalReject = bootstrap.Modal.getOrCreateInstance(
-                document.getElementById('modalReject')
-            );
+        const modalFeedback = bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalFeedback')
+        );
 
-            const modalFeedback = bootstrap.Modal.getOrCreateInstance(
-                document.getElementById('modalFeedback')
-            );
+        const modalUpdate = bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalUpdate')
+        );
+        // END: Init
 
-            const modalUpdate = bootstrap.Modal.getOrCreateInstance(
-                document.getElementById('modalUpdate')
-            );
-            // END: Init
-
-            // START: Datatable
-            let table = new DataTable('#datatable', {
-                responsive: true,
-                serverSide: true,
-                ordering: false,
-                layout: {
-                    topStart: null,
-                    topEnd: null,
-
-                    bottomStart: 'info',
-                    bottomEnd: 'pageLength'
-                },
-                ajax: {
-                    url: "{{ route('admin.pages.ikb.datatable') }}",
-                    data: function(d) {
-                        d.ticket_title = $('#search_ticket_title').val();
-                        d.status = $('#search_status').val();
-                        d.status_point = $('#search_status_point').val();
-                    }
-                },
-                columns: [
-                    { data: "DT_RowIndex", name: "DT_RowIndex", orderable: false, searchable: false },
-                    { data: "tanggal", name: "tanggal", searchable: false },
-                    { data: "ticket_title", name: "ticket_title", searchable: false },
-                    { data: "status", name: "status", searchable: false },
-                    { data: "status_point", name: "status_point", searchable: false },
-                    { data: "modul", name: "modul", searchable: false },
-                    { data: "sub_modul", name: "sub_modul", searchable: false },
-                    { data: "problem", name: "problem", searchable: false },
-                    { data: "actions", name: "actions", orderable: false, searchable: false }
-                ],
-                columnDefs: [
-                    { orderable: false, targets: "_all" },
-                    // { width: "5%", className: "dt-center", targets: 0 },
-                    // { className: "dt-left", targets: 1 }, 
-                    // { width: "20%", className: "dt-right", targets: 2 }
-                ]
-            });
-            // END: Datatable
-
-            // START: Dropdown button functional
-            document.addEventListener("click", function (e) {
-                const btn = e.target.closest(".js-dropdown-btn");
-
-                if (btn) {
-                    const menu = btn.nextElementSibling;
-
-                    document.querySelectorAll(".dropdown-menu").forEach(m => {
-                        if (m !== menu) m.style.display = "none";
-                    });
-
-                    menu.style.display = menu.style.display === "block" ? "none" : "block";
-                    e.stopPropagation();
-
-                    return;
+        // START: Datatable
+        let table = new DataTable('#datatable', {
+            responsive: true,
+            serverSide: true,
+            ordering: false,
+            ajax: {
+                url: "{{ route('admin.pages.ikb.datatable') }}",
+                data: function(d) {
+                    d.ticket_title = $('#search_ticket_title').val();
+                    d.status = $('#search_status').val();
+                    d.status_point = $('#search_status_point').val();
                 }
+            },
+            columns: [
+                { data: "DT_RowIndex", name: "DT_RowIndex", orderable: false, searchable: false },
+                { data: "tanggal", name: "tanggal", searchable: false },
+                { data: "ticket_title", name: "ticket_title", searchable: false },
+                { data: "status", name: "status", searchable: false },
+                { data: "status_point", name: "status_point", searchable: false },
+                { data: "modul", name: "modul", searchable: false },
+                { data: "sub_modul", name: "sub_modul", searchable: false },
+                { data: "problem", name: "problem", searchable: false },
+                { data: "actions", name: "actions", orderable: false, searchable: false }
+            ],
+            columnDefs: [
+                { orderable: false, targets: "_all" },
+                // { width: "5%", className: "dt-center", targets: 0 },
+                // { className: "dt-left", targets: 1 }, 
+                // { width: "20%", className: "dt-right", targets: 2 }
+            ],
+            dom: "t<'row mt-3'<'col-md-4'i><'col-md-4 text-center'p><'col-md-4 text-end'l>>",
+        });
+        // END: Datatable
+
+        // START: Dropdown button functional
+        document.addEventListener("click", function (e) {
+            const btn = e.target.closest(".js-dropdown-btn");
+
+            if (btn) {
+                const menu = btn.nextElementSibling;
 
                 document.querySelectorAll(".dropdown-menu").forEach(m => {
-                    m.style.display = "none";
-                });
-            });
-            // END: Dropdown button functional
-
-            // START: Event Button Detail
-            $(document).on('click', '.btn-detail', function() {
-                const ticket_no = $(this).data('ticket');
-                let url = "{{ route('admin.pages.ticket.detail', ':ticket_no') }}";
-                url = url.replace(":ticket_no", ticket_no);
-
-                $('#modalDetail .modal-body').html('');
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    success: function(res) {
-                        let html = `
-                            <h4 class="fw-bold">Informasi</h4>
-                            <table class="table table-sm table-borderless" style="border-collapse: separate; border-spacing: 0 0;">
-                                <tr>
-                                    <td class="w-25">No Tiket</td>
-                                    <td style="width: 3%;">:</td>
-                                    <td>`+res.ticket_no+`</td>
-                                </tr>
-                                <tr>
-                                    <td>Tanggal</td>
-                                    <td>:</td>
-                                    <td>`+res.report_date+`</td>
-                                </tr>
-                                <tr>
-                                    <td>Status</td>
-                                    <td>:</td>
-                                    <td>`+(res.status_ticket.charAt(0).toUpperCase() + res.status_ticket.slice(1))+`</td>
-                                </tr>
-                                <tr>
-                                    <td>Prioritas</td>
-                                    <td>:</td>
-                                    <td>`+(res.priority ? res.priority.toUpperCase() : '-')+`</td>
-                                </tr>
-                                <tr>
-                                    <td>Estimasi</td>
-                                    <td>:</td>
-                                    <td>`+(res.estimate ?? '-')+`</td>
-                                </tr>
-                            </table>
-
-                            <h4 class="mt-3 fw-bold">Dilaporkan Oleh</h4>
-                            <table class="table table-sm table-borderless">
-                                <tr>
-                                    <td class="w-25">Pengguna</td>
-                                    <td style="width: 3%;">:</td>
-                                    <td>`+res.member_name+`</td>
-                                </tr>
-                                <tr>
-                                    <td>No Whatsapp</td>
-                                    <td>:</td>
-                                    <td>`+res.no_wa+`</td>
-                                </tr>
-                                <tr>
-                                    <td>Departemen</td>
-                                    <td>:</td>
-                                    <td>`+res.department_name+`</td>
-                                </tr>
-                                <tr>
-                                    <td>Lokasi</td>
-                                    <td>:</td>
-                                    <td>`+res.location+`</td>
-                                </tr>
-                            </table>
-
-                            <h4 class="mt-3 fw-bold">Addtional</h4>
-                            <table class="table table-sm table-borderless">
-                                <tr>
-                                    <td class="w-25">Judul Tiket</td>
-                                    <td style="width: 3%;">:</td>
-                                    <td>`+res.ticket_title+`</td>
-                                </tr>
-                                <tr>
-                                    <td>kategori</td>
-                                    <td>:</td>
-                                    <td>`+res.category_name+`</td>
-                                </tr>
-                                <tr>
-                                    <td>PIC</td>
-                                    <td>:</td>
-                                    <td>`+(res.users_name)+`</td>
-                                </tr>
-                                <tr>
-                                    <td>Modul</td>
-                                    <td>:</td>
-                                    <td>`+(res.modul)+`</td>
-                                </tr>
-                                <tr>
-                                    <td>Sub Modul</td>
-                                    <td>:</td>
-                                    <td>`+(res.sub_modul)+`</td>
-                                </tr>
-                                <tr>
-                                    <td>Kendala</td>
-                                    <td>:</td>
-                                    <td>`+res.problem+`</td>
-                                </tr>
-                                <tr>
-                                    <td>Catatan Pengguna</td>
-                                    <td>:</td>
-                                    <td>`+(res.note ?? '-')+`</td>
-                                </tr>
-                            </table>
-
-                            <h4 class="mt-3 fw-bold">Lampiran</h4>
-                            <p>Tidak ada lampiran</p>
-
-                            <h4 class="mt-3 fw-bold">Penilaian</h4>
-                            <p>Tidak ada penilaian</p>
-                        `;
-
-                        $('#modalDetail .modal-body').html(html);
-                    }
+                    if (m !== menu) m.style.display = "none";
                 });
 
-                modalDetail.show();
+                menu.style.display = menu.style.display === "block" ? "none" : "block";
+                e.stopPropagation();
+
+                return;
+            }
+
+            document.querySelectorAll(".dropdown-menu").forEach(m => {
+                m.style.display = "none";
             });
-            // END: Event Button Detail
-
-            // START: Event Button Delete
-            $(document).on('click', '.btn-remove', function() {
-                let url = $(this).data('url');
-
-                $(document).on('click', '.btn-delete-modal', function() {
-                    $.ajax({
-                        url: url,
-                        type: "DELETE",
-                        success: function(res) {
-                            if(res.status == true) {
-                                $('#toastTitle').text("Berhasil");
-                                $('#toastBody').text(res.message);
-                                $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-
-                                toast.show();
-                                table.ajax.reload();
-                                modalDelete.hide();
-                            } else {
-                                $('#toastTitle').text("Gagal");
-                                $('#toastBody').text(res.message);
-                                $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
-                                toast.show();
-                            }
-                        }
-                    });
-                });
-
-                modalDelete.show();
-            });
-            // END: Event Button Delete
-
-            // START: Event Button Assign
-            $(document).on('click', '.btn-assign', function() {
-                let url = $(this).data('url');
-                let ticketNo = $(this).data('ticket');
-                
-                $('#modalAssign #modalTitleLabel').text('Ambil Tiket');
-                $('#modalAssign #modal-title-sub').text('#' + ticketNo);
-                $('#pic').val(null);
-                $('#priority').val(null);
-                $('#estimate').val(null);
-                $('#status_point').val(null);
-                $('#flag').val('assign');
-
-                $(document).on('submit', '#formAssign', function(e) {
-                    e.preventDefault();
-
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        data: new FormData(this),
-                        processData: false,
-                        contentType: false,
-                        success: function(res) {
-                            if(res.status == true) {
-                                $('#toastTitle').text("Berhasil");
-                                $('#toastBody').text(res.message);
-                                $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-
-                                toast.show();
-                                table.ajax.reload();
-                                modalAssign.hide();
-                                $('#formAssign')[0].reset();
-                            } else {
-                                $('#toastTitle').text("Gagal");
-                                $('#toastBody').text(res.message);
-                                $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
-                                toast.show();
-                            }
-                        }
-                    });
-                });
-                
-                modalAssign.show();
-            });
-            // END: Event Button Assign
-
-            // START: Event Button Re Assign
-            $(document).on('click', '.btn-re-assign', function() {
-                let url = $(this).data('url');
-                let ticketNo = $(this).data('ticket');
-                
-                $('#modalAssign #modalTitleLabel').text('Tugaskan Ulang Tiket');
-                $('#modalAssign #modal-title-sub').text('#' + ticketNo);
-                $('#pic').val(null);
-                $('#priority').val(null);
-                $('#estimate').val(null);
-                $('#flag').val('re-assign');
-
-                $(document).on('submit', '#formAssign', function(e) {
-                    e.preventDefault();
-
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        data: new FormData(this),
-                        processData: false,
-                        contentType: false,
-                        success: function(res) {
-                            if(res.status == true) {
-                                $('#toastTitle').text("Berhasil");
-                                $('#toastBody').text(res.message);
-                                $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-
-                                toast.show();
-                                table.ajax.reload();
-                                modalAssign.hide();
-                                $('#formAssign')[0].reset();
-                            } else {
-                                $('#toastTitle').text("Gagal");
-                                $('#toastBody').text(res.message);
-                                $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
-                                toast.show();
-                            }
-                        }
-                    });
-                });
-                
-                modalAssign.show();
-            });
-            // END: Event Button Re Assign
-
-            // START: Event Button Reject
-            $(document).on('click', '.btn-reject', function() {
-                let url = $(this).data('url');
-                let ticketNo = $(this).data('ticket');
-
-                $('#reason').val(null);
-                $('#modalReject #modal-title-sub').text('#' + ticketNo);
-
-                $(document).on('submit', '#formReject', function(e) {
-                    e.preventDefault();
-
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        data: new FormData(this),
-                        processData: false,
-                        contentType: false,
-                        success: function(res) {
-                            if(res.status == true) {
-                                $('#toastTitle').text("Berhasil");
-                                $('#toastBody').text(res.message);
-                                $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-
-                                toast.show();
-                                table.ajax.reload();
-                                modalReject.hide();
-                                $('#formReject')[0].reset();
-                            } else {
-                                $('#toastTitle').text("Gagal");
-                                $('#toastBody').text(res.message);
-                                $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
-                                toast.show();
-                            }
-                        }
-                    })
-                });
-
-                modalReject.show();
-            });
-            // END: Event Button Reject
-
-            // START: Event Button Feedback
-            $(document).on('click', '.btn-feedback', function() {
-                let url = $(this).data('url');
-                let ticketNo = $(this).data('ticket');
-
-                $('#modalFeedback #modal-title-sub').text('#' + ticketNo);
-                $('#feedback').val(null);
-                $('#add_documentation').prop('checked', false);
-
-                $(document).on('submit', '#formFeedback', function(e) {
-                    e.preventDefault();
-
-                    $.ajax({
-                        url: url,
-                        type: 'POST',
-                        data: new FormData(this),
-                        processData: false,
-                        contentType: false,
-                        success: function(res) {
-                            if(res.status == true) {
-                                $('#toastTitle').text("Berhasil");
-                                $('#toastBody').text(res.message);
-                                $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-
-                                toast.show();
-                                table.ajax.reload();
-                                modalFeedback.hide();
-                                $('#formFeedback')[0].reset();
-                            } else {
-                                $('#toastTitle').text("Gagal");
-                                $('#toastBody').text(res.message);
-                                $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
-                                toast.show();
-                            }
-                        }
-                    });
-                });
-
-                modalFeedback.show();
-            });
-            // END: Event Button Feedback
-
-            // START: Event Button Update
-            $(document).on('click', '.btn-update', function() {
-                let url = $(this).data('url');
-                let ticketNo = $(this).data('ticket');
-
-                $('#modalUpdate #modal-title-sub').text('#' + ticketNo);
-                $('#status_point').val(null);
-
-                $(document).on('submit', '#formUpdate', function(e) {
-                    e.preventDefault();
-
-                    $.ajax({
-                        url: url,
-                        type: 'POST',
-                        data: new FormData(this),
-                        processData: false,
-                        contentType: false,
-                        success: function(res) {
-                            if(res.status == true) {
-                                $('#toastTitle').text("Berhasil");
-                                $('#toastBody').text(res.message);
-                                $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-
-                                toast.show();
-                                table.ajax.reload();
-                                modalUpdate.hide();
-                                $('#formUpdate')[0].reset();
-                            } else {
-                                $('#toastTitle').text("Gagal");
-                                $('#toastBody').text(res.message);
-                                $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
-                                toast.show();
-                            }
-                        }
-                    });
-                });
-
-                modalUpdate.show();
-            });
-            // END: Event Button Update
-
-            // START: Filter & Refresh
-            $(document).on('keyup change', '#search_ticket_title, #search_status, #search_status_point', function() {
-                table.ajax.reload();
-            });
-            // END: Filter & Refresh
         });
-    </script>
+        // END: Dropdown button functional
+
+        // START: Event Button Detail
+        $(document).on('click', '.btn-detail', function() {
+            const ticket_no = $(this).data('ticket');
+            let url = "{{ route('admin.pages.ticket.detail', ':ticket_no') }}";
+            url = url.replace(":ticket_no", ticket_no);
+
+            $('#modalDetail .modal-body').html('');
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function(res) {
+                    let html = `
+                        <h4 class="fw-bold">Informasi</h4>
+                        <table class="table table-sm table-borderless" style="border-collapse: separate; border-spacing: 0 0;">
+                            <tr>
+                                <td class="w-25">No Tiket</td>
+                                <td style="width: 3%;">:</td>
+                                <td>`+res.ticket_no+`</td>
+                            </tr>
+                            <tr>
+                                <td>Tanggal</td>
+                                <td>:</td>
+                                <td>`+res.report_date+`</td>
+                            </tr>
+                            <tr>
+                                <td>Status</td>
+                                <td>:</td>
+                                <td>`+(res.status_ticket.charAt(0).toUpperCase() + res.status_ticket.slice(1))+`</td>
+                            </tr>
+                            <tr>
+                                <td>Prioritas</td>
+                                <td>:</td>
+                                <td>`+(res.priority ? res.priority.toUpperCase() : '-')+`</td>
+                            </tr>
+                            <tr>
+                                <td>Estimasi</td>
+                                <td>:</td>
+                                <td>`+(res.estimate ?? '-')+`</td>
+                            </tr>
+                        </table>
+
+                        <h4 class="mt-3 fw-bold">Dilaporkan Oleh</h4>
+                        <table class="table table-sm table-borderless">
+                            <tr>
+                                <td class="w-25">Pengguna</td>
+                                <td style="width: 3%;">:</td>
+                                <td>`+res.member_name+`</td>
+                            </tr>
+                            <tr>
+                                <td>No Whatsapp</td>
+                                <td>:</td>
+                                <td>`+res.no_wa+`</td>
+                            </tr>
+                            <tr>
+                                <td>Departemen</td>
+                                <td>:</td>
+                                <td>`+res.department_name+`</td>
+                            </tr>
+                            <tr>
+                                <td>Lokasi</td>
+                                <td>:</td>
+                                <td>`+res.location+`</td>
+                            </tr>
+                        </table>
+
+                        <h4 class="mt-3 fw-bold">Addtional</h4>
+                        <table class="table table-sm table-borderless">
+                            <tr>
+                                <td class="w-25">Judul Tiket</td>
+                                <td style="width: 3%;">:</td>
+                                <td>`+res.ticket_title+`</td>
+                            </tr>
+                            <tr>
+                                <td>kategori</td>
+                                <td>:</td>
+                                <td>`+res.category_name+`</td>
+                            </tr>
+                            <tr>
+                                <td>PIC</td>
+                                <td>:</td>
+                                <td>`+(res.users_name)+`</td>
+                            </tr>
+                            <tr>
+                                <td>Modul</td>
+                                <td>:</td>
+                                <td>`+(res.modul)+`</td>
+                            </tr>
+                            <tr>
+                                <td>Sub Modul</td>
+                                <td>:</td>
+                                <td>`+(res.sub_modul)+`</td>
+                            </tr>
+                            <tr>
+                                <td>Kendala</td>
+                                <td>:</td>
+                                <td>`+res.problem+`</td>
+                            </tr>
+                            <tr>
+                                <td>Catatan Pengguna</td>
+                                <td>:</td>
+                                <td>`+(res.note ?? '-')+`</td>
+                            </tr>
+                        </table>
+
+                        <h4 class="mt-3 fw-bold">Lampiran</h4>
+                        <p>Tidak ada lampiran</p>
+
+                        <h4 class="mt-3 fw-bold">Penilaian</h4>
+                        <p>Tidak ada penilaian</p>
+                    `;
+
+                    $('#modalDetail .modal-body').html(html);
+                }
+            });
+
+            modalDetail.show();
+        });
+        // END: Event Button Detail
+
+        // START: Event Button Delete
+        let deleteUrl = null;
+        $(document).on('click', '.btn-remove', function() {
+            deleteUrl = $(this).data('url');
+            modalDelete.show();
+        });
+
+        $(document).on('click', '.btn-delete-modal', function() {
+            $.ajax({
+                url: deleteUrl,
+                type: "DELETE",
+                success: function(res) {
+                    if(res.status == true) {
+                        $('#toastTitle').text("Berhasil");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
+                        toast.show();
+                        table.ajax.reload();
+                        modalDelete.hide();
+                    } else {
+                        $('#toastTitle').text("Gagal");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
+                        toast.show();
+                    }
+                }
+            });
+        });
+        // END: Event Button Delete
+
+        // START: Event Button Assign
+        let assignUrl = null;
+        $(document).on('click', '.btn-assign', function() {
+            assignUrl = $(this).data('url');
+            let ticketNo = $(this).data('ticket');
+            
+            $('#modalAssign #modalTitleLabel').text('Ambil Tiket');
+            $('#modalAssign #modal-title-sub').text('#' + ticketNo);
+            $('#pic').val(null);
+            $('#priority').val(null);
+            $('#estimate').val(null);
+            $('#status_point').val(null);
+            $('#flag').val('assign');
+            
+            modalAssign.show();
+        });
+
+        $(document).on('submit', '#formAssign', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: assignUrl,
+                type: "POST",
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if(res.status == true) {
+                        $('#toastTitle').text("Berhasil");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
+                        toast.show();
+                        table.ajax.reload();
+                        modalAssign.hide();
+                        $('#formAssign')[0].reset();
+                    } else {
+                        $('#toastTitle').text("Gagal");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
+                        toast.show();
+                    }
+                }
+            });
+        });
+        // END: Event Button Assign
+
+        // START: Event Button Re Assign
+        let reAssignUrl = null;
+        $(document).on('click', '.btn-re-assign', function() {
+            reAssignUrl = $(this).data('url');
+            let ticketNo = $(this).data('ticket');
+            
+            $('#modalAssign #modalTitleLabel').text('Tugaskan Ulang Tiket');
+            $('#modalAssign #modal-title-sub').text('#' + ticketNo);
+            $('#pic').val(null);
+            $('#priority').val(null);
+            $('#estimate').val(null);
+            $('#flag').val('re-assign');
+            
+            modalAssign.show();
+        });
+
+        $(document).on('submit', '#formAssign', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: reAssignUrl,
+                type: "POST",
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if(res.status == true) {
+                        $('#toastTitle').text("Berhasil");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
+                        toast.show();
+                        table.ajax.reload();
+                        modalAssign.hide();
+                        $('#formAssign')[0].reset();
+                    } else {
+                        $('#toastTitle').text("Gagal");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
+                        toast.show();
+                    }
+                }
+            });
+        });
+        // END: Event Button Re Assign
+
+        // START: Event Button Reject
+        let rejectUrl = null;
+        $(document).on('click', '.btn-reject', function() {
+            rejectUrl = $(this).data('url');
+            let ticketNo = $(this).data('ticket');
+
+            $('#reason').val(null);
+            $('#modalReject #modal-title-sub').text('#' + ticketNo);
+
+            modalReject.show();
+        });
+
+        $(document).on('submit', '#formReject', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: rejectUrl,
+                type: "POST",
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if(res.status == true) {
+                        $('#toastTitle').text("Berhasil");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
+                        toast.show();
+                        table.ajax.reload();
+                        modalReject.hide();
+                        $('#formReject')[0].reset();
+                    } else {
+                        $('#toastTitle').text("Gagal");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
+                        toast.show();
+                    }
+                }
+            })
+        });
+        // END: Event Button Reject
+
+        // START: Event Button Feedback
+        let feedbackUrl = null;
+        $(document).on('click', '.btn-feedback', function() {
+            feedbackUrl = $(this).data('url');
+            let ticketNo = $(this).data('ticket');
+
+            $('#modalFeedback #modal-title-sub').text('#' + ticketNo);
+            $('#feedback').val(null);
+            $('#add_documentation').prop('checked', false);
+
+            modalFeedback.show();
+        });
+
+        $(document).on('submit', '#formFeedback', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: feedbackUrl,
+                type: 'POST',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if(res.status == true) {
+                        $('#toastTitle').text("Berhasil");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
+                        toast.show();
+                        table.ajax.reload();
+                        modalFeedback.hide();
+                        $('#formFeedback')[0].reset();
+                    } else {
+                        $('#toastTitle').text("Gagal");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
+                        toast.show();
+                    }
+                }
+            });
+        });
+        // END: Event Button Feedback
+
+        // START: Event Button Update
+        let updateUrl = null;
+        $(document).on('click', '.btn-update', function() {
+            updateUrl = $(this).data('url');
+            let ticketNo = $(this).data('ticket');
+
+            $('#modalUpdate #modal-title-sub').text('#' + ticketNo);
+            $('#status_point').val(null);
+
+            modalUpdate.show();
+        });
+
+        $(document).on('submit', '#formUpdate', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: updateUrl,
+                type: 'POST',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if(res.status == true) {
+                        $('#toastTitle').text("Berhasil");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
+                        toast.show();
+                        table.ajax.reload();
+                        modalUpdate.hide();
+                        $('#formUpdate')[0].reset();
+                    } else {
+                        $('#toastTitle').text("Gagal");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
+                        toast.show();
+                    }
+                }
+            });
+        });
+        // END: Event Button Update
+
+        // START: Filter & Refresh
+        $(document).on('keyup change', '#search_ticket_title, #search_status, #search_status_point', function() {
+            table.ajax.reload();
+        });
+        // END: Filter & Refresh
+    });
+</script>
 @endsection

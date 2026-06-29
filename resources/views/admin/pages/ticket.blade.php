@@ -1,9 +1,3 @@
-<link rel="stylesheet" href="{{ asset('css/admin/admin.css') }}">
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
-
 <style>
 .dropdown {
     position: relative;
@@ -43,7 +37,6 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 /* item */
 .dropdown-item {
     width: 10%;
-    padding: 10px;
     border: none;
     background: white;
     text-align: left;
@@ -66,7 +59,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             <section>
                 <input type="text" placeholder="Cari No Tiket..." id="search_ticket_no" name="search_ticket_no" class="input-search" style="text-indent: 10px">
                 <input type="text" placeholder="Cari Judul Tiket..." id="search_ticket_title" name="search_ticket_title" class="input-search" style="text-indent: 10px">
-                <select name="search_status" id="search_status" aria-placeholder="Filter Status">
+                <select name="search_status" id="search_status" aria-placeholder="Filter Status" class="h-100 bg-transparent rounded" style="border: 1.5px solid #c1c1c1; color: #7c7c7c;">
                     <option value="">Filter Status</option>
                     <option value="pending">Menunggu Proses</option>
                     <option value="on_progress">Sedang Dikerjakan</option>
@@ -77,7 +70,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     type="button"
                     id="refresh"
                     name="refresh"
-                    class="btn-refresh h-100"
+                    class="rounded btn-refresh"
                     data-toggle="tooltip"
                     data-placement="bottom"
                     title="Muat Ulang"
@@ -107,7 +100,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title fs-5 fw-bold" id="exampleModalLabel">Detail Tiket</h5>
+                    <h4 class="modal-title fw-bold" id="exampleModalLabel">Detail Tiket</h4>
                     <button
                         type="button"
                         class="btn-close"
@@ -118,13 +111,13 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                         title="Tutup"
                     ></button>
                 </div>
-                <div class="modal-body p-5">
+                <div class="modal-body">
                     
                 </div>
                 <div class="modal-footer">
                     <button
                         type="button"
-                        class="btn btn-secondary"
+                        class="btn btn-secondary border-0"
                         data-bs-dismiss="modal"
                         data-toggle="tooltip"
                         data-placement="bottom"
@@ -141,7 +134,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 fw-bold" id="modalDeleteLabel">Konfirmasi Hapus</h1>
+                    <h4 class="modal-title fw-bold" id="modalDeleteLabel">Konfirmasi Hapus</h4>
                     <button
                         type="button"
                         class="btn-close"
@@ -160,7 +153,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 <div class="modal-footer">
                     <button
                         type="button"
-                        class="btn-cancel"
+                        class="btn-cancel border-0"
                         data-bs-dismiss="modal"
                         data-toggle="tooltip"
                         data-placement="bottom"
@@ -168,7 +161,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     >Batal</button>
                     <button
                         type="button"
-                        class="btn-delete-modal"
+                        class="btn-delete-modal border-0"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         title="Hapus"
@@ -185,7 +178,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-flex flex-column">
-                        <h5 class="modal-title p-0 fs-5 fw-bold" id="modalTitleLabel"></h5>
+                        <h4 class="modal-title p-0 fw-bold" id="modalTitleLabel"></h4>
                         <p class="p-0" id="modal-title-sub"></p>
                     </div>
                     <button
@@ -228,7 +221,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                             <div class="modal-footer">
                                 <button
                                     type="button"
-                                    class="btn btn-secondary"
+                                    class="btn btn-secondary border-0"
                                     data-bs-dismiss="modal"
                                     data-toggle="tooltip"
                                     data-placement="bottom"
@@ -236,7 +229,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                                 >Batal</button>
                                 <button
                                     type="submit"
-                                    class="btn btn-primary"
+                                    class="btn btn-primary border-0"
                                     data-toggle="tooltip"
                                     data-placement="bottom"
                                     title="Ambil Tiket"
@@ -256,8 +249,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-flex flex-column">
-                        <div class="d-flex flex-column gap-3">
-                            <h5 class="modal-title p-0 fs-5 fw-bold" id="modalTitleLabel">Tolak Tiket</h5>
+                        <div class="d-flex flex-column">
+                            <h4 class="modal-title p-0 fw-bold" id="modalTitleLabel">Tolak Tiket</h4>
                             <p class="p-0" id="modal-title-sub"></p>
                         </div>
                     </div>
@@ -281,7 +274,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                         <div class="modal-footer">
                             <button
                                 type="button"
-                                class="btn btn-secondary"
+                                class="btn btn-secondary border-0"
                                 data-bs-dismiss="modal"
                                 data-toggle="tooltip"
                                 data-placement="bottom"
@@ -289,7 +282,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                             >Batal</button>
                             <button
                                 type="submit"
-                                class="btn btn-primary"
+                                class="btn btn-danger border-0"
                                 data-toggle="tooltip"
                                 data-placement="bottom"
                                 title="Tolak"
@@ -308,8 +301,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-flex flex-column">
-                        <div class="d-flex flex-column gap-3">
-                            <h5 class="modal-title p-0" id="modalTitleLabel">Feedback</h5>
+                        <div class="d-flex flex-column">
+                            <h4 class="modal-title p-0 fw-bold" id="modalTitleLabel">Feedback</h4>
                             <p class="p-0" id="modal-title-sub"></p>
                         </div>
                     </div>
@@ -327,31 +320,31 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     <form id="formFeedback" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="add_documentation" value="0">
-                        <div class="d flex flex-column gap-3">
+                        <div class="d-flex flex-column gap-3">
                             <div class="form-group d-flex flex-column gap-1">
                                 <label for="">Umpan Balik <span style="color: red;">*</span></label>
                                 <input type="text" name="feedback" id="feedback" placeholder="Masukkan umpan balik" class="form-control" required>
                             </div>
-                            <div class="form-group d-flex flex-column gap-1">
+                            <div class="form-group d-flex gap-2">
                                 <input type="checkbox" name="add_documentation" id="add_documentation" value="1">
                                 <label for="">Tambahkan ke documentasi ?</label>
                             </div>
                             <div class="modal-footer">
                                 <button
-                                    type="submit"
-                                    class="btn btn-primary"
-                                    data-toggle="tooltip"
-                                    data-placement="bottom"
-                                    title="Umpan Balik"
-                                >Umpan Balik</button>
-                                <button
                                     type="button"
-                                    class="btn btn-secondary"
+                                    class="btn btn-secondary border-0"
                                     data-bs-dismiss="modal"
                                     data-toggle="tooltip"
                                     data-placement="bottom"
                                     title="Batal"
                                 >Batal</button>
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary border-0"
+                                    data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="Umpan Balik"
+                                >Umpan Balik</button>
                             </div>
                         </div>
                     </form>
@@ -379,9 +372,6 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 @endsection
 
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
-
 <script>
     $(document).ready(function() {
         // START: Init
@@ -419,13 +409,6 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             responsive: true,
             serverSide: true,
             ordering: false,
-            layout: {
-                topStart: null,
-                topEnd: null,
-
-                bottomStart: 'info',
-                bottomEnd: 'pageLength'
-            },
             ajax: {
                 url: "{{ route('admin.pages.ticket.datatable') }}",
                 data: function(d) {
@@ -449,7 +432,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 // { width: "5%", className: "dt-center", targets: 0 },
                 // { className: "dt-left", targets: 1 }, 
                 // { width: "20%", className: "dt-right", targets: 2 }
-            ]
+            ],
+            dom: "t<'row mt-3'<'col-md-4'i><'col-md-4 text-center'p><'col-md-4 text-end'l>>",
         });
         // END: Datatable
 
@@ -586,39 +570,40 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         // END: Event Button Detail
 
         // START: Event Button Delete
+        let deleteUrl = null;
         $(document).on('click', '.btn-remove', function() {
-            let url = $(this).data('url');
-
-            $(document).on('click', '.btn-delete-modal', function() {
-                $.ajax({
-                    url: url,
-                    type: "DELETE",
-                    success: function(res) {
-                        if(res.status == true) {
-                            $('#toastTitle').text("Berhasil");
-                            $('#toastBody').text(res.message);
-                            $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-
-                            toast.show();
-                            table.ajax.reload();
-                            modalDelete.hide();
-                        } else {
-                            $('#toastTitle').text("Gagal");
-                            $('#toastBody').text(res.message);
-                            $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
-                            toast.show();
-                        }
-                    }
-                });
-            });
-
+            deleteUrl = $(this).data('url');
             modalDelete.show();
+        });
+
+        $(document).on('click', '.btn-delete-modal', function() {
+            $.ajax({
+                url: deleteUrl,
+                type: "DELETE",
+                success: function(res) {
+                    if(res.status == true) {
+                        $('#toastTitle').text("Berhasil");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
+                        toast.show();
+                        table.ajax.reload();
+                        modalDelete.hide();
+                    } else {
+                        $('#toastTitle').text("Gagal");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
+                        toast.show();
+                    }
+                }
+            });
         });
         // END: Event Button Delete
 
         // START: Event Button Assign
+        let formUrl = null;
         $(document).on('click', '.btn-assign', function() {
-            let url = $(this).data('url');
+            formUrl = $(this).data('url');
             let ticketNo = $(this).data('ticket');
             
             $('#modalAssign #modalTitleLabel').text('Ambil Tiket');
@@ -628,42 +613,43 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             $('#estimate').val(null);
             $('#flag').val('assign');
 
-            $(document).on('submit', '#formAssign', function(e) {
-                e.preventDefault();
-
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: new FormData(this),
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        if(res.status == true) {
-                            $('#toastTitle').text("Berhasil");
-                            $('#toastBody').text(res.message);
-                            $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-
-                            toast.show();
-                            table.ajax.reload();
-                            modalAssign.hide();
-                            $('#formAssign')[0].reset();
-                        } else {
-                            $('#toastTitle').text("Gagal");
-                            $('#toastBody').text(res.message);
-                            $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
-                            toast.show();
-                        }
-                    }
-                });
-            });
-            
             modalAssign.show();
+        });
+
+        $(document).on('submit', '#formAssign', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: formUrl,
+                type: "POST",
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if(res.status == true) {
+                        $('#toastTitle').text("Berhasil");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
+                        toast.show();
+                        table.ajax.reload();
+                        modalAssign.hide();
+                        $('#formAssign')[0].reset();
+                    } else {
+                        $('#toastTitle').text("Gagal");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
+                        toast.show();
+                    }
+                }
+            });
         });
         // END: Event Button Assign
 
         // START: Event Button Re Assign
+        let reAssignUrl = null;
         $(document).on('click', '.btn-re-assign', function() {
-            let url = $(this).data('url');
+            reAssignUrl = $(this).data('url');
             let ticketNo = $(this).data('ticket');
             
             $('#modalAssign #modalTitleLabel').text('Tugaskan Ulang Tiket');
@@ -672,120 +658,122 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             $('#priority').val(null);
             $('#estimate').val(null);
             $('#flag').val('re-assign');
-
-            $(document).on('submit', '#formAssign', function(e) {
-                e.preventDefault();
-
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: new FormData(this),
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        if(res.status == true) {
-                            $('#toastTitle').text("Berhasil");
-                            $('#toastBody').text(res.message);
-                            $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-
-                            toast.show();
-                            table.ajax.reload();
-                            modalAssign.hide();
-                            $('#formAssign')[0].reset();
-                        } else {
-                            $('#toastTitle').text("Gagal");
-                            $('#toastBody').text(res.message);
-                            $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
-                            toast.show();
-                        }
-                    }
-                });
-            });
             
             modalAssign.show();
+        });
+
+        $(document).on('submit', '#formAssign', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: reAssignUrl,
+                type: "POST",
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if(res.status == true) {
+                        $('#toastTitle').text("Berhasil");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
+                        toast.show();
+                        table.ajax.reload();
+                        modalAssign.hide();
+                        $('#formAssign')[0].reset();
+                    } else {
+                        $('#toastTitle').text("Gagal");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
+                        toast.show();
+                    }
+                }
+            });
         });
         // END: Event Button Re Assign
 
         // START: Event Button Reject
+        let rejectUrl = null;
         $(document).on('click', '.btn-reject', function() {
-            let url = $(this).data('url');
+            rejectUrl = $(this).data('url');
             let ticketNo = $(this).data('ticket');
 
             $('#reason').val(null);
             $('#modalReject #modal-title-sub').text('#' + ticketNo);
 
-            $(document).on('submit', '#formReject', function(e) {
-                e.preventDefault();
-
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: new FormData(this),
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        if(res.status == true) {
-                            $('#toastTitle').text("Berhasil");
-                            $('#toastBody').text(res.message);
-                            $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-
-                            toast.show();
-                            table.ajax.reload();
-                            modalReject.hide();
-                            $('#formReject')[0].reset();
-                        } else {
-                            $('#toastTitle').text("Gagal");
-                            $('#toastBody').text(res.message);
-                            $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
-                            toast.show();
-                        }
-                    }
-                })
-            });
-
             modalReject.show();
+        });
+
+        $(document).on('submit', '#formReject', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: rejectUrl,
+                type: "POST",
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if(res.status == true) {
+                        $('#toastTitle').text("Berhasil");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
+                        toast.show();
+                        table.ajax.reload();
+                        modalReject.hide();
+                        $('#formReject')[0].reset();
+                    } else {
+                        $('#toastTitle').text("Gagal");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
+                        toast.show();
+                    }
+                }
+            })
         });
         // END: Event Button Reject
 
         // START: Event Button Feedback
+        let feedbackUrl = null;
         $(document).on('click', '.btn-feedback', function() {
-            let url = $(this).data('url');
+            feedbackUrl = $(this).data('url');
             let ticketNo = $(this).data('ticket');
 
             $('#modalFeedback #modal-title-sub').text('#' + ticketNo);
             $('#feedback').val(null);
             $('#add_documentation').prop('checked', false);
 
-            $(document).on('submit', '#formFeedback', function(e) {
-                e.preventDefault();
-
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: new FormData(this),
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        if(res.status == true) {
-                            $('#toastTitle').text("Berhasil");
-                            $('#toastBody').text(res.message);
-                            $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
-
-                            toast.show();
-                            table.ajax.reload();
-                            modalFeedback.hide();
-                            $('#formFeedback')[0].reset();
-                        } else {
-                            $('#toastTitle').text("Gagal");
-                            $('#toastBody').text(res.message);
-                            $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
-                            toast.show();
-                        }
-                    }
-                });
-            });
-
             modalFeedback.show();
+        });
+
+        $(document).on('submit', '#formFeedback', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: feedbackUrl,
+                type: 'POST',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if(res.status == true) {
+                        $('#toastTitle').text("Berhasil");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-check" style="color: green; margin-right: 4px;"></i>`);
+
+                        toast.show();
+                        table.ajax.reload();
+                        modalFeedback.hide();
+                        $('#formFeedback')[0].reset();
+                    } else {
+                        $('#toastTitle').text("Gagal");
+                        $('#toastBody').text(res.message);
+                        $('#toastIcon').html(`<i class="fa-solid fa-circle-xmark" style="color: red; margin-right: 4px;"></i>`);
+                        toast.show();
+                    }
+                }
+            });
         });
         // END: Event Button Feedback
 

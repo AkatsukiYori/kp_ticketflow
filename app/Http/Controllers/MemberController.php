@@ -32,7 +32,7 @@ class MemberController extends Controller
                 $edit = '<button
                         type="button"
                         id="btn-edit"
-                        class="btn-edit"
+                        class="btn-edit border-0 bg-transparent"
                         data-url="'.$url_edit.'"
                         data-toggle="tooltip"
                         data-placement="bottom"
@@ -41,7 +41,7 @@ class MemberController extends Controller
                 $delete = '<button
                         type="button"
                         id="btn-delete"
-                        class="btn-delete"
+                        class="btn-delete border-0 bg-transparent"
                         data-url="'.$url_delete.'"
                         data-toggle="tooltip"
                         data-placement="bottom"

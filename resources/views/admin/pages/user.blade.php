@@ -11,7 +11,7 @@
                     type="button"
                     id="refresh"
                     name="refresh"
-                    class="btn-refresh"
+                    class="rounded btn-refresh"
                     data-toggle="tooltip"
                     data-placement="bottom"
                     title="Muat Ulang"
@@ -21,24 +21,22 @@
                 type="button"
                 name="add"
                 id="add"
-                class="btn-add"
+                class="btn-add border-0"
                 data-toggle="tooltip"
                 data-placement="bottom"
                 title="Tambah Pengguna"
             ><i class="fa-solid fa-plus"></i> Tambah Pengguna</button>
         </section>
         <section class="content-body">
-            <div class="table-responsive">
-                <table id="datatable" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nama</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+            <table id="datatable" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+            </table>
         </section>
     </section>
 
@@ -70,7 +68,7 @@
                     <div class="modal-footer">
                         <button
                             type="button"
-                            class="btn-cancel"
+                            class="btn-cancel border-0"
                             data-bs-dismiss="modal"
                             data-toggle="tooltip"
                             data-placement="bottom"
@@ -78,7 +76,7 @@
                         >Batal</button>
                         <button
                             type="submit"
-                            class="btn-save"
+                            class="btn-save border-0"
                             data-toggle="tooltip"
                             data-placement="bottom"
                             title="Simpan"
@@ -114,7 +112,7 @@
                 <div class="modal-footer">
                     <button
                         type="button"
-                        class="btn-cancel"
+                        class="btn-cancel border-0"
                         data-bs-dismiss="modal"
                         data-toggle="tooltip"
                         data-placement="bottom"
@@ -122,7 +120,7 @@
                     >Batal</button>
                     <button
                         type="button"
-                        class="btn-delete-modal"
+                        class="btn-delete-modal border-0"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         title="Hapus"
@@ -176,13 +174,6 @@
                 responsive: true,
                 serverSide: true,
                 ordering: false,
-                layout: {
-                    topStart: null,
-                    topEnd: null,
-
-                    bottomStart: 'info',
-                    bottomEnd: 'pageLength'
-                },
                 ajax: {
                     url: "{{ route('admin.pages.member.datatable') }}",
                     data: function(d) {
@@ -199,7 +190,8 @@
                     { width: "5%", className: "dt-center", targets: 0 },
                     { className: "dt-left", targets: 1 }, 
                     { width: "20%", className: "dt-right", targets: 2 }
-                ]
+                ],
+                dom: "t<'row mt-3'<'col-md-4'i><'col-md-4 text-center'p><'col-md-4 text-end'l>>",
             });
             // END: DataTable
 

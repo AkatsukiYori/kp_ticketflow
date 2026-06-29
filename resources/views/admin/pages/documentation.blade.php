@@ -1,9 +1,3 @@
-<link rel="stylesheet" href="{{ asset('css/admin/admin.css') }}">
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
-
 @extends('layouts.admin')
 
 @section('title','documentation')
@@ -16,7 +10,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 <button
                     type="button"
                     id="refresh"
-                    class="btn-refresh h-100"
+                    class="rounded btn-refresh"
                     data-toggle="tooltip"
                     data-placement="bottom"
                     title="Muat Ulang"
@@ -26,25 +20,23 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 type="button"
                 name="add"
                 id="add"
-                class="btn-add"
+                class="btn-add border-0"
                 data-toggle="tooltip"
                 data-placement="bottom"
                 title="Tambah Dokumentasi"
             ><i class="fa-solid fa-plus"></i> Dokumentasi Baru</button>
         </section>
         <section class="content-body">
-            <div class="table-responsive">
-                <table id="datatable" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Judul</th>
-                            <th>Deskripsi</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+            <table id="datatable" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Judul</th>
+                        <th>Deskripsi</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+            </table>
         </section>
     </section>
 
@@ -90,7 +82,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                         <div class="modal-footer">
                             <button
                                 type="button"
-                                class="btn-cancel"
+                                class="btn-cancel border-0"
                                 data-bs-dismiss="modal"
                                 data-toggle="tooltip"
                                 data-placement="bottom"
@@ -98,7 +90,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                             >Batal</button>
                             <button
                                 type="submit"
-                                class="btn-save"
+                                class="btn-save border-0"
                                 data-toggle="tooltip"
                                 data-placement="bottom"
                                 title="Simpan"
@@ -135,7 +127,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 <div class="modal-footer">
                     <button
                         type="button"
-                        class="btn-cancel"
+                        class="btn-cancel border-0"
                         data-bs-dismiss="modal"
                         data-toggle="tooltip"
                         data-placement="bottom"
@@ -143,7 +135,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     >Batal</button>
                     <button
                         type="button"
-                        class="btn-delete-modal"
+                        class="btn-delete-modal border-0"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         title="Hapus"
@@ -172,9 +164,6 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 @endsection
 
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
-
 <script>
     $(document).ready(function() {
         // START: Init
@@ -200,13 +189,6 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             responsive: true,
             serverSide: true,
             ordering: false,
-            layout: {
-                topStart: null,
-                topEnd: null,
-
-                bottomStart: 'info',
-                bottomEnd: 'pageLength'
-            },
             ajax: {
                 url: "{{ route('admin.pages.documentation.datatable') }}",
                 data: function(d) {
@@ -226,7 +208,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 { width: "30%", targets: 2 },
                 { className: "dt-left", targets: [1, 2] },
                 { width: "20%", className: "dt-right", targets: 3 }
-            ]
+            ],
+            dom: "t<'row mt-3'<'col-md-4'i><'col-md-4 text-center'p><'col-md-4 text-end'l>>",
         });
         // END: DataTable
 

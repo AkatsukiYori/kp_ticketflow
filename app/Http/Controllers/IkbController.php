@@ -85,12 +85,12 @@ class IkbController extends Controller
                 $url_feedback = route('admin.pages.ikb.feedback', $ticket_no);
                 $url_update = route('admin.pages.ikb.update', $ticket_no);
 
-                $assign = '<button class="dropdown-item py-2 px-3 btn-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'"><i class="fa-solid fa-user-check fs-6"></i> Ambil Tiket</button><hr>';
-                $re_assign = '<button class="dropdown-item py-2 px-3 btn-re-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'"><i class="fa-solid fa-user-check fs-6"></i> Pindah Penugasan</button><hr>';
-                $feedback = '<button class="dropdown-item py-2 px-3 btn-feedback" data-url="'. $url_feedback .'" data-ticket="'. $ticket_no .'"><i class="fa-regular fa-circle-check fs-6"></i> Feedback</button><hr>';
-                $reject = '<button class="dropdown-item py-2 px-3 btn-reject" data-url="'. $url_reject .'" data-ticket="'. $ticket_no .'"><i class="fa-regular fa-circle-xmark fs-6"></i> Tolak</button><hr>';
-                $update = '<button class="dropdown-item py-2 px-3 btn-update" data-url="'. $url_update .'" data-ticket="'. $ticket_no .'"><i class="fa-solid fa-pencil fs-6"></i> Edit</button><hr>';
-                $remove = '<button class="dropdown-item py-2 px-3 btn-remove text-danger" data-url="'. $url_delete .'"><i class="fa-solid fa-trash fs-6"></i> Hapus</button>';
+                $assign = '<button class="dropdown-item px-3 btn-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'" data-toggle="tooltip" data-placement="bottom" title="Ambil Tiket"><i class="fa-solid fa-user-check fs-6"></i> Ambil Tiket</button><hr class="m-2">';
+                $re_assign = '<button class="dropdown-item px-3 btn-re-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'" data-toggle="tooltip" data-placement="bottom" title="Pindah Penugasan Tiket"><i class="fa-solid fa-user-check fs-6"></i> Pindah Penugasan</button><hr class="m-2">';
+                $feedback = '<button class="dropdown-item px-3 btn-feedback" data-url="'. $url_feedback .'" data-ticket="'. $ticket_no .'" data-toggle="tooltip" data-placement="bottom" title="Umpan Balik"><i class="fa-regular fa-circle-check fs-6"></i> Feedback</button><hr class="m-2">';
+                $reject = '<button class="dropdown-item px-3 btn-reject" data-url="'. $url_reject .'" data-ticket="'. $ticket_no .'" data-toggle="tooltip" data-placement="bottom" title="Tolak"><i class="fa-regular fa-circle-xmark fs-6"></i> Tolak</button><hr class="m-2">';
+                $update = '<button class="dropdown-item px-3 btn-update" data-url="'. $url_update .'" data-ticket="'. $ticket_no .'" data-toggle="tooltip" data-placement="bottom" title="Ubah Tiket"><i class="fa-solid fa-pencil fs-6"></i> Edit</button><hr class="m-2">';
+                $remove = '<button class="dropdown-item px-3 btn-remove text-danger" data-url="'. $url_delete .'" data-toggle="tooltip" data-placement="bottom" title="Hapus"><i class="fa-solid fa-trash fs-6"></i> Hapus</button>';
 
                 if($status === 'reject') {
                     $listButton = $remove;
@@ -104,7 +104,7 @@ class IkbController extends Controller
 
                 $btn_group = '
                     <div class="dropdown">
-                        <button class="dropdown-btn js-dropdown-btn">
+                        <button class="dropdown-btn js-dropdown-btn bg-transparent border-0" data-toggle="tooltip" data-placement="bottom" title="Lainnya">
                             <i class="fa-solid fa-ellipsis-vertical"></i>
                         </button>
 
@@ -113,7 +113,7 @@ class IkbController extends Controller
                         </div>
                     </div>
                 ';
-                $detail = '<button type="button" class="btn-detail" data-ticket="'.$ticket_no.'"><i class="fa-solid fa-info"></i></button>';
+                $detail = '<button type="button" class="btn-detail bg-transparent border-0" data-ticket="'.$ticket_no.'" data-toggle="tooltip" data-placement="bottom" title="Detail Tiket"><i class="fa-solid fa-info"></i></button>';
 
                 return $detail . " " . $btn_group;
             })

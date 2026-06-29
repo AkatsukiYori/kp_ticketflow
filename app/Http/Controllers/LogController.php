@@ -36,6 +36,7 @@ class LogController extends Controller
                 return '<button
                         type="button"
                         id="btn-detail"
+                        class="border-0 bg-transparent"
                         data-url="'. $url .'"
                         data-toggle="tooltip"
                         data-placement="bottom"

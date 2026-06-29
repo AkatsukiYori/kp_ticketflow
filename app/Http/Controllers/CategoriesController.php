@@ -34,7 +34,7 @@ class CategoriesController extends Controller
                 $edit = '<button
                         type="button"
                         id="btn-edit"
-                        class="btn-edit"
+                        class="btn-edit bg-transparent border-0"
                         data-url="' . $url_edit . '"
                         data-toggle="tooltip"
                         data-placement="bottom"
@@ -43,7 +43,7 @@ class CategoriesController extends Controller
                 $delete = '<button
                         type="button"
                         id="btn-delete"
-                        class="btn-delete"
+                        class="btn-delete bg-transparent border-0"
                         data-url="' . $url_delete . '"
                         data-toggle="tooltip"
                         data-placement="bottom"

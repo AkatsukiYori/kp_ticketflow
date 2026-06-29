@@ -1,9 +1,3 @@
-<link rel="stylesheet" href="{{ asset('css/admin/admin.css') }}">
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
-
 @extends('layouts.admin')
 
 @section('title','logs')
@@ -17,7 +11,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                     type="button"
                     id="refresh"
                     name="refresh"
-                    class="btn-refresh h-100"
+                    class="rounded btn-refresh"
                     data-toggle="tooltip"
                     data-placement="bottom"
                     title="Muat Ulang"
@@ -25,21 +19,19 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             </section>
         </section>
         <section class="content-body">
-            <div class="table-responsive">
-                <table id="datatable" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Pengguna</th>
-                            <th>No Tiket</th>
-                            <th>Judul Tiket</th>
-                            <th>Tanggal</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+            <table id="datatable" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Pengguna</th>
+                        <th>No Tiket</th>
+                        <th>Judul Tiket</th>
+                        <th>Tanggal</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+            </table>
         </section>
     </section>
 
@@ -70,7 +62,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 <div class="modal-footer">
                     <button
                         type="button"
-                        class="btn btn-secondary"
+                        class="btn btn-secondary border-0"
                         data-bs-dismiss="modal"
                         data-toggle="tooltip"
                         data-placement="bottom"
@@ -84,9 +76,6 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 @endsection
 
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
-
 <script>
     $(document).ready(function() {
         // START: Init
@@ -102,12 +91,6 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             responsive: true,
             serverSide: true,
             ordering: false,
-            layout: {
-                topStart: null,
-                topEnd: null,
-                bottomStart: 'info',
-                bottomEnd: 'pageLength'
-            },
             ajax: {
                 url: "{{ route('admin.pages.logs.datatable') }}",
                 data: function(d) {
@@ -122,7 +105,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 { data: 'tanggal', name: 'tanggal', orderable: false, searchable: false },
                 { data: 'status', name: 'status', orderable: false, searchable: false },
                 { data: 'actions', name: 'actions', orderable: false, searchable: false }
-            ]
+            ],
+            dom: "t<'row mt-3'<'col-md-4'i><'col-md-4 text-center'p><'col-md-4 text-end'l>>",
         });
         // END: DataTable
 
@@ -148,21 +132,18 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                         var rawDate = new Date(item.log_date);
                         var formattedDate = formatter.format(rawDate).replace('.', ':').replace(' pukul', ',').toLowerCase();
                         html += `
-                            <div class="d-flex gap-3">
-                                <div id="timeline-left" class="">
-                                    <div class="mt-2" style="background-color: grey; width: 10px; height: 10px; border-radius: 100%;"></div>
+                            <div class="timeline-item d-flex gap-3 align-items-center">
+                                <div class="timeline-left">
+                                    <div class="timeline-dot"></div>
                                 </div>
-                                <div id="timeline-right" class="d-flex flex-column">
-                                    <div class="title">
-                                        <p>
-                                            <strong>`+ (item.action_type.charAt(0).toUpperCase() + item.action_type.slice(1)) +`</strong>
-                                            By
-                                            `+ item.created_by +`
-                                            `+ formattedDate +`
-                                        </p>
-                                        <p>`+ (item.description ?? '') +`</p>
-                                    </div>
-                                    <div class="description"></div>
+                                <div class="timeline-right">
+                                    <p class="m-0">
+                                        <strong>`+ (item.action_type.charAt(0).toUpperCase() + item.action_type.slice(1)) +`</strong>
+                                        By
+                                        `+ item.created_by +`
+                                        `+ formattedDate +`
+                                    </p>
+                                    <p>`+ (item.description ?? '') +`</p>
                                 </div>
                             </div>
                         `;

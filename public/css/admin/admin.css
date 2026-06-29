@@ -117,9 +117,14 @@ main section{
 /* START: Button */
 .btn-refresh {
     padding: 8px 12px;
-    border-radius: 8px;
     border: 1px solid #c1c1c1;
-    color: #c1c1c1;
+    color: #949494;
+    background-color: transparent;
+    transition: background-color 0.3s;
+}
+
+.btn-refresh:hover {
+    background-color: #fafafa;
 }
 
 .btn-add {
@@ -284,3 +289,67 @@ footer {
     transform: translateY(-1px);
 }
 
+.dt-length > select {
+    background-color: transparent;
+    border: 1px solid #c7c7c7;
+    border-radius: 4px;
+    padding: 0 8px;
+    text-align: center;
+    margin-right: 4px;
+}
+
+.dt-paging > nav > button {
+    background-color: transparent;
+    border: 1px solid #c7c7c7;
+    border-radius: 4px;
+    padding: 0 16px;
+    margin: 0 2px;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    /* position: relative; */
+}
+
+.timeline-left {
+    position: relative;
+    padding-top: 4px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.timeline-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #6c757d;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+.timeline-left::after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: calc(100% + 24px);
+    background-color: #d0d0d0;
+}
+
+.timeline-item:last-child .timeline-left::after {
+    display: none;
+}
+
+.timeline-right p {
+    margin-bottom: .25rem;
+}
+
+.timeline-right p:last-child {
+    margin-bottom: 0;
+}

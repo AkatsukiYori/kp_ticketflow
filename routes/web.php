@@ -3,6 +3,7 @@
 use App\Http\Controllers\MemberController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\IkbController;
 use App\Http\Controllers\LogController;
@@ -40,9 +41,10 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     // PAGES
     Route::prefix('pages')->name('pages.')->group(function () {
 
-        Route::get('/dashboard', function () {
-            return view('admin.pages.dashboard');
-        })->name('dashboard');
+        Route::prefix('dashboard')->name('dashboard.')->group(function() {
+            Route::get('/', [DashboardController::class, 'show'])->name('index');
+            Route::get('/datatable', [DashboardController::class, 'datatable'])->name('datatable');
+        });
 
         Route::prefix('category')->name('category.')->group(function () {
             Route::get('/', [CategoriesController::class, 'show'])->name('index');
