@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title','logs')
+@section('title','Log - Ticketflow')
 
 @section('content')
     <section>

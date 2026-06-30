@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title','report')
+@section('title','Laporan & Statistik - Ticketflow')
 
 @section('content')
     <h1>HALAMAN REPORT</h1>

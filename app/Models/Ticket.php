@@ -52,18 +52,18 @@ class Ticket extends Model
     }
 
     public function ticket_file() {
-        return $this->hasOne(Image::class, 'id');
+        return $this->hasOne(Image::class, 'ticket_id');
     }
 
     public function log() {
-        return $this->hasMany(Log::class, 'id');
+        return $this->hasMany(Log::class, 'ticket_id');
     }
 
     public function rating() {
-        return $this->hasOne(Rating::class, 'id');
+        return $this->hasOne(Rating::class, 'ticket_id');
     }
 
     public function feedback() {
-        return $this->hasMany(TicketFeedback::class, 'id');
+        return $this->hasMany(TicketFeedback::class, 'ticket_id');
     }
 }

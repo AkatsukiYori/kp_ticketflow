@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Log;
 use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -76,5 +77,40 @@ class CekTicketController extends Controller
             'deleted_at',
         ]);
         return view('partials.user.ticket_list', compact('tickets'));
+    }
+
+    public function log($ticketNo)
+    {
+        $ticket = Ticket::with('member')->where('ticket_no', $ticketNo)->select('id')->first();
+        $logs = Log::with([
+            'ticket.member' => function($query) {
+                $query->select('id', 'username');
+            },
+            'ticket.users' => function($query) {
+                $query->select('id', 'username');
+            }
+        ])
+        ->where('ticket_id', $ticket->id)
+        ->orderBy('log_date', 'DESC')
+        ->get();
+
+        $logs->makeHidden([
+            'id',
+            'ticket_id',
+            'user_id',
+            'created_at',
+            'updated_at',
+            'ticket_id'
+        ]);
+
+        return [
+            'logs' => $logs,
+            'ticket_no' => $ticketNo
+        ];
+    }
+
+    public function respon(Request $request)
+    {
+        
     }
 }

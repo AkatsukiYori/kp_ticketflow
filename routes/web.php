@@ -10,6 +10,7 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\User\CekTicketController;
 use App\Http\Controllers\User\TicketController as UserTicket;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 // Route::get('/', function () {
 //     return view('user.pages.index');
@@ -30,6 +31,8 @@ Route::prefix('cek-status')->name('cek_status.')->group(function() {
     Route::get('/', [CekTicketController::class, 'show'])->name('index');
     Route::get('/detail/{ticket_no}', [CekTicketController::class, 'detail'])->name('detail');
     Route::get('/search', [CekTicketController::class, 'filter'])->name('filter');
+    Route::get('/log/{ticket_no}', [CekTicketController::class, 'log'])->name('log');
+    Route::post('/respon', [CekTicketController::class, 'respon'])->name('respon');
 });
 
 // AUTH
@@ -44,6 +47,7 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
         Route::prefix('dashboard')->name('dashboard.')->group(function() {
             Route::get('/', [DashboardController::class, 'show'])->name('index');
             Route::get('/datatable', [DashboardController::class, 'datatable'])->name('datatable');
+            Route::get('/filter', [DashboardController::class, 'filter'])->name('filter');
         });
 
         Route::prefix('category')->name('category.')->group(function () {

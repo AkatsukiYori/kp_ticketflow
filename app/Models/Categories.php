@@ -15,10 +15,10 @@ class Categories extends Model
     ];
     
     public function documentation() {
-        return $this->hasMany(Documentation::class, 'id');
+        return $this->hasMany(Documentation::class, 'category_id', 'id');
     }
 
     public function ticket() {
-        return $this->hasMany(Categories::class, 'id');
+        return $this->hasMany(Ticket::class, 'category_id', 'id');
     }
 }

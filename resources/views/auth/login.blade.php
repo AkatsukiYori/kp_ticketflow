@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | TicketFlow</title>
+    <title>Login - Ticketflow</title>
 
     <link rel="stylesheet" href="{{ asset('css/admin/login2.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])

@@ -51,7 +51,7 @@
 
 @extends('layouts.admin')
 
-@section('title','ticket')
+@section('title','Tiket - Ticketflow')
 
 @section('content')
     <section>
