@@ -133,7 +133,6 @@
                 year: $('#year').val()
             },
             success: function(res) {
-                console.log(res);
                 $('#total_ticket_counter_card').text(res.counter.all);
                 $('#progress_ticket_counter_card').text(res.counter.on_progress);
                 $('#reject_ticket_counter_card').text(res.counter.reject);
@@ -232,8 +231,10 @@
 
     $(document).ready(function() {
         // START: Init
+        let tahunSekarang = new Date().getFullYear();
+        $('#year').val(tahunSekarang);
         $('#month').val('');
-        $('#year').val('');
+        
         loadDashboard();
         // END: Init
 
