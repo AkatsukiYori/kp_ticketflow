@@ -6,59 +6,22 @@ use App\Models\Categories;
 use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
-class DashboardController extends Controller
+class ReportController extends Controller
 {
     public function show()
     {
         $years = Ticket::selectRaw('YEAR(created_at) as year')->distinct()->orderBy('year', 'desc')->pluck('year');
-        return view('admin.pages.dashboard', compact('years'));
+        $categories = Categories::select('id', 'name')->get();
+        return view('admin.pages.report', compact('years', 'categories'));
     }
-
-    public function datatable(Request $request)
-    {
-        $tickets = Ticket::where('assign_to', Auth::id());
-
-        if($request->month) {
-            $tickets->whereMonth('report_date', $request->month);
-        }
-
-        if($request->year) {
-            $tickets->whereYear('report_date', $request->year);
-        }
-
-        $tickets->get();
-
-        return DataTables::of($tickets)
-            ->addIndexColumn()
-            ->addColumn('date', function($e) {
-                return Carbon::parse($e->report_date)->locale('id')->translatedFormat('l, d F Y');
-            })
-            ->addColumn('status', function($e) {
-                $pending = '<span class="badge bg-warning">Menunggu Proses</span>';
-                $on_progress = '<span class="badge bg-secondary">Sedang Dikerjakan</span>';
-                $feedback = '<span class="badge bg-primary">Umpan balik</span>';
-                $reject = '<span class="badge bg-danger">Tolak</span>';
-
-                if($e->status_ticket == 'reject') {
-                    return $reject;
-                } else if($e->status_ticket == 'completed') {
-                    return $feedback;
-                } else if($e->status_ticket == 'on_progress') {
-                    return $on_progress;
-                } else {
-                    return $pending;
-                }
-            })
-            ->rawColumns(['status', 'date'])
-            ->make(true);
-    }
-
+    
     public function filter(Request $request)
     {
-        $getTickets = Ticket::whereNull('deleted_at')->where('assign_to', Auth::id());
+        // dd($request->all());
+        $getTickets = Ticket::whereNull('deleted_at');
 
         // START: Get Month & Year Data
         if($request->month) {
@@ -73,16 +36,72 @@ class DashboardController extends Controller
         // START: Card Ticket Counter
         $counter = [
             'all' => (clone $getTickets)->count(),
+            'pending' => (clone $getTickets)->where('status_ticket', 'pending')->count(),
             'on_progress' => (clone $getTickets)->where('status_ticket', 'on_progress')->count(),
             'closed' => (clone $getTickets)->where('status_ticket', 'completed')->whereNotNull('closed_at')->count(),
             'reject' => (clone $getTickets)->where('status_ticket', 'reject')->whereNotNull('reject_at')->count()
         ];
         // END: Card Ticket Counter
+
+        // START: Count Ticket Per Periode
+        $months = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'July',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+
+        $days = Carbon::create(
+            $request->year,
+            $request->month,
+            1
+        )->daysInMonth();
+        $getTicketData = [];
+
+        if ($request->month) {
+            $ticketCounter = Ticket::selectRaw('DAY(report_date) as day, COUNT(*) as total')
+                ->whereYear('report_date', $request->year)
+                ->whereMonth('report_date', $request->month)
+                ->groupBy('day')
+                ->orderBy('day')
+                ->pluck('total', 'day');
+
+            for($day = 1; $day <= $days; $day++) {
+                $getTicketData[] = [
+                    'label' => $day,
+                    'count' => $ticketCounter[$day] ?? 0
+                ];
+            }
+        } else {
+            $ticketCounter = Ticket::selectRaw('MONTH(report_date) as month, COUNT(*) as total')
+                ->whereYear('report_date', $request->year)
+                ->groupBy('month')
+                ->orderBy('month')
+                ->pluck('total', 'month');
+
+            foreach($months as $index => $month) {
+                $monthNumber = $index + 1;
+
+                $getTicketData[] = [
+                    'label' => $month,
+                    'count' => $ticketCounter[$monthNumber] ?? 0
+                ];
+            }
+        }
+        // END: Count Ticket Per Periode
         
         // START: Bar Chart Category Counter
         $categories = Categories::withCount([
             'ticket' => function ($query) use($request) {
-                $query->whereNull('deleted_at')->where('assign_to', Auth::id());
+                $query->whereNull('deleted_at');
 
                 if($request->month) {
                     $query->whereMonth('report_date', $request->month);
@@ -135,7 +154,8 @@ class DashboardController extends Controller
             'counter' => $counter,
             'categoryCounter' => $getCategoryData,
             'priorityCounter' => $getPriorityData,
-            'ratingCounter' => $getRatingData
+            'ratingCounter' => $getRatingData,
+            'ticketCounter' => $getTicketData
         ]);
     }
 }

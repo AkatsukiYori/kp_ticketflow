@@ -4,9 +4,14 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Log;
+use App\Models\Rating;
 use App\Models\Ticket;
+use App\Models\TicketFeedback;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Throwable;
 
 class CekTicketController extends Controller
 {
@@ -14,7 +19,7 @@ class CekTicketController extends Controller
     {
         $tickets = Ticket::with(['member' => function($query) {
             $query->select('id', 'username');
-        }])->whereNull('deleted_at')->whereBetween('report_date', [Carbon::now()->firstOfMonth(), Carbon::now()->endOfMonth()])->get();
+        }, 'rating'])->whereNull('deleted_at')->whereBetween('report_date', [Carbon::now()->firstOfMonth(), Carbon::now()->endOfMonth()])->get();
 
         $tickets->makeHidden([
             'id',
@@ -59,6 +64,12 @@ class CekTicketController extends Controller
         ->whereNull('deleted_at')
         ->when($request->ticket_no, function($query) use($request) {
             $query->where('ticket_no', 'like', "%{$request->ticket_no}%");
+        })
+        ->when($request->ticket_title, function($query) use($request) {
+            $query->where('ticket_title', 'like', "%{$request->ticket_title}%");
+        })
+        ->when($request->status, function($query) use($request) {
+            $query->where('status_ticket', $request->status);
         })
         ->when($request->member_name, function($query) use($request) {
             $query->whereHas('member', function($q) use($request) {
@@ -109,8 +120,204 @@ class CekTicketController extends Controller
         ];
     }
 
-    public function respon(Request $request)
+    public function respon(Request $request, $ticket_no)
     {
-        
+        DB::beginTransaction();
+        try {
+            // START: Get Request
+            $datas = $request->all();
+            // END: Get Request
+
+            // START: Validation
+            $rules = [
+                'feedback' => 'required'
+            ];
+
+            $message = [
+                'feedback.required' => 'Respon tidak boleh kosong.'
+            ];
+
+            $validator = Validator::make($datas, $rules, $message);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validator->errors()
+                ], 422);
+            }
+            // END: Validation
+
+            // START: Handle Feedback
+            $status = 'on_progress';
+            $now = Carbon::now();
+
+            $ticket = Ticket::where('ticket_no', $ticket_no)->first();
+            $ticket->update([
+                'status_ticket' => $status,
+                'updated_at' => $now
+            ]);
+
+            TicketFeedback::create([
+                'ticket_id' => $ticket->id,
+                'message' => $datas['feedback'],
+                'role' => 'member',
+                'user_id' => null
+            ]);
+
+            Log::create([
+                'ticket_id' => $ticket->id,
+                'user_id' => null,
+                'status' => $status,
+                'action_type' => 'feedback',
+                'log_date' => $now,
+            ]);
+            // END: Handle Feedback
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Respon berhasil diberikan.'
+            ]);
+        } catch (Throwable $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan.'
+            ]);
+        }
+    }
+
+    public function closed($ticket_no)
+    {
+        DB::beginTransaction();
+        try {
+            $now = Carbon::now();
+
+            $ticket = Ticket::where('ticket_no', $ticket_no)->first();
+            $ticket->update([
+                'status_ticket' => 'completed',
+                'closed_at' => $now,
+                'updated_at' => $now
+            ]);
+
+            Log::create([
+                'ticket_id' => $ticket->id,
+                'user_id' => null,
+                'status' => 'closed',
+                'action_type' => 'closed',
+                'log_date' => $now,
+            ]);
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Tiket berhasil ditutup.'
+            ]);
+        } catch (Throwable $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan.'
+            ]);
+        }
+    }
+
+    public function rating(Request $request, $ticket_no)
+    {
+        DB::beginTransaction();
+        try {
+            // START: Get Request
+            $datas = $request->all();
+            // END: Get Request
+
+            // START: Validation
+            $rules = [
+                'score' => 'required'
+            ];
+
+            $message = [
+                'score.required' => 'Point tidak boleh kosong.'
+            ];
+
+            $validator = Validator::make($datas, $rules, $message);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validator->errors()
+                ], 422);
+            }
+            // END: Validation
+
+            // START: Handle Feedback
+            $now = Carbon::now();
+
+            $ticket = Ticket::where('ticket_no', $ticket_no)->first();
+            Rating::create([
+                'ticket_id' => $ticket->id,
+                'score' => $datas['score'],
+                'note' => $datas['note'] ?? null,
+            ]);
+
+            Log::create([
+                'ticket_id' => $ticket->id,
+                'user_id' => null,
+                'status' => '',
+                'action_type' => 'rating',
+                'log_date' => $now,
+                'description' => 'Pengguna memberikan rating ' . $datas['score'] . ' untuk penanganan tiket ini.'
+            ]);
+            // END: Handle Feedback
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Rating berhasil diberikan.'
+            ]);
+        } catch (Throwable $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan.'
+            ]);
+        }
+    }
+
+    public function openTicket($ticket_no)
+    {
+        DB::beginTransaction();
+        try {
+            $ticket = Ticket::where('ticket_no', $ticket_no)->first();
+
+            $status = 'on_progress';
+            $now = Carbon::now();
+
+            $ticket->update([
+                'status_ticket' => $status,
+                'closed_at' => null,
+                'reopened_at' => $now
+            ]);
+
+            Log::create([
+                'ticket_id' => $ticket->id,
+                'user_id' => null,
+                'status' => 'on_progress',
+                'action_type' => 'open',
+                'log_date' => $now,
+                'description' => null
+            ]);
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Tiket berhasil dibuka kembali.'
+            ]);
+        } catch (Throwable $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan.'
+            ]);
+        }
     }
 }

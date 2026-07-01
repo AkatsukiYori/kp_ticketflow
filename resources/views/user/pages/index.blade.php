@@ -6,7 +6,7 @@
 @section('title', 'Buat Tiket')
 
 @section('content')
-    <div class="mainIndex">
+   <div class="mainIndex">
         <section class="main-kiri">
             <div>
                 <h2>

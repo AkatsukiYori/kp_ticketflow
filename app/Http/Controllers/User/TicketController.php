@@ -11,8 +11,12 @@ use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Throwable;
+use Illuminate\Support\Str;
+use App\Models\Image;
+use Illuminate\Support\Facades\File;
 
 class TicketController extends Controller
 {
@@ -107,6 +111,39 @@ class TicketController extends Controller
             ]);
             // END: Ticket handle
 
+            // START: Handle file upload
+            if($request->attachment) {
+                $folder = $request->attachment;
+                $disk = Storage::disk('public');
+
+                $ticketPath = storage_path('app/public/tickets');
+                if(!File::isDirectory($ticketPath)) {
+                    File::makeDirectory($ticketPath, 0755, true);
+                }
+
+                $files = $disk->files("temp/$folder");
+
+                if(count($files) > 0) {
+                    $file = $files[0];
+                    $extension = pathinfo($file, PATHINFO_EXTENSION);
+                    $filename = Str::uuid().'.'.$extension;
+                    $destination = "tickets/$filename";
+                    $disk->move($file, $destination);
+                    $absolutePath = storage_path("app/public/$destination");
+
+                    Image::create([
+                        'ticket_id' => $newTicket->id,
+                        'filename' => $filename,
+                        'file_path' => "tickets/$filename",
+                        'mime_type' => File::mimeType($absolutePath),
+                        'size' => File::size($absolutePath)
+                    ]);
+
+                    $disk->deleteDirectory("temp/$folder");
+                }
+            }
+            // END: Handle file upload
+
             // START: Logs handle
             Log::create([
                 'ticket_id' => $newTicket->id,
@@ -129,8 +166,10 @@ class TicketController extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => "Something went wrong."
+                'message' => "Terjadi kesalahan."
             ]);
         }
     }
+
+
 }

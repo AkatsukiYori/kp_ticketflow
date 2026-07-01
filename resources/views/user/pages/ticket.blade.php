@@ -126,10 +126,7 @@
                 Lampiran (Opsional)
             </label>
 
-            <div class="border rounded bg-light py-5 text-center">
-                Drag & Drop file atau
-                <a href="#">Browse</a>
-            </div>
+            <input type="file" id="attachment" name="attachment">
         </div>
 
         <div class="d-flex justify-content-end gap-2 mt-4">
@@ -176,12 +173,23 @@
         const toast = new bootstrap.Toast(
             document.getElementById('liveToast')
         );
+
+        const pond = FilePond.create(document.querySelector('#attachment'), {
+            server: {
+                process: "{{ route('ticket.uploadTemp') }}",
+                revert: "{{ route('ticket.uploadRevert') }}",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            }
+        });
         // END: Init bootstrap 5 toast
 
         // START: Set value to null when first render
         $('#kategori').val(null);
         $('#departemen').val(null);
         $('#pengguna').val(null);
+        $('#attachment').val(null);
         $('#field-judul').removeClass('col-md-3').addClass('col-md-6');
         $('#field-kategori').removeClass('col-md-3').addClass('col-md-6');
         $('#field-modul').addClass('d-none');

@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Categories;
 use App\Models\Documentation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Throwable;
 use Vinkla\Hashids\Facades\Hashids;
 use Yajra\DataTables\Facades\DataTables;
-
+use Illuminate\Support\Str;
 class DocumentationController extends Controller
 {
     public function show()
@@ -20,7 +22,7 @@ class DocumentationController extends Controller
 
     public function datatable(Request $request)
     {
-        $documentation = Documentation::with('category')->orderBy("created_at", "DESC");
+        $documentation = Documentation::with('category', 'documentation_file')->orderBy("created_at", "DESC");
 
         if($request->filled('title')) {
             $documentation->where('title', 'like', '%' . $request->title . '%');
@@ -60,7 +62,15 @@ class DocumentationController extends Controller
 
                 return $edit . ' ' . $delete;
             })
-            ->rawColumns(['actions'])
+            ->addColumn('attachment', function($e) {
+                if(!$e->documentation_file) {
+                    return '-';
+                }
+
+                $path = asset('storage/' . $e->documentation_file->file_path);
+                return '<img src="'.$path.'" alt="Lampiran" class="img-fluid rounded">';
+            })
+            ->rawColumns(['actions', 'attachment'])
             ->make(true);
     }
 
@@ -102,7 +112,7 @@ class DocumentationController extends Controller
             // END: Validation
 
             // START: Documentation handle
-            Documentation::updateOrCreate(
+            $documentation = Documentation::updateOrCreate(
                 ['id' => $unHashedID ?? null],
                 [
                     'category_id' => $category,
@@ -110,6 +120,43 @@ class DocumentationController extends Controller
                     'description' => $description
                 ]
             );
+
+            if($request->filled('attachment')) {
+                $folder = $request->attachment;
+                $disk = Storage::disk('public');
+
+                $documentationPath = storage_path('app/public/documentations');
+                if(!File::isDirectory($documentationPath)) {
+                    File::makeDirectory($documentationPath, 0755, true);
+                }
+                $files = $disk->files("temp/$folder");
+
+                if(!empty($files)) {
+                    $oldFile = $documentation->documentation_file()->first();
+
+                    if($oldFile) {
+                        $disk->delete($oldFile->file_path);
+                        $oldFile->delete();
+                    }
+
+                    $file = $files[0];
+                    $extension = pathinfo($file, PATHINFO_EXTENSION);
+                    $filename = Str::uuid().'.'.$extension;
+                    $destination = "documentation/$filename";
+                    $absolutePath = storage_path("app/public/$destination");
+                    $disk->move($file, $destination);
+                    
+                    $documentation->documentation_file()->create([
+                        'document_id' => $documentation->id,
+                        'filename' => $filename,
+                        'file_path' => $destination,
+                        'mime_type' => File::mimeType($absolutePath),
+                        'size' => File::size($absolutePath),
+                    ]);
+
+                    $disk->deleteDirectory("temp/$folder");
+                }
+            }
             // END: Documentation handle
 
             $message = $id != '' ? 'diperbarui' : "dibuat";
@@ -131,7 +178,7 @@ class DocumentationController extends Controller
         $id = Hashids::decode($id);
 
         $unHashedID = $id[0] ?? null;
-        $documentation = Documentation::findOrFail($unHashedID);
+        $documentation = Documentation::with('documentation_file')->findOrFail($unHashedID);
         $documentationID = Hashids::encode($documentation->id);
         $documentation->makeHidden([
             'id',
@@ -142,6 +189,7 @@ class DocumentationController extends Controller
         return response()->json([
             'status' => true,
             'data' => $documentation,
+            'file' => $documentation->documentation_file()->first(),
             'hashed' => $documentationID
         ]);
     }
@@ -152,11 +200,19 @@ class DocumentationController extends Controller
             $id = Hashids::decode($id);
             $unHashedID = $id[0] ?? null;
 
-            Documentation::where('id', $unHashedID)->delete();
+            $documentation = Documentation::with('documentation_file')->where('id', $unHashedID)->first();
+            if($documentation->documentation_file) {
+                Storage::disk('public')->delete($documentation->documentation_file->file_path);
+                $documentation->documentation_file()->delete();
+            }
+            $documentation->delete();
+
             return response()->json([
                 'status' => true,
                 'message' => 'Dokumentasi berhasil dihapus.'
             ]);
+
+
         } catch (Throwable $e) {
             return response()->json([
                 'status' => false,

@@ -429,9 +429,7 @@
             ],
             columnDefs: [
                 { orderable: false, targets: "_all" },
-                // { width: "5%", className: "dt-center", targets: 0 },
-                // { className: "dt-left", targets: 1 }, 
-                // { width: "20%", className: "dt-right", targets: 2 }
+                { width: "10%", targets: 7 },
             ],
             dom: "t<'row mt-3'<'col-md-4'i><'col-md-4 text-center'p><'col-md-4 text-end'l>>",
         });
@@ -471,6 +469,13 @@
                 url: url,
                 type: "GET",
                 success: function(res) {
+                    let attachment = '<p>Tidak ada lampiran.</p>'
+                    if(res.ticket_file) {
+                        attachment = `
+                            <img src="/storage/${res.ticket_file.file_path}" class="img-fluid rounded">
+                        `;
+                    }
+
                     let html = `
                         <h4 class="fw-bold">Informasi</h4>
                         <table class="table table-sm table-borderless" style="border-collapse: separate; border-spacing: 0 0;">
@@ -555,7 +560,7 @@
                         </table>
 
                         <h4 class="mt-3 fw-bold">Lampiran</h4>
-                        <p>Tidak ada lampiran</p>
+                        `+attachment+`
 
                         <h4 class="mt-3 fw-bold">Penilaian</h4>
                         <p>Tidak ada penilaian</p>

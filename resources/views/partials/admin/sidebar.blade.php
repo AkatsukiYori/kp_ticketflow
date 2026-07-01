@@ -36,7 +36,7 @@
             ],
             [
                 'name' => 'Laporan & Statistik',
-                'route' => 'admin.pages.report',
+                'route' => 'admin.pages.report.index',
                 'icon' => 'bi-bar-chart',
             ],
             [
@@ -62,7 +62,7 @@
 
         <button type="submit" class="logout-btn">
             <section>
-                <p>Logout</p>
+                <p>Keluar</p>
             </section>
         </button>
     </form>

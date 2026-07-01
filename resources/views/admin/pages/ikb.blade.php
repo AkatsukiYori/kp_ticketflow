@@ -506,9 +506,10 @@
             ],
             columnDefs: [
                 { orderable: false, targets: "_all" },
-                // { width: "5%", className: "dt-center", targets: 0 },
-                // { className: "dt-left", targets: 1 }, 
-                // { width: "20%", className: "dt-right", targets: 2 }
+                { width: "10%", targets: 1 },
+                { width: "15%", targets: 2 },
+                { width: "5%", targets: [3,4] },
+                { width: "10%", targets: 8 },
             ],
             dom: "t<'row mt-3'<'col-md-4'i><'col-md-4 text-center'p><'col-md-4 text-end'l>>",
         });

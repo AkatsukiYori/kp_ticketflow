@@ -7,10 +7,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\IkbController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\User\CekTicketController;
 use App\Http\Controllers\User\TicketController as UserTicket;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use App\Http\Controllers\UploadController;
+use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 
 // Route::get('/', function () {
 //     return view('user.pages.index');
@@ -24,6 +26,8 @@ Route::get('/', function () {
 Route::prefix('ticket')->name('ticket.')->group(function() {
     Route::get('/', [UserTicket::class, 'show'])->name('index');
     Route::post('/create', [UserTicket::class, 'create'])->name('create');
+    Route::post('/temp', [UploadController::class, 'uploadTemp'])->name('uploadTemp');
+    Route::post('/revert', [UploadController::class, 'uploadRevert'])->name('uploadRevert');
 });
 
 //halaman cek ticket user
@@ -32,7 +36,10 @@ Route::prefix('cek-status')->name('cek_status.')->group(function() {
     Route::get('/detail/{ticket_no}', [CekTicketController::class, 'detail'])->name('detail');
     Route::get('/search', [CekTicketController::class, 'filter'])->name('filter');
     Route::get('/log/{ticket_no}', [CekTicketController::class, 'log'])->name('log');
-    Route::post('/respon', [CekTicketController::class, 'respon'])->name('respon');
+    Route::post('/respon/{ticket_no}', [CekTicketController::class, 'respon'])->name('respon');
+    Route::post('/closed/{ticket_no}', [CekTicketController::class, 'closed'])->name('closed');
+    Route::post('/rating/{ticket_no}', [CekTicketController::class, 'rating'])->name('rating');
+    Route::post('/open-ticket/{ticket_no}', [CekTicketController::class, 'openTicket'])->name('open');
 });
 
 // AUTH
@@ -93,9 +100,10 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
             Route::get('/detail/{ticket_no}', [LogController::class, 'detail'])->name('detail');
         });
 
-        Route::get('/report', function () {
-            return view('admin.pages.report');
-        })->name('report');
+        Route::prefix('report')->name('report.')->group(function() {
+            Route::get('/', [ReportController::class, 'show'])->name('index');
+            Route::get('/filter', [ReportController::class, 'filter'])->name('filter');
+        });
 
         Route::prefix('member')->name('member.')->group(function() {
             Route::get('/', [MemberController::class, 'show'])->name('index');

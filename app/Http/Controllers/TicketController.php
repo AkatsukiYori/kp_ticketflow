@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Throwable;
 use Yajra\DataTables\Facades\DataTables;
+use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
 
 class TicketController extends Controller
 {
@@ -114,7 +116,7 @@ class TicketController extends Controller
 
     public function detail($ticketNo)
     {
-        $ticket = Ticket::with('member', 'users', 'category', 'department')->where('ticket_no', $ticketNo)->firstOrFail();
+        $ticket = Ticket::with('member', 'users', 'category', 'department', 'ticket_file')->where('ticket_no', $ticketNo)->firstOrFail();
         $ticket->category_name = $ticket->category->name;
         $ticket->department_name = $ticket->department->name;
         $ticket->member_name = $ticket->member->username;
@@ -142,7 +144,7 @@ class TicketController extends Controller
     {
         DB::beginTransaction();
         try {
-            $ticket = Ticket::where('ticket_no', $ticket_no)->firstOrFail();
+            $ticket = Ticket::with('ticket_file')->where('ticket_no', $ticket_no)->firstOrFail();
 
             Log::create([
                 'ticket_id' => $ticket->id,
@@ -152,6 +154,11 @@ class TicketController extends Controller
                 'log_date' => Carbon::now(),
                 'description' => null
             ]);
+
+            if($ticket->ticket_file) {
+                Storage::disk('public')->delete($ticket->ticket_file->file_path);
+                $ticket->ticket_file()->delete();
+            }
 
             $ticket->delete();
 
@@ -164,7 +171,7 @@ class TicketController extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => 'Something went wrong.'
+                'message' => 'Terjadi kesalahan.'
             ]);
         }
     }
@@ -232,7 +239,7 @@ class TicketController extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => 'Something went wrong.'
+                'message' => 'Terjadi kesalahan.'
             ]);
         }
     }
@@ -294,7 +301,7 @@ class TicketController extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => true,
-                'message' => 'Something went wrong.'
+                'message' => 'Terjadi kesalahan.'
             ]);
         }
     }
@@ -370,7 +377,7 @@ class TicketController extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => 'Something went wrong.'
+                'message' => 'Terjadi kesalahan.'
             ]);
         }
     }

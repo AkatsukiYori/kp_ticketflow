@@ -33,6 +33,7 @@
                         <th>#</th>
                         <th>Judul</th>
                         <th>Deskripsi</th>
+                        <th>Lampiran</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -77,6 +78,10 @@
                             <div class="form-group d-flex flex-column gap-1">
                                 <label for="">Deskripsi (Optional)</label>
                                 <textarea name="description" id="description" class="form-control" cols="30" rows="5" placeholder="Masukkan deskripsi"></textarea>
+                            </div>
+                            <div class="form-group d-flex flex-column gap-1">
+                                <label for="">Lampiran (Opsional)</label>
+                                <input type="file" name="attachment" id="attachment">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -182,6 +187,21 @@
         const modalDelete = bootstrap.Modal.getOrCreateInstance(
             document.getElementById('modalDelete')
         );
+
+        const pond = FilePond.create(document.querySelector('#attachment'), {
+            server: {
+                process: "{{ route('ticket.uploadTemp') }}",
+                revert: "{{ route('ticket.uploadRevert') }}",
+                load: (source, load) => {
+                    fetch('/storage/' + source)
+                        .then(res => res.blob())
+                        .then(load);
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            }
+        });
         // END: Init
 
         // START: DataTable
@@ -199,6 +219,7 @@
                 { data: "DT_RowIndex", name: "DT_RowIndex", orderable: false, searchable: false },
                 { data: "title", name: "title", searchable: true },
                 { data: "deskripsi", name: "deskripsi", searchable: true },
+                { data: "attachment", name: "attachment", searchable: false },
                 { data: "actions", name: "actions", orderable: false, searchable: false }
             ],
             columnDefs: [
@@ -275,6 +296,11 @@
                     $('#category').val(res.data.category_id);
                     $('#title').val(res.data.title);
                     $('#description').val(res.data.description);
+
+                    pond.removeFiles();
+                    if(res.file) {
+                        pond.addFile('/storage/' + res.file.file_path);
+                    }
 
                     modalDocumentation.show();
                 }

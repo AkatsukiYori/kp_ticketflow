@@ -6,8 +6,6 @@
     font-family: "Inter", sans-serif;
 }
 
-/* GLOBAL LAYOUT  */
-
 body {
     display: flex;
     flex-direction: column;
@@ -64,8 +62,33 @@ header {
     font-size: 2rem;
 }
 
-/* HEADER . BLADE . PHP
-INDEX . BLADE . PHP */
+.btn-new {
+    width: 150px;
+    height: 50px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color : #214ea8;
+    color: white;
+
+    cursor: pointer;
+    transition: background-color 0.3s ,opacity 0.3s, width 0.3s, height 0.3s;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn-new:hover {
+    color: white;
+    background-color: #214ea8;
+    opacity: 0.9;
+}
 
 .btn-cek {
     width: 150px;
@@ -91,12 +114,30 @@ INDEX . BLADE . PHP */
 .mainIndex {
     flex: 1;
     display: flex;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+/* halaman index */
+.mainIndex {
+    flex: 1;
+    display: flex;
     align-items: center;
     padding: 20px;
 }
 
 .main-kiri {
     flex: 1.5;
+}
+
+.subjudul {
+    display: flex;
+    flex-direction: column;
+}
+
+.button {
+    display: flex;
+    gap: 20px;
 }
 
 .main-kiri h2 {
@@ -212,3 +253,40 @@ hr {
     margin-bottom: 0;
 }
 
+#point-section > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border: 1px solid #0d6efd;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    background-color: transparent;
+    transition: background-color 0.3s;
+}
+
+#point-section > span:hover {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+#point-section > span.active {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+.filepond--root {
+    height: 220px;
+}
+
+.filepond--drop-label {
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filepond--label-action {
+    display: inline;
+}
