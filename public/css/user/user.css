@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -5,12 +6,30 @@
     font-family: "Inter", sans-serif;
 }
 
+/* GLOBAL LAYOUT  */
+
 body {
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
-    /* overflow: show; */
 }
+
+a {
+    text-decoration: none;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.mainpage {
+    width: 100%;
+}
+
+/* PARTIAL HEADER */
 
 header {
     padding: 20px 40px;
@@ -35,53 +54,28 @@ header {
     object-fit: contain;
 }
 
-.header h1 {
+.judul {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.judul h1 {
     font-size: 2rem;
 }
 
-.btn-new {
-    width: 150px;
-    height: 50px;
-
-    border: none;
-    border-radius: 10px;
-
-    background-color : #214ea8;
-    color: white;
-
-    cursor: pointer;
-    transition: background-color 0.3s ,opacity 0.3s, width 0.3s, height 0.3s;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-a {
-    text-decoration: none;
-}
-
-.btn-new:hover {
-    width: 160px;
-    height: 60px;
-    color: white;
-    background-color: #214ea8;
-    opacity: 0.9;
-}
+/* HEADER . BLADE . PHP
+INDEX . BLADE . PHP */
 
 .btn-cek {
     width: 150px;
     height: 50px;
-
     border: 1px solid #214ea8;
     border-radius: 10px;
-
-    background-color : transparent;
+    background-color: transparent;
     color: #214ea8;
-
     cursor: pointer;
-    transition: background-color 0.3s;
-
+    transition: background-color .3s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -92,14 +86,8 @@ a {
     color: white;
 }
 
-main {
-    flex: 1;
-    display: flex;
-    align-items: flex-start;
-    padding: 20px;
-}
+/* INDEX . BLADE . PHP */
 
-/* halaman index */
 .mainIndex {
     flex: 1;
     display: flex;
@@ -107,12 +95,16 @@ main {
     padding: 20px;
 }
 
-.mainpage {
-    width: 100%;
-}
-
 .main-kiri {
     flex: 1.5;
+}
+
+.main-kiri h2 {
+    font-size: 4rem;
+}
+
+.main-kanan {
+    flex: 1;
 }
 
 .subjudul {
@@ -125,23 +117,28 @@ main {
     gap: 20px;
 }
 
-.main-kiri h2 {
-    font-size: 4rem;
-}
-
-.main-kanan {
-    flex: 1;
-}
-
-.judul {
-    flex: 1;
+.btn-new {
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    background: #214ea8;
+    color: white;
+    cursor: pointer;
+    transition: background-color .3s, opacity .3s, width .3s, height .3s;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
-.judul h1 {
-    font-size: 2rem;
+.btn-new:hover {
+    color: white;
+    background: #214ea8;
+    opacity: 0.8;
 }
+
+/* TICKET . BLADE . PHP
+CEK TIKET . BLADE . PHP */
 
 .form-control,
 .form-select {
@@ -161,58 +158,17 @@ textarea.form-control {
     border-radius: 8px;
 }
 
-/* Cek Status Tiket */
-.cekticket-header h2{
-    font-size:32px;
-    font-weight:700;
-    color:#374151;
-}
+/* CEK TIKET . BLADE . PHP */
 
-.cekticket-header p{
-    font-size:15px;
-    color:#6b7280;
-}
-
-.ticket-input{
-    height:40px;
-    border-radius:6px;
-    font-size:14px;
-    border:1px solid #dee2e6;
-}
-
-.ticket-input:focus{
-    border-color:#86b7fe;
-    box-shadow:none;
-}
-
-.position-relative{
-    position:relative;
-}
-
-.calendar-icon{
-    position:absolute;
-    right:14px;
-    top:50%;
-    transform:translateY(-50%);
-    color:#6c757d;
-    pointer-events:none;
-}
-
-.ticket-input[type="date"]::-webkit-calendar-picker-indicator{
-    opacity:0;
-    cursor:pointer;
-}
-
-hr{
-    color:#d9d9d9;
-    opacity:1;
+hr {
+    color: #d9d9d9;
+    opacity: 1;
 }
 
 .timeline-item {
     display: flex;
     gap: 1rem;
     align-items: flex-start;
-    /* position: relative; */
 }
 
 .timeline-left {
@@ -255,3 +211,4 @@ hr{
 .timeline-right p:last-child {
     margin-bottom: 0;
 }
+
