@@ -6,20 +6,22 @@
 @section('title', 'Buat Tiket')
 
 @section('content')
-    <main>
+    <div class="mainIndex">
         <section class="main-kiri">
-            <div class="gap">
+            <div>
                 <h2>
                     Helpdesk Internal
                 </h2>
-                <p>
-                    Digunakan oleh seluruh tim internal untuk memastikan
-                    layanan IT berjalan cepat, transparan dan terdokumentasi.
-                </p>
-                <p>
-                    Setiap tiket tercatat, diprioritaskan dan ditangani oleh
-                    tim IT terkait
-                </p>
+                    <div class="subjudul">
+                    <p>
+                        Digunakan oleh seluruh tim internal untuk memastikan
+                        layanan IT berjalan cepat, transparan dan terdokumentasi.
+                    </p>
+                    <p>
+                        Setiap tiket tercatat, diprioritaskan dan ditangani oleh
+                        tim IT terkait
+                    </p>
+                    </div>
                 <div class="button">
                     <a href="{{ route('ticket.index') }}" class="btn btn-new">
                         Buat Tiket Baru
@@ -37,4 +39,5 @@
             height = "100%"
             >
         </section>
+    </div>
 @endsection
