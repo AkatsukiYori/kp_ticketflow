@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TicketExport;
 use App\Models\Categories;
 use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\Facades\DataTables;
-
+use Maatwebsite\Excel\Facades\Excel;
 class ReportController extends Controller
 {
     public function show()
@@ -24,6 +23,10 @@ class ReportController extends Controller
         $getTickets = Ticket::whereNull('deleted_at');
 
         // START: Get Month & Year Data
+        if($request->category) {
+            $getTickets->where('category_id', $request->category);
+        }
+
         if($request->month) {
             $getTickets->whereMonth('report_date', $request->month);
         }
@@ -70,6 +73,9 @@ class ReportController extends Controller
             $ticketCounter = Ticket::selectRaw('DAY(report_date) as day, COUNT(*) as total')
                 ->whereYear('report_date', $request->year)
                 ->whereMonth('report_date', $request->month)
+                ->when($request->filled('category'), function($q) use($request) {
+                    $q->where('category_id', $request->category);
+                })
                 ->groupBy('day')
                 ->orderBy('day')
                 ->pluck('total', 'day');
@@ -83,6 +89,9 @@ class ReportController extends Controller
         } else {
             $ticketCounter = Ticket::selectRaw('MONTH(report_date) as month, COUNT(*) as total')
                 ->whereYear('report_date', $request->year)
+                ->when($request->filled('category'), function($q) use($request) {
+                    $q->where('category_id', $request->category);
+                })
                 ->groupBy('month')
                 ->orderBy('month')
                 ->pluck('total', 'month');
@@ -109,6 +118,10 @@ class ReportController extends Controller
                 
                 if($request->year) {
                     $query->whereYear('report_date', $request->year);
+                }
+
+                if($request->category) {
+                    $query->where('category_id', $request->category);
                 }
             }
         ])->get();
@@ -157,5 +170,14 @@ class ReportController extends Controller
             'ratingCounter' => $getRatingData,
             'ticketCounter' => $getTicketData
         ]);
+    }
+
+    public function export(Request $request)
+    {
+        $unique = uniqid();
+        return Excel::download(
+            new TicketExport($request),
+            'Laporan-tiket-' . $unique . '.xlsx'
+        );
     }
 }

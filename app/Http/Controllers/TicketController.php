@@ -140,11 +140,11 @@ class TicketController extends Controller
         return $ticket;
     }
 
-    public function delete($ticket_no)
+    public function delete($ticketNo)
     {
         DB::beginTransaction();
         try {
-            $ticket = Ticket::with('ticket_file')->where('ticket_no', $ticket_no)->firstOrFail();
+            $ticket = Ticket::with('ticket_file')->where('ticket_no', $ticketNo)->firstOrFail();
 
             Log::create([
                 'ticket_id' => $ticket->id,
@@ -176,7 +176,7 @@ class TicketController extends Controller
         }
     }
 
-    public function assign(Request $request, $ticket_no)
+    public function assign(Request $request, $ticketNo)
     {
         DB::beginTransaction();
         try {
@@ -211,7 +211,7 @@ class TicketController extends Controller
             $status = 'on_progress';
             $now = Carbon::now();
 
-            $ticket = Ticket::where('ticket_no', $ticket_no)->first();
+            $ticket = Ticket::where('ticket_no', $ticketNo)->first();
             $ticket->update([
                 'assign_to' => $datas['pic'],
                 'status_ticket' => $status,
@@ -244,7 +244,7 @@ class TicketController extends Controller
         }
     }
 
-    public function reject(Request $request, $ticket_no)
+    public function reject(Request $request, $ticketNo)
     {
         DB::beginTransaction();
         try {
@@ -274,7 +274,7 @@ class TicketController extends Controller
             // END: Validator
 
             // START: Handle Reject
-            $ticket = Ticket::where('ticket_no', $ticket_no)->first();
+            $ticket = Ticket::where('ticket_no', $ticketNo)->first();
             $ticket->update([
                 'status_ticket' => $status,
                 'status_reason' => $datas['reason'],
@@ -306,7 +306,7 @@ class TicketController extends Controller
         }
     }
 
-    public function feedback(Request $request, $ticket_no)
+    public function feedback(Request $request, $ticketNo)
     {
         DB::beginTransaction();
         try {
@@ -337,7 +337,7 @@ class TicketController extends Controller
             $status = 'completed';
             $now = Carbon::now();
 
-            $ticket = Ticket::where('ticket_no', $ticket_no)->first();
+            $ticket = Ticket::where('ticket_no', $ticketNo)->first();
             $ticket->update([
                 'status_ticket' => $status,
                 'updated_at' => $now

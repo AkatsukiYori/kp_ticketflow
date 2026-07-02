@@ -95,14 +95,14 @@
                             <option value="{{ $year }}">{{ $year }}</option>
                         @endforeach
                     </select>
-                    <select id="year" aria-placeholder="Semua Kategori" class="form-control" style="width: 15%;">
+                    <select id="search_category" aria-placeholder="Semua Kategori" class="form-control" style="width: 15%;">
                         <option value="">Semua Kategori</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
                     <button type="button" class="btn btn-secondary" id="btn-filter">Filter</button>
-                    <button type="button" class="btn btn-primary">Export Excel</button>
+                    <button type="button" class="btn btn-primary" id="btn-export">Export Excel</button>
                 </div>
             </div>
             <div class="container">
@@ -142,7 +142,8 @@
             type: 'GET',
             data: {
                 month: $('#month').val(),
-                year: $('#year').val()
+                year: $('#year').val(),
+                category: $('#search_category').val()
             },
             success: function(res) {
                 $('#total_ticket_counter_card').text(res.counter.all);
@@ -153,7 +154,6 @@
 
                 // START: Tickets Chart
                 
-
                 const ticketLabel = res.ticketCounter.map(item => item.label);
                 const ticketCounter = res.ticketCounter.map(item => item.count);
 
@@ -273,6 +273,7 @@
         let tahunSekarang = new Date().getFullYear();
         $('#year').val(tahunSekarang);
         $('#month').val('');
+        $('#search_category').val('');
 
         loadDashboard();
         // END: Init
@@ -283,6 +284,21 @@
             table.ajax.reload();
         });
         // END: Filter
+
+        // START: Export
+        $(document).on('click', '#btn-export', function() {
+            const params = new URLSearchParams({
+                month: $('#month').val(),
+                year: $('#year').val(),
+                category: $('#search_category').val()
+            });
+
+            window.open(
+                "{{ route('admin.pages.report.export') }}?" + params.toString(),
+                "_blank"
+            );
+        });
+        // END: Export
     });
 </script>
 @endsection
