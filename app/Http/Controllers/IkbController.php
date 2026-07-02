@@ -9,6 +9,7 @@ use App\Models\TicketFeedback;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Throwable;
@@ -85,12 +86,12 @@ class IkbController extends Controller
                 $url_feedback = route('admin.pages.ikb.feedback', $ticket_no);
                 $url_update = route('admin.pages.ikb.update', $ticket_no);
 
-                $assign = '<button class="dropdown-item px-3 btn-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'" data-toggle="tooltip" data-placement="bottom" title="Ambil Tiket"><i class="fa-solid fa-user-check fs-6"></i> Ambil Tiket</button><hr class="m-2">';
-                $re_assign = '<button class="dropdown-item px-3 btn-re-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'" data-toggle="tooltip" data-placement="bottom" title="Pindah Penugasan Tiket"><i class="fa-solid fa-user-check fs-6"></i> Pindah Penugasan</button><hr class="m-2">';
+                $assign = (Auth::user()->role === 'admin' ? '<button class="dropdown-item px-3 btn-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'" data-toggle="tooltip" data-placement="bottom" title="Ambil Tiket"><i class="fa-solid fa-user-check fs-6"></i> Ambil Tiket</button><hr class="m-2">' : '');
+                $re_assign = (Auth::user()->role === 'admin' ? '<button class="dropdown-item px-3 btn-re-assign" data-url="'. $url_assign .'" data-ticket="'. $ticket_no .'" data-toggle="tooltip" data-placement="bottom" title="Pindah Penugasan Tiket"><i class="fa-solid fa-user-check fs-6"></i> Pindah Penugasan</button><hr class="m-2">' : '');
                 $feedback = '<button class="dropdown-item px-3 btn-feedback" data-url="'. $url_feedback .'" data-ticket="'. $ticket_no .'" data-toggle="tooltip" data-placement="bottom" title="Umpan Balik"><i class="fa-regular fa-circle-check fs-6"></i> Feedback</button><hr class="m-2">';
                 $reject = '<button class="dropdown-item px-3 btn-reject" data-url="'. $url_reject .'" data-ticket="'. $ticket_no .'" data-toggle="tooltip" data-placement="bottom" title="Tolak"><i class="fa-regular fa-circle-xmark fs-6"></i> Tolak</button><hr class="m-2">';
                 $update = '<button class="dropdown-item px-3 btn-update" data-url="'. $url_update .'" data-ticket="'. $ticket_no .'" data-toggle="tooltip" data-placement="bottom" title="Ubah Tiket"><i class="fa-solid fa-pencil fs-6"></i> Edit</button><hr class="m-2">';
-                $remove = '<button class="dropdown-item px-3 btn-remove text-danger" data-url="'. $url_delete .'" data-toggle="tooltip" data-placement="bottom" title="Hapus"><i class="fa-solid fa-trash fs-6"></i> Hapus</button>';
+                $remove = (Auth::user()->role === 'admin' ? '<button class="dropdown-item px-3 btn-remove text-danger" data-url="'. $url_delete .'" data-toggle="tooltip" data-placement="bottom" title="Hapus"><i class="fa-solid fa-trash fs-6"></i> Hapus</button>' : '');
 
                 if($status === 'reject') {
                     $listButton = $remove;
